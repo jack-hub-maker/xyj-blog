@@ -36,25 +36,9 @@
       maxLevel: 4,      //可配置最大支持渲染的标题层级
       homepage: 'zh-cn/README.md', //设置中文的README.md作为首页
 
-      //添加搜索功能，中文和英文文档同时搜索
-      search: {
-        paths: 'auto',
-        placeholder: {
-          '/': '🔍 搜索',
-          '/zh-cn/': '🔍 搜索',
-        },
-        //如果中文和英文文档都没有内容，则返回
-        noData: {
-          '/': '😒 找不到结果',
-          '/zh-cn/': '😒 找不到结果',
-        },
-        depth: 4,         //搜索标题的最大层级
-        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
-      },//增加搜索框
-
       footer: {
-        copy: 'Copyright &copy; 2021 💖 </span><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>',
-        auth: ' <strong></strong>',
+        copy: 'MIT Licensed | Copyright © 2021 ',
+        auth: 'codertao💖',
         pre: '<hr/>',
         style: 'text-align: center;',
       },
@@ -105,9 +89,6 @@
   <!-- 复制代码到剪切板 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
 
-  <!-- 搜索功能 -->
-  <script src="//cdn.bootcss.com/docsify/4.5.9/plugins/search.min.js"></script>
-
 
   <!-- CDN files for docsify-katex -->
   <script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
@@ -129,9 +110,6 @@
       navigator.serviceWorker.register('sw.js')
     }
   </script>
-
-  <!-- 访问量统计 -->
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
   <!-- 置顶插件 -->
