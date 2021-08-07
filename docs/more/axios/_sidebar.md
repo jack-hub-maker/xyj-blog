@@ -1,2 +1,7 @@
 - [前言](more/axios/readme)
-- [基本使用](more/axios/basic-use)
+- [基本使用](more/axios/basic)
+- [并发请求](more/axios/concurrent)
+- [默认配置](more/axios/config)
+- [实例](more/axios/instance)
+- [拦截器](more/axios/interceptors)
+- [封装](more/axios/module)
