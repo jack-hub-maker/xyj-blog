@@ -1,6 +1,3 @@
----
-title: 函数
----
 
 ## 函数类型
 
@@ -50,7 +47,7 @@ function foo(name: string, age?: number) {
 
 另外可选类型需要在必传参数的后面：
 
-![](/type-script/14.png)
+![14.png](https://img11.360buyimg.com/ddimg/jfs/t1/202688/20/678/29426/61122a1bEd334751b/457930a11c190a90.png)
 
 ## 默认参数
 
@@ -167,7 +164,7 @@ function add(a1: number | string, a2: number | string) {
 }
 ```
 
-![](/type-script/15.png)
+![15.png](https://img14.360buyimg.com/ddimg/jfs/t1/177213/6/18395/27289/61122a1bEf0f376ae/99d73fd6b4d11dcd.png)
 
 那么这个代码应该如何去编写呢？
 
@@ -199,7 +196,7 @@ console.log(add("abc", "cba")); // 6
 
 但是注意，有实现提的函数，是不能直接被调用的：
 
-![](/type-script/16.png)
+![16.png](https://img13.360buyimg.com/ddimg/jfs/t1/196232/25/17613/90422/61122a1bE7e38dd38/43abc1d9a35f2b28.png)
 
 调用重载的函数,是通过从上往下执行查看函数签名是否符合要求,符合的话则执行下面的实现函数,不符合则报错
 

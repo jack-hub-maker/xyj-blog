@@ -1,4 +1,3 @@
-
 ## 认识 Plugin
 
 - Webpack 的另一个核心是 Plugin，官方有这样一段对 Plugin 的描述：
@@ -50,7 +49,7 @@ module.exports = {
 };
 ```
 
-![](/pack/webpack/9.png)
+![9.png](https://img12.360buyimg.com/ddimg/jfs/t1/184293/13/18533/122777/61122e91E38edd6f3/665fe106dcf3c9f1.png)
 
 ## 生成 index.html 分析
 
@@ -103,7 +102,7 @@ module.exports = {
 
 - 但是，这个时候编译还是会报错，因为在我们的模块中还使用到一个 **BASE_URL 的常量**：
 
-![](/pack/webpack/10.png)
+![10.png](https://img14.360buyimg.com/ddimg/jfs/t1/191060/14/17516/41448/61122e90E9574e937/6fb20a21bffb745b.png)
 
 - 这是因为在编译 template 模块时，有一个 BASE_URL：
   - 但是我们并没有设置过这个常量值，所以会出现没有定义的错误；
@@ -168,9 +167,8 @@ module.exports = {
 };
 ```
 
-![](/pack/webpack/11.png)
-
-![](/pack/webpack/12.png)
+![11.png](https://img13.360buyimg.com/ddimg/jfs/t1/176960/30/18564/88623/61122e90Eba04631d/7ac79ab2fbc2cd96.png)
+![12.png](https://img14.360buyimg.com/ddimg/jfs/t1/195342/30/17414/467245/61122e94E13c9f881/26c6aea452537c26.png)
 
 ## Mode 配置
 
@@ -182,7 +180,7 @@ module.exports = {
 
 比如我们在 element.js 文件中打印 codertao.lenght,这个肯定是要**报错**的
 
-![](/pack/webpack/13.png)
+![13.png](https://img11.360buyimg.com/ddimg/jfs/t1/178047/36/18461/27482/61122e93Ef318531a/81305057dd330150.png)
 
 在开发中我们进行调式遇到这样的错误我们是很难找到错误发生的位置的
 
@@ -201,9 +199,8 @@ mode: "development",
 
 那么我们就可以找到 bug 出现的位置
 
-![](/pack/webpack/14.png)
-
-![](/pack/webpack/15.png)
+![14.png](https://img14.360buyimg.com/ddimg/jfs/t1/191322/37/17800/82840/61122e90E6fa83d05/d0a6f71133b2fc13.png)
+![15.png](https://img13.360buyimg.com/ddimg/jfs/t1/193224/28/17583/92660/61122e94Eaf07e754/353a284083c1eba7.png)
 
 - 如果觉得还是不够详细,因为点开文件发现上面有一些打包后乱七八糟看不懂的代码
 - 如果想出现错误,点击错误进入原文件进行查看的话.可以再配置一个 devtool
@@ -213,8 +210,8 @@ mode: "development",
 devtool: 'source-map',
 ```
 
-![](/pack/webpack/16.png)
+![16.png](https://img10.360buyimg.com/ddimg/jfs/t1/191527/39/17577/16017/61122e90E66760145/88dbed741662cd64.png)
+![17.png](https://img11.360buyimg.com/ddimg/jfs/t1/198130/38/2512/63584/61122e94E20449617/e6d33e33a448e9e4.png)
 
-![](/pack/webpack/17.png)
 
 这样如果开发中有了 bug,我们就可以很方便找到 bug 出现的位置然后进行修改

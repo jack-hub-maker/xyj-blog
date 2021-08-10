@@ -1,4 +1,3 @@
-
 ## 为什么要搭建本地服务器？
 
 - 目前我们开发的代码，为了运行需要有两个操作：
@@ -48,8 +47,7 @@ npm install webpack-dev-server -D
 },
 ```
 
-![](/pack/webpack/33.png)
-
+![33.png](https://img11.360buyimg.com/ddimg/jfs/t1/180065/22/18544/44053/61122f81Ee85c8a01/4bbfed8cd63f4bb2.png)
 这里的意思是如果我们使用了 webpack-dev-server,因为它这里面会自动箭头 watch 的变化,所以在配置里面就不需要配置 watch 了
 
 ```js
@@ -84,11 +82,10 @@ devServer: {
 },
 ```
 
-![](/pack/webpack/34.png)
-
+![34.png](https://img14.360buyimg.com/ddimg/jfs/t1/195304/17/17546/131717/61122f83E47413871/8793b2b577d15722.png)
 我画了一个很草率的图来说明 CopyWebpackPlugin 和 content 的差别
 
-![](/pack/webpack/35.png)
+![35.png](https://img13.360buyimg.com/ddimg/jfs/t1/201293/19/987/22599/61122f81E2cf13f64/e126d68ad3703284.png)
 
 那是不是就表明这个 CopyWebpackPlugin 的插件就没有用了喃?
 
@@ -129,7 +126,7 @@ devServer: {
 
 - 浏览器可以看到如下效果：
 
-![](/pack/webpack/36.png)
+![36.png](https://img14.360buyimg.com/ddimg/jfs/t1/203355/32/675/15816/61122f81E812d6d36/d4272b1f0dfbc367.png)
 
 - 但是你会发现，当我们修改了某一个模块的代码时，依然是刷新的整个页面：
   - 这是因为我们需要去指定哪些模块发生更新时，进行 HMR；
@@ -163,7 +160,7 @@ if (module.hot) {
 
 ## HMR 的原理图
 
-![](/pack/webpack/37.png)
+![37.png](https://img12.360buyimg.com/ddimg/jfs/t1/182138/28/18484/275431/61122f83E1a68e6ea/255085131165b4fb.png)
 
 ## hotOnly、host 配置
 
@@ -200,7 +197,7 @@ open: true;
 - compress 是否为静态文件开启 gzip compression：
   - 默认值是 false，可以设置为 true；
 
-![](/pack/webpack/38.png)
+![38.png](https://img11.360buyimg.com/ddimg/jfs/t1/203416/21/666/63035/61122f81E6f136d34/160e451ef33e2c73.png)
 
 ## Proxy
 
@@ -295,7 +292,8 @@ module.exports = {
   - 所以如果我们代码中想要添加加载 .vue 或者 jsx 或者 ts 等文件时，我们必须自己写上扩展名；
 
 如果没有配置这个的话,没有不添加 vue 的后缀名,就会报错
-![](/pack/webpack/39.png)
+
+![39.png](https://img14.360buyimg.com/ddimg/jfs/t1/200816/11/1131/55194/61122f81E2464e0de/03f7c3ce198edd7d.png)
 
 当我们配置了 extensions 的话就不会有问题了
 

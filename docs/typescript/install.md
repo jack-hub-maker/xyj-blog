@@ -1,7 +1,3 @@
----
-title: 安装
-sidebarDepth: 0
----
 
 ## 安装
 
@@ -71,4 +67,4 @@ console.log(message);
 export {};
 ```
 
-![](/type-script/2.png)
+![2.png](https://img14.360buyimg.com/ddimg/jfs/t1/188915/28/17660/12180/61122a1aE9b7ddca5/22d3babdeb811153.png)

@@ -1,6 +1,3 @@
----
-title: 类型补充
----
 
 ## 函数
 
@@ -34,7 +31,7 @@ const names = ["tao", "sandy", "zm"];
 names.forEach((item) => {});
 ```
 
-![](/type-script/10.png)
+![10.png](https://img14.360buyimg.com/ddimg/jfs/t1/179435/16/18748/22467/61122a1bE6bcd97c0/ffa0b0a9d19760ef.png)
 
 我们并没有指定 item 的类型，但是 item 是一个 string 类型：
 
@@ -157,7 +154,7 @@ coordinate({ x: 12, y: 123 });
 
 我们明确需要获取 img 元素,img 可以设置 src 属性,但是默认的话我们是不能设置 src 的,因为 Element 类型上不存在 src 属性
 
-![](/type-script/11.png)
+![11.png](https://img14.360buyimg.com/ddimg/jfs/t1/197606/40/2555/14448/61122a18E05977046/16ce5e31bb92029f.png)
 
 这个时候我们就可以使用类型断言让它变成 imgElement
 
@@ -327,7 +324,7 @@ const message = "tao";
 
 你肯定会以为 message 是一个 string 类型,其实它是一个'tao'类型(字面量类型)
 
-![](/type-script/12.png)
+![12.png](https://img14.360buyimg.com/ddimg/jfs/t1/176869/20/18569/20766/61122a1bE3efaa1db/5e4e88e98acc5021.png)
 
 其实使用 const 如果不指定类型的话,默认它会帮你转为字面量类型,当然你也可以为其它类型
 
@@ -400,7 +397,7 @@ const options = {
 
 而且我们会发现通过字面量推理 options 中的属性是只读的了(后面会讲对象的相关知识)
 
-![](/type-script/13.png)
+![13.png](https://img10.360buyimg.com/ddimg/jfs/t1/191714/14/17735/28567/61122a1bEbf95a7e9/228621285c462ebe.png)
 
 ## 类型缩小
 

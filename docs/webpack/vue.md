@@ -1,4 +1,3 @@
-
 ## Vue 源码的打包
 
 - 安装 vue
@@ -25,8 +24,7 @@ const app = createApp({
 - 界面上是没有效果的：
   - 并且我们查看运行的控制台，会发现如下的警告信息；
 
-![](/pack/webpack/24.png)
-
+![24.png](https://img11.360buyimg.com/ddimg/jfs/t1/204506/4/579/63691/61122f82E6b511532/0392b83a44c9034e.png)
 这是因为 webpack 对 vue 源代码打包对其进行解析采用的不同的版本
 
 - vue1 采用的是 runtime+compiler(会对 vue 中的 template 进行解析处理)
@@ -65,7 +63,7 @@ import { createApp } from "vue/dist/vue.esm-bundler";
 
 这样就没有任何问题了
 
-![](/pack/webpack/25.png)
+![25.png](https://img10.360buyimg.com/ddimg/jfs/t1/204402/18/598/462381/61122f83E8b73f43e/05f1452ae817f22e.png)
 
 ## 运行时+编译器 vs 仅运行时
 
@@ -127,7 +125,7 @@ app.mount("#app");
 
 - 我们对代码打包会报错：我们需要合适的 Loader 来处理文件。
 
-![](/pack/webpack/26.png)
+![26.png](https://img13.360buyimg.com/ddimg/jfs/t1/183104/21/18542/36655/61122f81E5103f955/94308dcf0372b11f.png)
 
 - 这个时候我们需要使用 vue-loader：
 
@@ -147,7 +145,7 @@ npm install vue-loader@next -D #v3
 
 ## @vue/compiler-sfc
 
-![](/pack/webpack/27.png)
+![27.png](https://img10.360buyimg.com/ddimg/jfs/t1/192857/13/17549/17125/61122f81E4799b5d6/1ff4910aceef5ab6.png)
 
 - 打包依然会报错，这是因为我们必须添加@vue/compiler-sfc 来对 template 进行解析：
 
@@ -155,7 +153,7 @@ npm install vue-loader@next -D #v3
 npm install @vue/compiler-sfc -D
 ```
 
-![](/pack/webpack/28.png)
+![28.png](https://img14.360buyimg.com/ddimg/jfs/t1/180194/18/18469/22438/61122f81Ea53c5f45/4922abcf889e0235.png)
 
 - 另外我们需要配置对应的 Vue 插件：
 
@@ -168,17 +166,17 @@ plugins: [new VueLoaderPlugin()];
 - 重新打包即可支持 App.vue 的写法
 - 另外，我们也可以编写其他的.vue 文件来编写自己的组件；
 
-![](/pack/webpack/29.png)
+![29.png](https://img11.360buyimg.com/ddimg/jfs/t1/186770/20/16839/459579/61122f83Eac612182/98d7f8c17bfce306.png)
 
 ## 全局标识的配置
 
 - 我们会发现控制台还有另外的一个警告：
 
-![](/pack/webpack/30.png)
+![30.png](https://img13.360buyimg.com/ddimg/jfs/t1/187636/36/17693/85191/61122f81E31a466ec/5bf71fca2eb9fea9.png)
 
 - 在 GitHub 上的文档中我们可以找到说明：
 
-![](/pack/webpack/31.png)
+![31.png](https://img13.360buyimg.com/ddimg/jfs/t1/191799/3/17789/85789/61122f81Eabf7c174/efe08cd0375f81de.png)
 
 - 这是两个特性的标识，一个是使用 Vue 的 Options，一个是 Production 模式下是否支持 devtools 工具；
 - 虽然他们都有默认值，但是强烈建议我们手动对他们进行配置；
@@ -191,8 +189,7 @@ new DefinePlugin({
 }),
 ```
 
-![](/pack/webpack/32.png)
-
+![32.png](https://img11.360buyimg.com/ddimg/jfs/t1/195716/17/17571/28952/61122f81E231bfd14/fcca63fefb274a47.png)
 这个时候就没有任何问题了
 
 最后补充一个知识,当我们用了 vue-loader 的时候,vue/compiler-sfc 会对 template 进行解析

@@ -73,4 +73,4 @@ import App from "./vue/app.vue";
 createApp(App).mount("#app");
 ```
 
-![](/pack/vite/10.png)
+![10.png](https://img12.360buyimg.com/ddimg/jfs/t1/203824/3/676/13638/61122c4eE651a9345/390752e65142d4bc.png)

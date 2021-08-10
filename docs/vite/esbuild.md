@@ -1,4 +1,3 @@
-
 ## ESBuild 解析
 
 - ESBuild 的特点：
@@ -15,7 +14,7 @@
 
 - ESBuild 的构建速度和其他构建工具速度对比：
 
-  ![](/pack/vite/11.png)
+![11.png](https://img10.360buyimg.com/ddimg/jfs/t1/203347/36/673/32594/61122c4eE62947cdf/b5e8b8e7244c4dde.png)
 
 - ESBuild 为什么这么快呢？
   - 使用 Go 语言编写的，可以直接转换成机器代码，而无需经过字节码；

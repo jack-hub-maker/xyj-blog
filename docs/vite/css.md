@@ -1,4 +1,3 @@
-
 ## 处理普通的 css
 
 - vite 可以直接支持 css 的处理
@@ -40,7 +39,7 @@ titleEl.innerHTML = "Hello World";
 document.body.appendChild(titleEl);
 ```
 
-![](/pack/vite/5.png)
+![5.png](https://img14.360buyimg.com/ddimg/jfs/t1/177948/36/18338/31857/61122c4eE1ec728e0/7439c7071154b248.png)
 
 ## 处理 css 预处理器
 
@@ -108,6 +107,5 @@ module.exports = {
 };
 ```
 
-![](/pack/vite/6.png)
-
-![](/pack/vite/7.png)
+![6.png](https://img11.360buyimg.com/ddimg/jfs/t1/188060/35/17487/10877/61122c4eE4981478e/95dfe71a81e6f494.png)
+![7.png](https://img13.360buyimg.com/ddimg/jfs/t1/177468/10/18622/70114/61122c4eE1512896d/87ead95d520946e6.png)

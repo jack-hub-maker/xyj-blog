@@ -1,4 +1,3 @@
-
 ## 加载图片案例准备
 
 - 为了演示我们项目中可以加载图片，我们需要在项目中使用图片，比较常见的使用图片的方式是两种：
@@ -41,7 +40,7 @@ export function element() {
 }
 ```
 
-![](/pack/webpack/6.png)
+![6.png](https://img10.360buyimg.com/ddimg/jfs/t1/181027/14/18561/53976/61122e90E1789e4ca/38562bee0b7c74b9.png)
 
 ## file-loader
 
@@ -164,7 +163,7 @@ npm install url-loader -D
   },
   ```
 
-![](/pack/webpack/7.png)
+![7.png](https://img10.360buyimg.com/ddimg/jfs/t1/193995/39/17520/63946/61122e93Ebd04bf49/8c6828cdb840fe1d.png)
 
 ## 认识 asset module type
 
@@ -239,7 +238,7 @@ output: {
 
 - 首先，我从阿里图标库中下载了几个字体图标：
 
-![](/pack/webpack/8.png)
+![8.png](https://img12.360buyimg.com/ddimg/jfs/t1/178177/10/18387/148169/61122e92Ee84e4199/b41bd12f1bd278d2.png)
 
 - 在 element.js 文件中引入，并且添加一个 i 元素用于显示字体图标：
 

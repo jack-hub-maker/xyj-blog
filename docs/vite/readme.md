@@ -1,4 +1,3 @@
-
 ## 关于
 
 本章根据 **coderwhy 老师**腾讯课堂的视频讲解进行的笔记记录,感兴趣的可以去[腾讯课堂](https://ke.qq.com/course/3453141):tada::tada:查看 coderwhy 老师的课程
@@ -36,10 +35,9 @@
 
 > 接下来就让我带你走入 Vite 的世界,使用 Vite 在构建项目的时候你会感觉前所未有的**爽**
 
-:::tip
-webpack 的生态还是很好,推荐 Vite 目前用于**个人开发**,**团队开发**还是使用 webpack
-
-因为目前 Vite 还不够稳定,还存在很多的 bug,本章只对 Vite2 做一次简单的邂逅
-:::
+> [!TIP]
+> webpack 的生态还是很好,推荐 Vite 目前用于**个人开发**,**团队开发**还是使用 webpack
+>
+> 因为目前 Vite 还不够稳定,还存在很多的 bug,本章只对 Vite2 做一次简单的邂逅
 
 :books: [官方文档](https://cn.vitejs.dev/)

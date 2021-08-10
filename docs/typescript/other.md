@@ -1,6 +1,3 @@
----
-title: 其它补充
----
 
 ## 模块化开发
 
@@ -81,7 +78,7 @@ const imageEl = document.querySelector("imgage") as HTMLImageElement;
 - 该库查找声明安装方式的地址：[https://www.typescriptlang.org/dt/search/?search=](https://www.typescriptlang.org/dt/search/?search=)
 - 比如我们安装 react 的类型声明:我们可以在 type 中类型查找中可以找到对应需要安装的依赖
 
-![](/type-script/17.png)
+![17.png](https://img13.360buyimg.com/ddimg/jfs/t1/180200/4/18520/48467/61122a1bEa10a9847/3563177e2a53133c.png)
 
 什么情况下需要自己来定义声明文件呢？
 

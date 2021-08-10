@@ -1,4 +1,3 @@
-
 ## Webpack 的默认打包
 
 - 我们可以通过 webpack 进行打包，之后运行打包之后的代码
@@ -118,7 +117,7 @@ module.exports = {
 };
 ```
 
-![](/pack/webpack/1.png)
+![1.png](https://img12.360buyimg.com/ddimg/jfs/t1/201845/10/664/26339/61122e90E7c4f4859/a3c832d1d489b807.png)
 
 ## 指定配置文件
 
@@ -146,4 +145,4 @@ module.exports = {
     体等）；
   - 然后遍历图结构，打包一个个模块（根据文件的不同使用不同的 loader 来解析）；
 
-![](/pack/webpack/2.png)
+![2.png](https://img11.360buyimg.com/ddimg/jfs/t1/186387/27/17787/70827/61122e92E1cf3dd96/d2ae782caa05c06b.png)

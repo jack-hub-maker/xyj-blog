@@ -1,4 +1,3 @@
-
 ## Vite 脚手架工具
 
 - 在开发中，我们不可能所有的项目都使用 vite 从零去搭建，比如一个 react 项目、Vue 项目；
@@ -18,8 +17,6 @@ npm init @vitejs/app <project-name>
 npm install @vitejs/create-app -g create-app
 ```
 
-![](/pack/vite/12.png)
-
-![](/pack/vite/13.png)
-
-![](/pack/vite/14.png)
+![12.png](https://img11.360buyimg.com/ddimg/jfs/t1/178292/33/18532/45265/61122c4eE44152a5c/7a4ab4b21616c9ff.png)
+![13.png](https://img12.360buyimg.com/ddimg/jfs/t1/193245/39/17759/87443/61122c4eEaaab326a/46b724d8830e59c2.png)
+![14.png](https://img11.360buyimg.com/ddimg/jfs/t1/182334/32/18487/48025/61122c4fE7a25fa3c/03648a1429ce213c.png)

@@ -1,4 +1,3 @@
-
 ## 关于
 
 本章根据 **coderwhy 老师**腾讯课堂的视频讲解进行的笔记记录,感兴趣的可以去[腾讯课堂](https://ke.qq.com/course/3453141):tada::tada:查看 coderwhy 老师的课程
@@ -53,7 +52,8 @@
   - 而 webpack-cli 中代码执行时，才是真正利用 webpack 进行编译和打包的过程；
   - 所以在安装 webpack 时，我们需要同时安装 webpack-cli（第三方的脚手架事实上是没有使用 webpack-cli 的，而是类似于自
     己的 vue-service-cli 的东西）
-  ```sh
-  npm install webpack webpack-cli –g # 全局安装
-  npm install webpack webpack-cli –D # 局部安装
-  ```
+
+```sh
+npm install webpack webpack-cli –g # 全局安装
+npm install webpack webpack-cli –D # 局部安装
+```

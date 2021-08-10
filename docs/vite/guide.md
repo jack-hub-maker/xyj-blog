@@ -1,4 +1,3 @@
-
 ## 浏览器原生支持模块化
 
 测试的时候打开 index.html 必须使用 live server 打开(vscode),否则将会**跨域**
@@ -45,9 +44,8 @@ console.log(sum(10, 20));
 console.log(_.join(["cba", "nba"]));
 ```
 
-![](/pack/vite/1.png)
-
-![](/pack/vite/2.png)
+![1.png](https://img13.360buyimg.com/ddimg/jfs/t1/179247/39/18478/34911/61122c4eEab7309ce/5acfe685b0e10a03.png)
+![2.png](https://img10.360buyimg.com/ddimg/jfs/t1/177729/13/18619/98922/61122c4fE2659c02f/83fbb2a0201b73f8.png)
 
 - 但是如果我们不借助于其他工具，直接使用 ES Module 来开发有什么问题呢？
   - 首先，我们会发现在使用 loadash 时，加载了上百个模块的 js 代码，对于浏览器发送请求是巨大的消耗；
@@ -111,6 +109,5 @@ console.log(sum(20, 30));
 console.log(_.join(["nba", "cba"]));
 ```
 
-![](/pack/vite/3.png)
-
-![](/pack/vite/4.png)
+![3.png](https://img14.360buyimg.com/ddimg/jfs/t1/183169/16/18372/45883/61122c4eEdd573166/371b36a29be10beb.png)
+![4.png](https://img13.360buyimg.com/ddimg/jfs/t1/205026/30/581/54509/61122c4eEc0899946/fd65f4fd2efeb48d.png)

@@ -1,4 +1,3 @@
-
 ## 编写案例代码
 
 - 我们创建一个 element.js
@@ -33,7 +32,7 @@ element();
 
 然后进行`npm run build`进行打包
 
-![](/pack/webpack/3.png)
+![3.png](https://img13.360buyimg.com/ddimg/jfs/t1/202821/9/685/44299/61122e90Ef1c0cae5/afba34937e227110.png)
 
 ## css-loader 的使用
 
@@ -164,7 +163,7 @@ npm install less -D
 npx lessc ./src/css/title.less ./src/css/title.css
 ```
 
-![](/pack/webpack/4.png)
+![4.png](https://img12.360buyimg.com/ddimg/jfs/t1/188889/38/17866/69965/61122e92Ed2b8c7e0/b4468caa51c18db7.png)
 
 ## less-loader 处理
 
@@ -226,7 +225,7 @@ npm install autoprefixer -D
 npx postcss --use autoprefixer -o post.css title.css
 ```
 
-![](/pack/webpack/5.png)
+![5.png](https://img11.360buyimg.com/ddimg/jfs/t1/192075/34/17249/53407/61122e90Eacfaa74f/f9a3dc17bc903b7a.png)
 
 ## postcss-loader
 

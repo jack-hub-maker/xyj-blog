@@ -1,7 +1,3 @@
----
-title: 前言
-sidebarDepth: 0
----
 
 ## JavaScript 一门优秀的语言
 
@@ -69,7 +65,7 @@ foo("Hello World"); // 正确调用
 foo(); // 错误调用(IDE没有报错)
 ```
 
-![](/type-script/1.png)
+![1.png](https://img11.360buyimg.com/ddimg/jfs/t1/186161/30/18434/66891/61122a1aE7f8d4793/7a77d7c3a1d8ded8.png)
 
 ## 类型错误
 

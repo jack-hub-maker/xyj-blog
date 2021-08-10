@@ -1,6 +1,3 @@
----
-title: 数据类型
----
 
 ## JavaScript 类型
 
@@ -101,7 +98,7 @@ let info: object = {
 
 但是如果注解了类型为 object 的话,我们是无法从对象上取得属性的
 
-![](/type-script/6.png)
+![6.png](https://img11.360buyimg.com/ddimg/jfs/t1/35942/18/16002/25000/61122a1aE0ea9cc92/c802421189d5f45c.png)
 
 这里当然它会自己进行类型推导的,所以这里**推荐**不写注解,当然你写的话也可以,也有其它方法进行改造,这里还没有学,先不写,后面会提到
 
@@ -133,7 +130,7 @@ let u = undefined;
 u = 23;
 ```
 
-![](/type-script/7.png)
+![7.png](https://img13.360buyimg.com/ddimg/jfs/t1/204343/12/650/16409/61122a1aE39ab2692/894aceb9657e32cd.png)
 
 所以**建议**使用 null 和 undefined 的时候还是进行类型注解
 
@@ -142,7 +139,7 @@ let n: null = null;
 let u: undefined = undefined;
 ```
 
-![](/type-script/8.png)
+![8.png](https://img12.360buyimg.com/ddimg/jfs/t1/188098/15/17532/16321/61122a1aE398fdb85/dbc97d2e341bb0fa.png)
 
 ### symbol
 
@@ -372,7 +369,7 @@ const age = info[1];
 console.log(age.length);
 ```
 
-![](/type-script/9.png)
+![9.png](https://img14.360buyimg.com/ddimg/jfs/t1/195501/7/17324/28971/61122a1bE623b2c9a/ee67bb1a6cf38ecc.png)
 
 那么 tuple 在什么地方使用的是最多的呢？
 

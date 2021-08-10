@@ -45,7 +45,7 @@ const say = (name) => {
 npx babel demo.js --out-file text.js
 ```
 
-![](/pack/webpack/18.png)
+![18.png](https://img14.360buyimg.com/ddimg/jfs/t1/178426/13/18726/53371/61122e91E6f28a743/58e01f887713d12f.png)
 
 转换后发现感觉没有任何转换
 
@@ -61,8 +61,7 @@ npm install @babel/plugin-transform-arrow-functions -D
 npx babel demo.js --out-file text.js --plugins=@babel/plugin-transform-arrow-functions
 ```
 
-![](/pack/webpack/19.png)
-
+![19.png](https://img14.360buyimg.com/ddimg/jfs/t1/185403/40/18319/53443/61122e95E699f70e1/44f842c2660115cc.png)
 - 查看转换后的结果：我们会发现 const 并没有转成 var
   - 这是因为 plugin-transform-arrow-functions，并没有提供这样的功能；
   - 我们需要使用 plugin-transform-block-scoping 来完成这样的功能；
@@ -75,8 +74,7 @@ npm install @babel/plugin-transform-block-scoping -D
 npx babel demo.js --out-file text.js --plugins=@babel/plugin-transform-block-scoping,@babel/plugin-transform-arrow-functions
 ```
 
-![](/pack/webpack/20.png)
-
+![20.png](https://img13.360buyimg.com/ddimg/jfs/t1/176942/34/18661/52656/61122e93Ed1a77595/0a17a6ce4ae0d614.png)
 ## Babel 的预设 preset
 
 - 但是如果要转换的内容过多，一个个设置是比较麻烦的，我们可以使用预设（preset）：
@@ -91,8 +89,7 @@ npm install @babel/preset-env -D
 npx babel demo.js --out-file text.js --presets=@babel/preset-env
 ```
 
-![](/pack/webpack/21.png)
-
+![21.png](https://img12.360buyimg.com/ddimg/jfs/t1/187179/34/17798/55312/61122f82Ebbbd92f0/71db9e353e520c1f.png)
 :::tip
 所以一般开发我们就直接使用预设就可以了
 :::
@@ -113,11 +110,10 @@ npx babel demo.js --out-file text.js --presets=@babel/preset-env
 
 - Babel 的执行阶段
 
-![](/pack/webpack/22.png)
-
+![22.png](https://img13.360buyimg.com/ddimg/jfs/t1/193067/7/17544/82808/61122f81Eac8c8b94/0d066e62136ec52c.png)
 - 当然，这只是一个简化版的编译器工具流程，在每个阶段又会有自己具体的工作：
 
-![](/pack/webpack/23.png)
+![23.png](https://img12.360buyimg.com/ddimg/jfs/t1/196976/35/2480/359244/61122f82E2c7e34b7/c34fbabf3dbe6b04.png)
 
 ## babel-loader
 
