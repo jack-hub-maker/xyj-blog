@@ -281,18 +281,18 @@
 >
 > ```js
 > omputed: {
-> basePrice() {
-> return this.manufactureCost / (1 - this.profitMargin)
-> },
+>   basePrice() {
+>     return this.manufactureCost / (1 - this.profitMargin)
+>   },
 >
-> discount() {
-> return this.basePrice \* (this.discountPercent || 0)
-> },
+>   discount() {
+>     return this.basePrice \* (this.discountPercent || 0)
+>   },
 >
-> finalPrice() {
-> return this.basePrice - this.discount
+>   finalPrice() {
+>     return this.basePrice - this.discount
+>   }
 > }
->
 > ```
 
 ### 指令缩写
