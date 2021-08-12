@@ -80,18 +80,15 @@ v-pre 用于跳过元素和它的子元素的编译过程，显示原始的 Must
 
 开发中一般都会使用 Mustache 语法,v-pre 用的比较少
 
-
 ## v-cloak
 
 这个指令保持在元素上直到关联组件实例结束编译
-- 和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到组件实
-例准备完毕
 
+- 和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到组件实
+  例准备完毕
 
 ```html
-<div v-cloak>
-  {{ message }}
-</div>
+<div v-cloak>{{ message }}</div>
 ```
 
 ```css
@@ -104,3 +101,162 @@ v-pre 用于跳过元素和它的子元素的编译过程，显示原始的 Must
 
 ## v-bind
 
+前端讲的一系列指令，主要是将值插入到模板内容中
+
+但是，除了内容需要动态来决定外，某些属性我们也希望动态来绑定
+
+1.  比如动态绑定 a 元素的 href 属性
+2.  比如动态绑定 img 元素的 src 属性
+
+### 绑定基本属性
+
+v-bind 用于绑定一个或多个属性值，或者向另一个组件传递 props 值(这个后面学到组件化的时候再介绍)
+
+在开发中，有哪些属性需要动态进行绑定呢？
+
+- 还是有很多的，比如图片的链接 src、网站的链接 href、动态绑定一些类、样式等等
+
+v-bind 有一个对应的语法糖，也就是简写方式
+
+在开发中，我们通常会使用语法糖的形式，因为这样更加简洁
+
+```html
+<template>
+  <div>
+    <!-- 完整写法 -->
+    <a v-bind:href="src">跳转</a>
+    <!-- 语法糖 -->
+    <a :href="src">跳转</a>
+    <!-- 注意和上面的区别 -->
+    <a href="src">跳转</a>
+  </div>
+</template>
+```
+
+```js
+export default {
+  data() {
+    return {
+      src: "https://likesandy.github.io/#/",
+    };
+  },
+};
+```
+
+### 绑定 class
+
+在开发中，有时候我们的元素 class 也是动态的，比如：
+
+1.  当数据为某个状态时，字体显示红色
+2.  当数据另一个状态时，字体显示黑色
+
+绑定 class 有两种方式：
+
+1.  对象语法
+2.  数组语法
+
+#### 对象语法
+
+我们可以传给 :class (v-bind:class 的简写) 一个对象，以动态地切换 class
+
+```html
+<template>
+  <div>
+    <h2 :class="person">gt</h2>
+  </div>
+</template>
+```
+
+```js
+export default {
+  data() {
+    return {
+      person: {
+        age: 20,
+      },
+    };
+  },
+};
+```
+
+#### 数组语法
+
+```html
+<template>
+  <div>
+    <h2 :class="names">gt</h2>
+  </div>
+</template>
+```
+
+```js
+export default {
+  data() {
+    return {
+      names: ["gt", "sandy"],
+    };
+  },
+};
+```
+
+### 绑定 style
+
+我们可以利用 v-bind:style 来绑定一些 CSS 内联样式：
+
+1.  这次因为某些样式我们需要根据数据动态来决定；
+2.  比如某段文字的颜色，大小等等
+
+CSS property 名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用引号括起来) 来命名
+
+绑定 class 有两种方式：
+
+1.  对象语法
+2.  数组语法
+
+#### 对象语法
+
+```html
+<template>
+  <div>
+    <h2 :style="format">gt</h2>
+  </div>
+</template>
+```
+
+```js
+export default {
+  data() {
+    return {
+      format: {
+        color: "red",
+        fontSize: "30px",
+      },
+    };
+  },
+};
+```
+
+#### 数组语法
+
+```html
+<template>
+  <div>
+    <h2 :style="[format1, format2]">gt</h2>
+  </div>
+</template>
+```
+
+```js
+export default {
+  data() {
+    return {
+      format1: {
+        color: "red",
+      },
+      format2: {
+        fontSize: "30px",
+      },
+    };
+  },
+};
+```
