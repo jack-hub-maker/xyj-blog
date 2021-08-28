@@ -8,6 +8,7 @@
     - [🔥Vite](vite/readme)
     - [React](react/readme)
     - [Webpack](webpack/readme)
+    - [git](git/readme)
   - [🎉 优文转载](collect/readme)
   - 更多
     - [开发规范](more/lint/readme)
