@@ -28,7 +28,4 @@ GIT 是一款自由和开源的分布式版本控制系统，用于敏捷高效�
 - git commit: 把暂缓区的所有内容提交到当前 HEAD 指针指向的分支
   ![](https://upload-images.jianshu.io/upload_images/647982-55c339632d9e540f.png?imageMogr2/auto-orient/strip|imageView2/2/w/775/format/webp)
 
-📚 最后推荐一些我认为自学 Git 不错的资源
 
-- Git 教程-廖雪峰出品：[https://www.liaoxuefeng.com/wiki/896043488029600](https://www.liaoxuefeng.com/wiki/896043488029600)
-- 狂神说 Git 最新教程通俗易懂：[https://www.bilibili.com/video/BV1FE411P7B3?from=search&seid=16292658412211606618](https://www.bilibili.com/video/BV1FE411P7B3?from=search&seid=16292658412211606618)
