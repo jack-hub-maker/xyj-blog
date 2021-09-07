@@ -4,3 +4,4 @@
 - [JavaScript 的执行过程](javascript/advanced/js-implementation)
 - [作用域提升面试题](javascript/advanced/scope-interview)
 - [JS 内存管理](javascript/advanced/memory-management)
+- [闭包](javascript/advanced/js-closure)
