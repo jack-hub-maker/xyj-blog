@@ -102,3 +102,44 @@ fn();
 
 - 这个时候你可以把 foo = null，null 可以理解为 foo 执行了其它地方的 0x00 地址
 - 这个时候 GO 的 GC 线上就没有 foo 了，在下一次的 GC 回收中，foo 就会被销毁掉
+
+## AO 不使用的属性
+
+我们来研究一个问题：AO 对象不会被回收时，是否里面的所有属性都不会被释放？
+
+```js
+function foo() {
+  var name = "tao";
+  var age = 19;
+  function bar() {
+    console.log(name);
+  }
+  return bar;
+}
+var fn = foo();
+fn();
+```
+
+我们看上面这段代码中 name 属于闭包的父级作用域的变量
+
+我们知道形成闭包之后 foo 函数的 ao 对象是不会被回收的
+
+但是我们思考一个问题？
+
+bar 函数始终不会用到 age 变量，意味着我们想让 age 进行回收掉啊
+
+从 js 引擎的角度上来说 fooAO 对象是不会被回收的
+
+但是在 V8 中 age 是会被回收掉的，为什么我们常说 v8 性能高，v8 也在很多细节上面做了很多的处理，就比如这里的 age
+
+怎么验证我的说法喃？
+
+我们可以在 console.log 的上一行打上一个 debugger，意味着执行了这一行的时候就停止了
+
+然后我们打开开发者工具的 Sources 里看一下
+
+![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/205790/18/5414/36482/613868b1Ef842dd78/58d978c49f341f52.png)
+
+既然我们的程序停在了 bar 函数里面，那么我们也可以在控制台里面打印 name 和 age
+
+![image.png](https://img10.360buyimg.com/ddimg/jfs/t1/64984/24/17329/9670/61386925Ee4ada91e/383271bf4f3b6528.png)

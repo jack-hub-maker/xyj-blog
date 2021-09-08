@@ -5,3 +5,4 @@
 - [作用域提升面试题](javascript/advanced/scope-interview)
 - [JS 内存管理](javascript/advanced/memory-management)
 - [闭包](javascript/advanced/js-closure)
+- [this指向](javascript/advanced/this-point)
