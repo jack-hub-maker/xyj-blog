@@ -6,3 +6,4 @@
 - [JS 内存管理](javascript/advanced/memory-management)
 - [闭包](javascript/advanced/js-closure)
 - [this指向](javascript/advanced/this-point)
+- [this面试题](javascript/advanced/this-interview)
