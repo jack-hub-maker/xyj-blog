@@ -1,5 +1,5 @@
 > [!WARNING]
-> 近期更新：JavaScript 高级语法，CSS 基础
+> 近期更新：JavaScript 高级语法，html 和 css 专栏取消
 
 ## 前言
 

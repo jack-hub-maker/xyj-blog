@@ -1,7 +1,5 @@
 - 目录
   - 前端
-    - [HTML](html/readme)
-    - [CSS](css/readme)
     - [JavaScript](javascript/readme)
     - [TypeScript](typescript/readme)
     - [Vue](vue/readme)
