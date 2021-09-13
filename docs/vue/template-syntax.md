@@ -325,11 +325,102 @@ export default {
 前面我们绑定了元素的内容和属性，在前端开发中另外一个非常重要的特性就是**交互**
 
 在前端开发中，我们需要经常和用户进行各种各样的交互：
+
 1.  这个时候，我们就必须监听用户发生的事件，比如点击、拖拽、键盘事件等等
-2.  在Vue中如何监听事件呢？使用v-on指令
+2.  在 Vue 中如何监听事件呢？使用 v-on 指令
 
-接下来我们来看一下v-on的基本使用：
+接下来我们来看一下 v-on 的基本使用：
 
+```vue
+<template>
+  <div id="app">
+    <!-- 绑定一个表达式 -->
+    <button v-on:click="count++">按钮</button>
+    <!-- 绑定一个事件 -->
+    <button v-on:click="btnClick">按钮</button>
+    <!-- @语法糖 -->
+    <button @click="btnClick">按钮</button>
+    <!-- 绑定多个事件(不能使用语法糖) -->
+    <button v-on="{ click: btnClick, mousemove: mousemove }">按钮</button>
+  </div>
+</template>
+```
 
+```js
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      count: 1,
+    };
+  },
+  methods: {
+    btnClick() {
+      console.log("按钮发生了点击");
+    },
+    mousemove() {},
+  },
+};
+</script>
+```
 
+### v-on 参数传递
 
+当通过 methods 中定义方法，以供@click 调用时，需要注意参数问题：
+
+- 如果该方法不需要额外参数，那么方法后的()可以不添加。
+  - 如果方法本身中有一个参数，那么会默认将原生事件 event 参数传递进去
+- 如果需要同时传入某个参数，同时需要 event 时，可以通过$event 传入事件。
+
+```vue
+<template>
+  <div>
+    <button @click="btnClick">按钮</button>
+    <button @click="btnClick2('tao', '19', $event)">按钮</button>
+  </div>
+</template>
+```
+
+```js
+<script>
+export default {
+  methods: {
+    btnClick(event) {
+      console.log(event);
+    },
+    btnClick2(name, age, event) {
+      console.log(name, age, event);
+    },
+  },
+};
+</script>
+```
+
+### v-on 的修饰符
+
+v-on 支持修饰符，修饰符相当于对事件进行了一些特殊的处理：
+
+修饰符有很多，详情查看官网：https://v3.cn.vuejs.org/api/directives.html#v-else-if
+
+这里测试一下.right - 只当点击鼠标右键时触发。
+
+```vue
+<template>
+  <div>
+    <button @click.right="btnClick">按钮</button>
+  </div>
+</template>
+```
+
+```js
+<script>
+export default {
+  methods: {
+    btnClick() {
+      console.log("你点击了鼠标右键");
+    },
+  },
+};
+</script>
+```
