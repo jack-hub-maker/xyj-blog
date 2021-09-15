@@ -9,3 +9,6 @@
 - [this 面试题](javascript/advanced/this-interview)
 - [实现 apply、call、bind](javascript/advanced/realize-this-methods)
 - [arguments](javascript/advanced/arguments)
+- [JavaScript 纯函数](javascript/advanced/pure-function)
+- [JavaScript 柯里化](javascript/advanced/js-currying)
+- [组合函数](javascript/advanced/composite-function)
