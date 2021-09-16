@@ -5,3 +5,5 @@
 - [条件渲染](vue/conditional)
 - [列表渲染](vue/list)
 - [Options-API](vue/options)
+- [v-model](vue/v-model)
+- [组件化开发](vue/modularization)

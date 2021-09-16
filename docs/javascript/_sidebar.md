@@ -12,3 +12,5 @@
 - [JavaScript 纯函数](javascript/advanced/pure-function)
 - [JavaScript 柯里化](javascript/advanced/js-currying)
 - [组合函数](javascript/advanced/composite-function)
+- [严格模式](javascript/advanced/strict-mode)
+- [面向对象](javascript/advanced/object-oriented)
