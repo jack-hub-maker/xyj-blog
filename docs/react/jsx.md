@@ -1,6 +1,9 @@
 ## 认识 JSX
 
-详情：https://zh-hans.reactjs.org/docs/introducing-jsx.html
+详情：
+
+- https://zh-hans.reactjs.org/docs/introducing-jsx.html
+- https://zh-hans.reactjs.org/docs/jsx-in-depth.html
 
 JSX 是什么？
 
@@ -44,6 +47,4 @@ jsx 中的注释
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/203536/14/7128/7284/61455341Ef05d0f7c/0e949b80ca93c41f.png)
 
-对象作为React子对象无效,如果您想呈现一组子元素，请使用数组
-
-
+对象作为 React 子对象无效,如果您想呈现一组子元素，请使用数组

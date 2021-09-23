@@ -2,3 +2,4 @@
 - [JSX](react/jsx)
 - [生命周期](react/lifecycle)
 - [State](react/state)
+- [性能优化](react/performance-optimization)

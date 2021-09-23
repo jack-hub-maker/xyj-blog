@@ -1,5 +1,7 @@
 ## 类组件的生命周期
 
+详情：https://zh-hans.reactjs.org/docs/react-component.html
+
 ![image.png](https://img10.360buyimg.com/ddimg/jfs/t1/86446/19/19615/119215/6142b007E5e478dd1/830b950b6c6f3c8e.png)
 
 地址：https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
@@ -35,7 +37,7 @@ export default class Text extends Component {
   increment() {
     this.setState({
       count: this.state.count + 1,
-    });
+    }); 
   }
   componentWillUnmount() {
     console.log("componentWillUnmount执行了");
@@ -90,3 +92,7 @@ componentDidUpdate执行了
 ```
 componentWillUnmount执行了
 ```
+
+## 函数组件的生命周期
+
+这个后期学到hooks的时候再来写
