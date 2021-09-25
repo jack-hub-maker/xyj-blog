@@ -617,4 +617,493 @@ var p2 = new Person("sandy", 21);
 
 有人就会好奇在外面定义 say 函数会不会出错啊，这就是考验到 this 的问题了，前面我们说了 this 是动态绑定的，this 的绑定和编写的位置是没有关系的，是跟调用位置有关
 
-这也用到了我们前面所讲的内容，所以我们都是循序渐进的 
+这也用到了我们前面所讲的内容，所以我们都是循序渐进的
+
+## 原型链
+
+### JavaScript 中的类和对象
+
+当我们编写如下代码的时候，我们会如何来称呼这个 Person 呢？
+
+- 在 JS 中严格来说应该称为一个构造函数（因为早期 JS 并没有类的概念）
+- 但是如果你从面向对象的编程范式角度来看，Person 应该称之为一个类
+
+```js
+function Person() {}
+
+var p1 = new Person();
+var p2 = new Person();
+```
+
+### 面向对象的特征-继承
+
+面向对象有三大特性：封装、继承、多态
+
+- 封装：我们前面将属性和方法封装到一个类中，可以称之为封装的过程
+- 继承：继承是面向对象中非常重要的，不仅仅可以减少重复代码的数量，也是多态的前提（纯面向对象的前提）
+- 多态：不同的对象在执行时表现出不同的形态
+
+我们会核心讲解继承的概念
+
+不着急，我们先来看一下 JavaScript 原型链的机制
+
+然后再通过原型链的机制来实现继承
+
+### JavaScript 原型链
+
+前面说过，当我们想获取一个对象的属性的时候，会触发属性内部的 get 方法，会首先在自己的对象中查找属性
+
+如果没有找到会去属性的原型对象中查找
+
+但是其实查找属性也会有跟作用域链类似的原型链的规则
+
+如果自己的对象中没有找到，就会去自己对象的原型对象中查找，如果原型对象中也没有找到，就会去原型对象上的原型对象查找，一直到顶层对象，直到顶层对象的原型对象上也没有则会返回 undefined
+
+![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/111417/39/19533/56220/614c8bf1Eec68cafc/5684df21f1f0ceb4.png)
+
+### Object 的原型
+
+那到底顶层对象是什么呢？
+
+其实字面量对象的原型是[Object: null prototype] {}
+
+[Object: null prototype] {}就是顶层原型
+
+那么顶层原型来自哪里呢？
+
+顶层原型其实就是 Object.prototype
+
+我们来看一下，为什么是 Object.prototype
+
+```js
+var obj = new Object();
+/**
+ * var moni = {}
+ * this = {}
+ * obj.__proto__ = Object.prototype
+ * return moni
+ */
+
+/**
+ * 前面说了new操作父调用的作用（我们再来复习一下）
+ * 1. 在内存中创建一个新的对象
+ * 2. 构造函数的prototype属性会赋值给对象的[[prototype]]
+ * 3. 构造函数的this会指向创建出来的新对象
+ * 4. 执行代码
+ * 5. 返回新对象
+ */
+
+console.log(obj.__proto__); // [Object: null prototype] {}
+console.log(Object.prototype); // [Object: null prototype] {}
+console.log(obj.__proto__ === Object.prototype); // true
+```
+
+这个 Object 的原型对象看上去是空的{}，其实它上面有很多东西
+
+我们可以通过前面讲的 Object.getOwnPropertyDescriptors 方法来获取所有的属性描述符
+
+![image.png](https://img12.360buyimg.com/ddimg/jfs/t1/208596/15/1872/60203/614d302cEc4ae84d2/5eff59ddf48fbf99.png)
+
+那下面我们来看一个例子，然后再通过画图直观的分析一下
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+var obj2 = {};
+obj.__proto__ = obj2;
+
+Object.prototype.height = 1.88;
+
+console.log(obj.height);
+```
+
+![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/207221/6/2015/57009/614d3690E765437ac/9e1177d56b1572f4.png)
+
+这个图画的有点丑，我简单讲解一下当我们创建一个字面量对象的时候，其实跟 new Object 是差不多的，只不过通过字面量创建并不会实际调用 Object 构造函数，但是从内存的角度中还是会创建 Object 的（这个地方感觉讲的有点瑕疵，后续会查阅资料补充）
+
+obj 的原型对象本来应该是 Object 的原型对象，但是我们手动改变为了原型的指向，obj 的原型对象就变成了 obj2 对象
+
+obj2 对象的原型自然是 Object 的原型对象
+
+所以自然在内存中是上面这幅图
+
+我们想要查看 obj.height 的时候，会首先在自己对象中查找 height 属性，自己的对象中没有 height 属性，就会去原型对象上查找，原型对象 obj2 对象也没有 height 属性，就会去 obj2 对象的原型对象上找，obj2 的原型对象上有 height 属性，就会直接返回，所以最后的结果是 1.88
+
+其实为什么说打印 Object.prototype 为[Object: null prototype] {}
+
+这个[Object: null prototype] {}到底是什么意思呢？
+
+这里我理解为 Object.prototype 上也有原型属性，但是 Object.prototype 的原型属性已经指向的 null 了，也就是说 Object.prototype 就是顶层对象
+
+### 构造函数的原型
+
+构造函数的顶层原型是 Object 的原型对象
+
+```js
+function Person() {}
+console.log(Person.prototype); // {}
+console.log(Object.getOwnPropertyDescriptors(Person.prototype));
+/**
+ * constructor: {
+    value: [Function: Person],
+    writable: true,
+    enumerable: false,
+    configurable: true
+  }
+ */
+console.log(Person.prototype.__proto__); // [Object: null prototype] {}
+```
+
+![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/146769/18/25290/56102/614d41fcE57a7944f/593772343d81ab98.png)
+
+### Object 是所有类的父类
+
+通过上面的 Object 和构造函数原型我们可以得出一个结论：原型链的最顶层的原型对象就是 Object 的原型对象
+
+也就是说 Object 是所有类的父类，所有子类继承 Object（后面讲解继承的知识）
+
+## 继承
+
+### 为什么需要继承
+
+### 原型链的继承方案
+
+```js
+function Person() {
+  this.name = "tao";
+}
+
+Person.prototype.eating = function () {
+  console.log(this.name + "eating~");
+};
+function Student() {
+  this.son = 111;
+}
+Student.prototype = new Person();
+
+Student.prototype.studying = function () {
+  console.log(this.name + "studying~");
+};
+
+var stu = new Student();
+console.log(stu.name);
+stu.eating();
+```
+
+![image.png](https://img12.360buyimg.com/ddimg/jfs/t1/198706/21/9841/65214/614d88e3E8d967762/0ede08fd14cac64e.png)
+
+但是这种方式还是存在一定的弊端的
+
+这里我简单列举几个问题：
+
+- 打印 stu 对象的时候，继承上的对象是看不到的(JS 的打印机制是不会打印原型对象上的属性的，只会打印当前对象上的属性)
+- 创建出来两个 stu 对象进行某些操作是不符合逻辑的
+
+```js
+// 首先先在Person上添加this.friends = []
+function Person() {
+  this.friends = [];
+}
+var stu1 = new Student();
+var stu2 = new Student();
+stu1.friends.push("sandy");
+console.log(stu1.friends); // ['sandy']
+console.log(stu2.friends); // ['sandy']
+```
+
+你会发现我给 stu1 添加了一个朋友，但是 stu2 也添加了一个朋友，这明显不符合逻辑
+
+- 在前面实现类的过程中都没有传递参数
+
+### 借用构造函数继承
+
+为了解决原型链继承中存在的问题，社区中提供了一种新的方法：constructor stealing（借用构造函数/经典继承/伪造对象）
+
+steal 是偷窃、剽窃的意思，但是这里可以翻译为借用
+
+借用继承的做法非常简单：在子类型构造函数的内部调用父类型构造函数
+
+- 因为函数可以在任意的时刻被调用
+- 因此通过 apply 和 call 方法也可以在新创建的对象上执行构造函数
+
+```js
+function Person(name, age, friends) {
+  this.name = name;
+  this.age = age;
+  this.friends = friends;
+}
+
+Person.prototype.eating = function () {
+  console.log(this.name + "eating~");
+};
+function Student(name, age, friends) {
+  Person.call(this, name, age, friends);
+  this.son = 111;
+}
+Student.prototype = new Person();
+
+Student.prototype.studying = function () {
+  console.log(this.name + "studying~");
+};
+
+var stu1 = new Student("tao", 18, ["sandy"]);
+var stu2 = new Student("sandy", 21, ["tao"]);
+stu1.friends.push("zm");
+console.log(stu1.friends);
+console.log(stu2.friends);
+```
+
+但是借用继承也存在一定的弊端：
+
+- Person 对象至少会被调用两次
+- stu 的原型对象上会多出一些属性，但是这些属性没有被用到，没有存在的必要
+
+### 原型式继承函数
+
+原型式继承的渊源
+
+- 这种模式要从道格拉斯·克罗克福德（Douglas Crockford，著名的前端大师，JSON 的创立者）在 2006 年写的
+  一篇文章说起: Prototypal Inheritance in JavaScript(在 JS 中使用原型式继承)
+- 在这篇文章中，它介绍了一种继承方法，而且这种继承方法不是通过构造函数来实现的.
+- 为了理解这种方式，我们先再次回顾一下 JavaScript 想实现继承的目的：重复利用另外一个对象的属性和方法.
+
+这里有三个方法
+
+通过原型实现
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+function create(obj) {
+  function fn() {}
+  fn.prototype = obj;
+  return new fn();
+}
+
+var newObj = create(obj);
+console.log(newObj.__proto__ === obj); // true
+```
+
+通过 Object.setPrototypeOf 实现
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+function create(obj) {
+  var newObj = {};
+  Object.setPrototypeOf(newObj, obj);
+  return newObj;
+}
+
+var newObj = create(obj);
+console.log(newObj.__proto__ === obj); // true
+```
+
+通过 Object.create 实现
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+var newObj = Object.create(obj);
+console.log(newObj.__proto__ === obj); // true
+```
+
+当然这并不能满足我们的需求，如果我们有很多都想实现继承就会写很多重复的代码，我们其实想要实现的是构造函数之间的继承
+
+### 寄生式继承函数
+
+寄生式(Parasitic)继承是与原型式继承紧密相关的一种思想, 并且同样由道格拉斯·克罗克福德(Douglas
+Crockford)提出和推广的；
+
+寄生式继承的思路是结合原型类继承和工厂模式的一种方式；
+
+即创建一个封装继承过程的函数, 该函数在内部以某种方式来增强对象，最后再将这个对象返回；
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+function create(name) {
+  var newObj = Object.create(obj);
+  newObj.name = name;
+  newObj.say = function () {
+    console.log(this.name + "say~");
+  };
+  return newObj;
+}
+
+var newObj1 = create("tao");
+var newObj2 = create("sandy");
+var newObj3 = create("zm");
+console.log(newObj1.__proto__ === obj); // true
+```
+
+虽然这种方式也可以实现，但是也相对于是前面讲到的工厂模式差不多，相对于每一个实现的对象都有自己的方法，也没有属于自己的类型
+
+### 寄生组合式继承
+
+现在我们来回顾一下之前提出的比较理想的组合继承
+
+- 组合继承是比较理想的继承方式, 但是存在两个问题:
+- 问题一: 构造函数会被调用两次: 一次在创建子类型原型对象的时候, 一次在创建子类型实例的时候.
+- 问题二: 父类型中的属性会有两份: 一份在原型对象中, 一份在子类型实例中.
+
+事实上, 我们现在可以利用寄生式继承将这两个问题给解决掉.
+
+- 你需要先明确一点: 当我们在子类型的构造函数中调用父类型.call(this, 参数)这个函数的时候, 就会将父类型中
+  的属性和方法复制一份到了子类型中. 所以父类型本身里面的内容, 我们不再需要.
+- 这个时候, 我们还需要获取到一份父类型的原型对象中的属性和方法
+
+能不能直接让子类型的原型对象 = 父类型的原型对象呢?
+
+- 不要这么做, 因为这么做意味着以后修改了子类型原型对象的某个引用类型的时候, 父类型原生对象的引用类型
+  也会被修改.
+- 我们使用前面的寄生式思想就可以了
+
+```js
+function Person(name, age, friends) {
+  this.name = name;
+  this.age = age;
+  this.friends = friends;
+}
+
+Person.prototype.say = function () {
+  console.log(this.name + "say~");
+};
+
+function Student(name, age, friends) {
+  Person.call(this, name, age, friends);
+}
+
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.eating = function () {
+  console.log(this.name + "eating~");
+};
+
+var stu = new Student("tao", 18, "sandy");
+console.log(stu);
+stu.eating();
+stu.say();
+```
+
+当然这也存在一定的弊端，这里打印的 stu 的类型是一个 Person 这肯定是不符合我们的预期的
+
+这是为什么喃？
+
+让我们通过内存图来看一下整个过程
+
+![image.png](https://img12.360buyimg.com/ddimg/jfs/t1/198158/39/10142/56282/614f37e3Efd903618/5ca1b0a60d2f38cd.png)
+
+打印一个对象，打印出来的结果前面的类型其实是打印原型对象上的 constructor 属性
+
+Student 原型对象是通过 Object.create 方法返回的新的对象，返回的新的对象是没有 constructor 属性，没有它就会去返回的新的对象的原型上找 constructor 属性，Perosn 的 constructor 指向的是 Person，所以打印出来的 stu 的类型是 Person
+
+我们前面讲过可以通过属性描述符来精准添加控制 constructor 属性
+
+```js
+Object.defineProperty(Student.prototype, "constructor", {
+  configurable: true,
+  writable: true,
+  enumerable: false,
+  value: Student,
+});
+```
+
+这样就达到了我们的预期
+
+但是我们如果是把这些东西写死的话就太死板了，所以我们还要再进行优化一下，一般我们会封装成一个函数
+
+```js
+function create(obj, newObj) {
+  newObj.prototype = Object.create(obj);
+  Object.defineProperty(newObj.prototype, "constructor", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: newObj,
+  });
+}
+```
+
+Object.create 算是比较新的语法，如果要考虑兼容的话，一般我们会写成这样
+
+```js
+function object(obj) {
+  function fn() {}
+  fn.prototype = obj;
+  return new fn();
+}
+
+function create(obj, newObj) {
+  newObj.prototype = object(obj.prototype);
+  Object.defineProperty(newObj.prototype, "constructor", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: newObj,
+  });
+}
+create(Person, Student);
+```
+
+这就实现了我们想要的效果
+
+看看最终代码
+
+```js
+function Person(name, age, friends) {
+  this.name = name;
+  this.age = age;
+  this.friends = friends;
+}
+
+Person.prototype.say = function () {
+  console.log(this.name + "say~");
+};
+
+function Student(name, age, friends) {
+  Person.call(this, name, age, friends);
+}
+
+function object(obj) {
+  function fn() {}
+  fn.prototype = obj;
+  return new fn();
+}
+
+function create(obj, newObj) {
+  newObj.prototype = object(obj.prototype);
+  Object.defineProperty(newObj.prototype, "constructor", {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: newObj,
+  });
+}
+create(Person, Student);
+
+Student.prototype.eating = function () {
+  console.log(this.name + "eating~");
+};
+
+var stu = new Student("tao", 18, "sandy");
+var p = new Person();
+console.log(p);
+console.log(stu);
+stu.eating();
+stu.say();
+```
