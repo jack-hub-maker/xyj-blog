@@ -768,6 +768,8 @@ console.log(Person.prototype.__proto__); // [Object: null prototype] {}
 
 ### 为什么需要继承
 
+总结说来，继承让代码实现共享，提高代码的重用性，子类可以形似父类，也可异于父类，让代码的可扩展性提高，框架中的扩展接口都是通过继承父类实现的，产品或者项目的开发性通过继承得到提高。
+
 ### 原型链的继承方案
 
 ```js
@@ -815,7 +817,7 @@ console.log(stu2.friends); // ['sandy']
 
 你会发现我给 stu1 添加了一个朋友，但是 stu2 也添加了一个朋友，这明显不符合逻辑
 
-- 在前面实现类的过程中都没有传递参数
+- 不能给Person传递参数，因为这个对象是一次性创建的（没办法定制化）；不能给Person传递参数，因为这个对象是一次性创建的（没办法定制化）；
 
 ### 借用构造函数继承
 
@@ -1107,3 +1109,161 @@ console.log(stu);
 stu.eating();
 stu.say();
 ```
+
+## 方法补充
+
+### hasOwnProperty
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
+
+判断一个对象自身是否有指定的属性，返回布尔值
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+obj.__proto__ = {
+  height: 1.88,
+};
+
+console.log(obj.hasOwnProperty("age")); // true
+console.log(obj.hasOwnProperty("height")); // false
+```
+
+### in 操作符
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in
+
+判断指定的属性是否在指定的对象或其原型链中，返回布尔值
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+obj.__proto__ = {
+  height: 1.88,
+};
+
+console.log("age" in obj); // true
+console.log("height" in obj); // true
+```
+
+这就可以延伸出 for...in 操作符
+
+遍历对象的属性，仅遍历自身的属性
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in
+
+```js
+var obj = {
+  name: "tao",
+  age: 18,
+};
+
+obj.__proto__ = {
+  height: 1.88,
+};
+
+for (const key in obj) {
+  console.log(key); // name,age,height
+}
+```
+
+### instanceof
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof
+
+用于检测`构造函数的 prototype` 属性是否出现在`某个实例对象的原型链`上,返回一个布尔值
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+function Student(name, age) {
+  Person.call(name, age);
+}
+
+var stu = new Student("tao", 18);
+console.log(stu instanceof Person); // false
+console.log(stu instanceof Object); // true
+```
+
+![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/199167/16/10015/82860/614fd4c0E32ebde09/d130f9074462c10b.png)
+
+我简单画了一下内存图，从内存图来看就可以直观看出 instanceof 的用法了
+
+### isPrototypeOf
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/isPrototypeOf
+
+用于检测某个对象，是否出现在某个实例对象的原型链上,返回一个布尔值
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+function Student(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+var stu = new Student("tao", 18);
+var p = new Person("sandy", 21);
+
+console.log(p.__proto__.isPrototypeOf(stu)); // false
+console.log(Object.prototype.isPrototypeOf(stu)); // true
+```
+
+### 对象、函数、原型之间的关系
+
+千言万语汇成一张图
+
+![](http://www.mollypages.org/tutorials/jsobj.jpg)
+
+我下面简单说说我对这张图的看法
+
+我先画一张内存图，然后再来进行讲解
+
+![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/202129/30/8265/111037/614fe0c8E61c8127d/e53fc2518d7824de.png)
+
+我感叹我的画图水平，应该只有我自己看的懂吧
+
+我还是简单说一下吧（巴拉巴拉）
+
+每一个对象都有一个隐式原型对象(**proto**)
+
+每一个函数都有一个显式原型对象(prototype),因为函数又是一个对象，所以函数也有一个隐式原型对象(**proto**)
+
+假如我创建了一个 Person 构造函数，通过 new 关键字创建了一个 p 对象，p 对象的**proto**当然指向的是 Person 构造函数的原型对象（new 操作符的作用，前面讲过）
+
+Person 构造函数的**proto**当然指向的是 Person 的原型对象，Person 构造函数的 prototype 指向的是 Function 的原型对象，Person 的原型对象上的**proto**当然指向的是 Object 的原型对象（这前面说过了）
+
+那么这个 Function 是怎么来的？
+
+其实全局下有一个 Function 的构造函数
+
+我们通过直接 function 定义函数，其实是跟 new Function 是相似的（但其实还有很不同，后续看看书上的讲解，再来补充），所以 Person 构造函数的 prototype 指向的是 Function 的原型对象
+
+接下来就要说说 Function 这个构造函数了，Function 的**proto**当然指向的是 Function 的原型对象，Function 的 prototype 其实也是指向的是 Function 的原型对象，这有点特别
+
+我感觉我说的有点怪，具体还是看上面的 tutorials 图为准
+
+Function 的原型对象的**proto**的指向当然也是 Object 的原型对象
+
+下面就要说 Object 构造函数了，这个构造函数又是怎么来的？
+
+其实 Object 构造函数是通过 new Function 创建出来的
+
+所以 Object 的 prototype 指向的就是 Function 的原型对象，Object 构造的**proto**当然指向的就是 Object 原型对象
+
+Object 原型对象的**proto**指向的是 null，所以 Object 是顶层对象
+
+这就是整个的逻辑，当然我讲的不是很清晰，具体还要根据前面讲的知识然后结合哪张图，就会真正理解原型的继承关系
