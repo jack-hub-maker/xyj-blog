@@ -1,4 +1,4 @@
-- [前言](javascript/readme)
+<!-- - [前言](javascript/readme)
 - [浏览器工作原理](javascript/advanced/browser-run-theory)
 - [JavaScript 引擎](javascript/advanced/js-engine)
 - [JavaScript 的执行过程](javascript/advanced/js-implementation)
@@ -13,4 +13,4 @@
 - [JavaScript 柯里化](javascript/advanced/js-currying)
 - [组合函数](javascript/advanced/composite-function)
 - [严格模式](javascript/advanced/strict-mode)
-- [面向对象](javascript/advanced/object-oriented)
+- [面向对象](javascript/advanced/object-oriented) -->

@@ -244,3 +244,30 @@ const Son2 = memo(() => {
 
 所以以后我们创建类组件或者是函数组件都可以使用 PureComponent 和 memo
 
+## 不可变数据的力量
+
+详情：https://zh-hans.reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data
+
+我们先来做一个案例就会理解不可变数据是什么意思了
+
+我们展示了一个列表，然后点击按钮，向列表中添加一位
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/friends.png)
+
+为什么在上面的代码中不建议直接对原来的数组进行 push 修改 state，而是添加一个新数组进行改变或者使用扩展运算符来进行
+
+这其实很简单，如果你对 JavaScript 比较熟悉的话就可以清晰的知道为什么？
+
+方便理解我画了个内存图来进行讲解
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/immutable.png)
+
+对象，数组我们都知道是 JavaScript 中的引用类型，如果使用的话会在堆内存中开辟一块空间的（保存着内存地址）
+
+我们使用 friedns 变量赋值为一个数组，其实就是创建了 friedns 保存了数组的内存地址，通过内存地址找到了数组（指向/引用数组）
+
+数组中的对象也是这样的，看上去数组中一块一块的是对象，其实也是保存了对象的内存地址，通过内存地址找到了各自的对象
+
+虽然我们进行了 push，但是还是通过内存地址在数组的空间里创建了一个对象
+
+然后修改 friends：this.state.friends，其实上就是 friends：friends，这其实是同一个对象，所以并没有发生改变，没有发生改变，界面就不会进行渲染
