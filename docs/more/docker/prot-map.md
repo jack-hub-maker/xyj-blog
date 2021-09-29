@@ -1,3 +1,5 @@
+## docker 端口映射和模式讲解
+
 这节学习一下 Docker 的端口映射和两种运行模式-attached 和 detached 模式。先来看如何把一个容器的端口映射到主机的 80 端口上。
 
 ## 端口映射
@@ -62,27 +64,28 @@ docker run -d -p 80:80 nginx
 
 ![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/181348/31/19238/14181/61188b0bE93dc9458/d45f93ea345acc2f.png)
 
-### detached模型下查看日志
+### detached 模型下查看日志
 
 ```shell
 docker run -d -p 80:80 nginx
 ```
 
-容器被运行起来了，是detached模式，也就是Docker 的后台运行模式。这时候想要查看后台日志，可以使用下面的命令查看。
+容器被运行起来了，是 detached 模式，也就是 Docker 的后台运行模式。这时候想要查看后台日志，可以使用下面的命令查看。
 
 ```shell
 docker container logs [id/image name]
 ```
+
 ![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/191652/26/18580/71775/6119dbd9E201238d9/d037df35bdd07b99.png)
 
-虽然日志在窗口中出现了，但只打印一次logs,如果想动态一直跟踪日志，可以在命令上加入一个-f。
+虽然日志在窗口中出现了，但只打印一次 logs,如果想动态一直跟踪日志，可以在命令上加入一个-f。
 
 ```shell
 docker logs -f [id/image name]
 ```
 
-输入完上面的命令，打开浏览器，在地址栏输入127.0.0.1，也就是访问本地的nginx服务。你会看到日志窗口就会跟踪到最新的日志。
+输入完上面的命令，打开浏览器，在地址栏输入 127.0.0.1，也就是访问本地的 nginx 服务。你会看到日志窗口就会跟踪到最新的日志。
 
 ![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/183003/26/19359/118759/6119dc1eE4f284690/4b8afb83d9a49b77.png)
 
-如果想关闭日志跟踪模式，直接用快捷键Ctrl+C就可以结束掉了。
+如果想关闭日志跟踪模式，直接用快捷键 Ctrl+C 就可以结束掉了。

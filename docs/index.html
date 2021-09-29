@@ -6,7 +6,7 @@
   <title>codertao</title>
 
   <!-- 百度统计 -->
-  <script>
+  <!-- <script>
     var _hmt = _hmt || [];
     (function () {
       var hm = document.createElement("script");
@@ -14,9 +14,9 @@
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-  </script>
+  </script> -->
   <!-- 解除其他平台的防盗链 -->
-  <!-- <meta name="referrer" content="never"> -->
+  <meta name="referrer" content="never">
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
@@ -27,11 +27,6 @@
 
   <!-- alert -->
   <link rel="stylesheet" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type='text/css' media='all' />
-  <!-- alert -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/sweetalert.min.css"
-    type='text/css' media='all' />
-  <!-- 自定义特色样式：by myself -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/css/me.css">
 
   <style>
     /*加重描述strong*/
@@ -488,7 +483,7 @@
       minutes - 0-59之间的整数，做为date对象的分钟数
       seconds - 0-59之间的整数，做为date对象的秒数
       microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-      var t1 = Date.UTC(2021, 06, 21, 22, 22, 22);
+      var t1 = Date.UTC(2021, 07, 12, 12, 12, 12);
       var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
       var diff = t2 - t1;
       var diffYears = Math.floor(diff / years);
@@ -504,18 +499,22 @@
   <!-- 访问量统计 -->
   <script async src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/js/busuanzi.pure.mini.js"></script>
 
-  <!-- 谷歌分析 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/ga.min.js"></script>
-
   <!-- 实现离线化 -->
   <script>
     if (typeof navigator.serviceWorker !== 'undefined') {
-      navigator.serviceWorker.register('pwa.js')
+      navigator.serviceWorker.register('sw.js')
     }
   </script>
 
   <!-- GitHub -->
   <script src="//cdn.jsdelivr.net/npm/docsify-corner/dist/docsify-corner.min.js"></script>
+
+  <!-- 代码字体 -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+
+  <!-- 字数统计 -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-count@latest/dist/countable.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script>
 
 </body>
 

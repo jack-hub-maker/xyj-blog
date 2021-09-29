@@ -87,7 +87,7 @@ foo(10, 20);
 
 > 方式四
 
-ES6 的from方式
+ES6 的 from 方式
 
 ```js
 function foo() {
@@ -111,24 +111,22 @@ function foo() {
 foo(10, 20);
 ```
 
-## 箭头函数不绑定arguments
+## 箭头函数不绑定 arguments
 
-箭头函数是不绑定arguments的，所以我们在箭头函数中使用arguments会去上层作用域查找：
+箭头函数是不绑定 arguments 的，所以我们在箭头函数中使用 arguments 会去上层作用域查找：
 
 ```js
 var foo = () => {
   console.log(arguments);
-}
+};
 
-foo()
+foo();
 ```
 
 ![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/201729/13/6489/5148/613d9758Ea7b7423f/b8b380cd47a2c88d.png)
 
-在浏览器中全局是没有arguments，但是在node中是有arguments的
+在浏览器中全局是没有 arguments，但是在 node 中是有 arguments 的
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/200203/19/8114/28020/613d9796E5c06dc1f/75b76eb0afb66ab8.png)
 
-
-> [!Danger]
-> arguments算是早期JavaScript的东西，ES6之前会用到arguments，但是在ES6之后基本上会使用剩余参数来替代arguments
+!> arguments 算是早期 JavaScript 的东西，ES6 之前会用到 arguments，但是在 ES6 之后基本上会使用剩余参数来替代 arguments
