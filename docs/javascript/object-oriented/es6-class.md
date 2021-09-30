@@ -1,4 +1,4 @@
-## class 定义类的方式
+## 一、class 定义类的方式
 
 我们会发现，按照前面的构造函数形式创建 类，不仅仅和编写普通的函数过于相似，而且代码并不容易理解。
 
@@ -13,13 +13,13 @@
 - 类声明
 - 类表达式
 
-### 类声明
+### 1.1 类声明
 
 ```js
 class Person {}
 ```
 
-### 类表达式
+### 1.2 类表达式
 
 ```js
 // 跟函数表达式差不多，但是类使用表达式这种方式用的不多
@@ -37,7 +37,7 @@ console.log(p.__proto__ == Person.prototype); // true
 console.log(Person.prototype.__proto__ === Object.prototype); // true
 ```
 
-## class 的构造方法
+## 二、class 的构造方法
 
 如果我们希望在创建对象的时候给类传递一些参数，这个时候应该如何做呢？
 
@@ -63,9 +63,9 @@ class Perosn {
 }
 ```
 
-## class 中的方法定义
+## 三、class 中的方法定义
 
-### class 的实例方法
+### 3.1 class 的实例方法
 
 在上面我们定义的属性都是直接放到了 this 上，也就意味着它是放到了创建出来的新对象中：
 
@@ -88,7 +88,7 @@ class Perosn {
 }
 ```
 
-### class 的访问器方法
+### 3.2 class 的访问器方法
 
 我们之前讲对象的属性描述符时有讲过对象可以添加 setter 和 getter 函数的，那么类也是可以的：
 
@@ -112,7 +112,7 @@ p.name = "sandy";
 console.log(p.name);
 ```
 
-### class 的静态方法
+### 3.3 class 的静态方法
 
 静态方法通常用于定义直接使用类来执行的方法，不需要有类的实例，使用 static 关键字来定义：
 
@@ -139,7 +139,7 @@ for (var i = 0; i < 10; i++) {
 }
 ```
 
-## class 中实现继承 extends
+## 四、class 中实现继承 extends
 
 前面我们花了很大的篇幅讨论了在 ES5 中实现继承的方案，虽然最终实现了相对满意的继承机制，但是过程却依然
 是非常繁琐的。
@@ -152,7 +152,7 @@ class Person {}
 class Student extends Peron {}
 ```
 
-### super 关键字
+### 4.1 super 关键字
 
 我们会发现在上面的代码中我使用了一个 super 关键字，这个 super 关键字有不同的使用方式：
 
@@ -223,4 +223,151 @@ class Student extends Person {
 var s = new Student("tao", 18, ["zs", "ls"]);
 s.say();
 Student.process();
+```
+
+## 五、继承内置类
+
+我们也可以让我们的类继承自内置类，比如 Array：
+
+```js
+class TAOArray extends Array {
+  firstItem() {
+    return this[0];
+  }
+  lastItem() {
+    return this[this.length - 1];
+  }
+}
+
+var arr = new TAOArray(1, 2, 3);
+console.log(arr.firstItem()); // 1
+console.log(arr.lastItem()); // 3
+```
+
+!>对于传统的面向对象语言，这种方式用的比较多，但是在 JS 里面，这种方式用的不多（因为 JS 支持多种编程范式，使用函数来进行封装是用的比较多的）
+
+## 六、JS 中实现混入效果
+
+JS 其实是`没有混入`的概念的，只是**通过一些技巧**实现类似混入的效果
+
+JavaScript 的类只支持`单继承`：也就是只能有一个父类
+
+- 那么在开发中我们我们需要在一个类中添加更多相似的功能时，应该如何来做呢？
+- 这个时候我们可以使用混入（mixin）；
+
+```js
+class Person {}
+class Man {}
+
+function mixinMan(BaseClass) {
+  return class extends BaseClass {
+    constructor(name, age, gender, friends) {
+      super(name, age);
+      this.gender = gender;
+      this.friends = friends;
+    }
+    say() {
+      console.log(this.name + " say~");
+    }
+  };
+}
+
+function mixinPerson(BaseClass) {
+  return class extends BaseClass {
+    constructor(name, age, gender, friends) {
+      super(gender, friends);
+      this.name = name;
+      this.age = age;
+    }
+    sports() {
+      console.log(this.name + " sports~");
+    }
+  };
+}
+
+class Student extends mixinMan(mixinPerson(Person)) {
+  constructor(name, age, gender, friends) {
+    super(name, age, gender, friends);
+  }
+}
+
+var s = new Student("tao", 19, "man", ["zs"]);
+console.log(s); // Student { name: 'tao', age: 19, gender: 'man', friends: [ 'zs' ] }
+s.sports(); // tao sports~
+s.say(); // tao say~
+```
+
+## 七、JS 面向对象多态
+
+面向对象的三大特性
+
+- 封装
+- 继承
+- 多态
+
+前面两个我们都已经详情解析过了，接下来我们讨论一下 JavaScript 的多态
+
+首先我们先来看传统面向对象的多态（这里就以 TS 来进行举例）
+
+### 7.1 传统面向对象多态
+
+传统的面向对象多态是有三个前提的：
+
+1.  必须有继承(多态的前提)
+2.  必须有重写(子类重写父类的方法)
+3.  必须有父类引用指向子类对象
+
+```ts
+class shape {
+  area() {}
+}
+
+class circle extends shape {
+  area() {
+    return 100;
+  }
+}
+
+class square extends shape {
+  area() {
+    return 200;
+  }
+}
+
+var c = new circle();
+var s = new square();
+
+// 这里的父类引用指向子类对象其实也是有的
+// 这里我们要求传入的参数是一个shape类型
+// 等价于 var shape:shape =  new circle
+// shape是不是就是父类的引用,new circle是不是一个子类的对象
+// 所以这里是满足父类引用指向子类对象的
+function calcArea(shape: shape) {
+  console.log(shape.area());
+}
+
+calcArea(c);
+calcArea(s);
+```
+
+接下来我们再来看 JS 面向对象多态
+
+### 7.2 JS 面向对象多态
+
+JavaScript 有多态吗？
+
+- 首先我们先来看一下维基百科对多态的定义：
+  - 在编程语言和类型论中，`多态`（英语：polymorphism）指的是
+    - 为不同数据类型的实体提供统一的接口
+    - 或使用一个单一的符号来表示多个不同的类型。
+  - 简单来说：**不同的数据类型进行同一个操作，表现出不同的行为，就是多态的体现**。
+
+那么从上面的定义来看，我觉得 JavaScript 是一定存在多态的。
+
+```js
+function sum(num1, num2) {
+  return num1 + num2;
+}
+sum(10, 20);
+sum("abc", "cba");
 ```
