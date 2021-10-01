@@ -27,8 +27,8 @@
 
   <!-- alert -->
   <link rel="stylesheet" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type='text/css' media='all' />
-
-  <style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/css/style.css">
+  <!-- <style>
     /*加重描述strong*/
     .markdown-section strong {
       color: rgb(239, 112, 96);
@@ -351,7 +351,7 @@
       background-image: linear-gradient(#6ecd56, #33a9dc, #cb6196, #c16290);
       border-radius: 2em;
     }
-  </style>
+  </style> -->
 </head>
 
 <body background="" style=" background-repeat:no-repeat ;background-size:100% 100%;background-attachment: fixed;">
@@ -379,8 +379,8 @@
       auto2top: true,  //当路线改变时,滚动到屏幕的顶部
 
       footer: {
-        copy: '<span id="sitetime"></span><br/> ',
-        auth: ' ',
+        copy: '<span id="sitetime"></span><br/><br/>',
+        auth: ' <span> 一个人可以走的很快，但一群人才能走的更远！</span>',
         pre: '<hr/>',
         style: 'text-align: center;',
       },
@@ -419,14 +419,14 @@
   </script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
 
   <!-- 复制代码-->
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/docsify-copy-code.js"></script>
 
   <!-- 回到顶部功能 -->
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.goup.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/jquery.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/jquery-goup.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
       $.goup({
@@ -449,7 +449,7 @@
   </script>
 
   <!-- 复制提醒 -->
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/sweetalert.min.js"></script>
   <script>
     document.body.oncopy = function () {
       swal("复制成功 🎉");
@@ -457,7 +457,7 @@
   </script>
 
   <!-- 添加页脚 -->
-  <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/docsify-footer-enh.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/docsify-footer-enh.js"></script>
 
   <!-- 添加网站运行时间统计 -->
   <script language=javascript>
@@ -497,7 +497,7 @@
   </script>
 
   <!-- 访问量统计 -->
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script async src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/busuanzi.js"></script>
 
   <!-- 实现离线化 -->
   <script>

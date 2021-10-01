@@ -6,4 +6,6 @@
 
 本博客源码开源，直接 git clone 即可有一个属于自己的 docsify 博客
 
-博客模板借用了https://github.com/wugenqiang/NoteBook，感谢大佬，为大佬点个Star🌟
+博客模板借用了https://github.com/wugenqiang/NoteBook
+
+感谢大佬，为大佬点个Star🌟
