@@ -47,7 +47,7 @@
   - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
   - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
 
-## 🎊TypeScript
+## 🔥TypeScript
 
 - **【一】TypeScript 基础**
   - [1 - 为什么要学习 TypeScript](typescript/readme?id=javascript-一门优秀的语言)
@@ -63,11 +63,11 @@
   - [11 -其它补充](typescript/function?id=模块化开发)
 - **【二】TypeScript 高级**`敬请期待`
 
-## 🏹Vue
+## 🌈Vue
 
 **博客不久进行了重构，正在慢慢补齐功能 👴**
 
-## 🔥Vite
+## ⚡Vite
 
 - **【一】Vite 基础**
   - [1 - 认识 Vite ](vite/readme)
@@ -78,21 +78,23 @@
   - [6 - 认识 ESbuild ](vite/esbuild)
   - [7 - 脚手架工具 ](vite/cli)
 
-## 🌈React
+## ⚛React
 
 - **【一】React 基础**
   - [1 - 认识 React ](react/readme?id=React的起源)
   - [2 - JSX ](react/jsx?id=认识JSX)
   - [3 - React 的生命周期 ](react/lifecycle?id=类组件的生命周期)
   - [4 - State ](react/state?id=为什么使用setState)
-  - [5 - 性能优化 ](react/performance-optimization?id=React更新机制)
-  - [6 - Refs ](react/refs?id=Refs)
-  - [7 - Portals ](react/portals?id=Portals)
+  - [5 - 跨组件的通信 ](react/cross-communication?id=跨组件的通信)
+  - [6 - 表单 ](react/form?id=表单)
+  - [7 - 性能优化 ](react/performance-optimization?id=React更新机制)
+  - [8 - Refs ](react/refs?id=Refs)
+  - [9 - Portals ](react/portals?id=Portals)
 - **【二】React Redux**`敬请期待`
 - **【三】React Router**`敬请期待`
 - **【四】React Hooks**`敬请期待`
 
-## 🏳️‍🌈WebPack
+## 🎈WebPack
 
 ## 🔰Git
 
@@ -119,7 +121,7 @@
 - [1 - 代码规范](more/lint/code?id=JavaScript)
 - [2 - 项目规范](more/lint/projects?id=集成-editorconfig-配置)
 
-## 📌axios
+## 🔧axios
 
 - [1 - 了解网络请求](more/axios/readme?id=前言)
 - [2 - axios 的基本使用](more/axios/basic?id=axios-的基本使用)
@@ -129,7 +131,7 @@
 - [6 - axios 的拦截器](more/axios/interceptors?id=axios-的拦截器)
 - [7 - axios 的封装](more/axios/module?id=前言)
 
-## 🔧docker
+## 🏹docker
 
 - **【一】docker 基础**`暂不更新，专注前端`
   - [1 - 认识 docker](more/docker/readme)
