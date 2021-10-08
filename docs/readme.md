@@ -34,6 +34,7 @@
   - [1 - ES6](javascript/es-next/es6)
   - [2 - ES7](javascript/es-next/es6)
 - **【四】JavaScript 高级**
+
   - [1 - 浏览器工作原理](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
   - [2 - 认识 JavaScript 引擎](javascript/advanced/js-engine?id=认识-javascript-引擎)
   - [3 - JavaScript 的执行过程](javascript/advanced/js-implementation?id=javascript-的执行过程)
@@ -47,25 +48,19 @@
   - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
   - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
 
-## 🔥TypeScript
+## 🔰Git
 
-- **【一】TypeScript 基础**
-  - [1 - 为什么要学习 TypeScript](typescript/readme?id=javascript-一门优秀的语言)
-  - [2 - 认识 TypeScript](typescript/guide?id=认识-typescript)
-  - [3 - 安装 TypeScript](typescript/install)
-  - [4 - TypeScript 中的变量](typescript/variable)
-  - [5 - 数据类型](typescript/data-type?id=javascript-类型)
-  - [6 - TypeScript 中的数据类型](typescript/data-type?id=javascript-类型)
-  - [7 - TypeScript 中的函数](typescript/function?id=函数类型)
-  - [8 - TypeScript 中的类](typescript/function?id=前言)
-  - [9 - TypeScript 中的泛型](typescript/function?id=认识泛型)
-  - [10 - TypeScript 中的接口](typescript/function?id=接口的声明)
-  - [11 -其它补充](typescript/function?id=模块化开发)
-- **【二】TypeScript 高级**`敬请期待`
+- [1 - 认识版本控制工具](git/readme?id=版本控制的起源)
+- [2 - Git 简介](git/introduction?id=GIT简介)
+- [3 - 安装 Git](git/install?id=安装)
+- [4 - 单人开发](git/one?id=Git单人开发)
+- [5 - 多人开发](git/mush?id=多人开发)
 
 ## 🌈Vue
 
 **博客不久进行了重构，正在慢慢补齐功能 👴**
+
+## 🎈WebPack
 
 ## ⚡Vite
 
@@ -88,21 +83,30 @@
   - [5 - 跨组件的通信 ](react/cross-communication?id=跨组件的通信)
   - [6 - 表单 ](react/form?id=表单)
   - [7 - 性能优化 ](react/performance-optimization?id=React更新机制)
-  - [8 - Refs ](react/refs?id=Refs)
-  - [9 - Portals ](react/portals?id=Portals)
+  - [8 - Refs ](react/refs?id=refs)
+  - [9 - Portals ](react/portals?id=portals)
+  - [10 - Fragments ](react/fragments?id=fragments)
+  - [11 - 严格模式 ](react/strictMode?id=strictMode)
+  - [12 - CSS-in-JS ](react/css-in-js?id=css-in-js)
 - **【二】React Redux**`敬请期待`
 - **【三】React Router**`敬请期待`
 - **【四】React Hooks**`敬请期待`
 
-## 🎈WebPack
+## 🔥TypeScript
 
-## 🔰Git
-
-- [1 - 认识版本控制工具](git/readme?id=版本控制的起源)
-- [2 - Git 简介](git/introduction?id=GIT简介)
-- [3 - 安装 Git](git/install?id=安装)
-- [4 - 单人开发](git/one?id=Git单人开发)
-- [5 - 多人开发](git/mush?id=多人开发)
+- **【一】TypeScript 基础**
+  - [1 - 为什么要学习 TypeScript](typescript/readme?id=javascript-一门优秀的语言)
+  - [2 - 认识 TypeScript](typescript/guide?id=认识-typescript)
+  - [3 - 安装 TypeScript](typescript/install)
+  - [4 - TypeScript 中的变量](typescript/variable)
+  - [5 - 数据类型](typescript/data-type?id=javascript-类型)
+  - [6 - TypeScript 中的数据类型](typescript/data-type?id=javascript-类型)
+  - [7 - TypeScript 中的函数](typescript/function?id=函数类型)
+  - [8 - TypeScript 中的类](typescript/function?id=前言)
+  - [9 - TypeScript 中的泛型](typescript/function?id=认识泛型)
+  - [10 - TypeScript 中的接口](typescript/function?id=接口的声明)
+  - [11 -其它补充](typescript/function?id=模块化开发)
+- **【二】TypeScript 高级**`敬请期待`
 
 # 📘 优文转载
 
