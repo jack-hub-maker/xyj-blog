@@ -463,3 +463,18 @@ var baz = {
 关于 this 我这里推荐老师以前写的一篇 this 指向的文章
 
 前端面试之彻底搞懂 this 指向：https://mp.weixin.qq.com/s?__biz=Mzg5MDAzNzkwNA==&mid=2247483847&idx=1&sn=fe8089ded81098b35461d3c14bb85cde&chksm=cfe3f238f8947b2e734221c5131e3a6bc42f2dae66b9640cc0f038e9dffef45dd4a52d8dd930&scene=178&cur_album_id=1566035091556974596#rd
+
+### 箭头函数没有显示原型
+
+箭头函数是没有显式原型的，所以不能作为构造函数，使用 new 来创建对象；
+
+不了解构造函数和 new（可以去面向对象专栏了解）
+
+```js
+const foo = () => {
+  console.log(foo.prototype); // undefined
+};
+foo();
+
+const p = new foo(); // TypeError: foo is not a constructor
+```

@@ -31,7 +31,7 @@
   - [2 - ES6 中类的使用](javascript/object-oriented/es6-class?id=class-定义类的方式)
   - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=es6-转-es5-的代码)
 - **【三】ECMAScript 新特性**
-  - [1 - ES6](javascript/es-next/es6)
+  - [1 - ES6](javascript/es-next/es6?id=es6-新特性)
   - [2 - ES7](javascript/es-next/es6)
 - **【四】JavaScript 高级**
 
@@ -88,9 +88,10 @@
   - [10 - Fragments ](react/fragments?id=fragments)
   - [11 - 严格模式 ](react/strictMode?id=strictMode)
   - [12 - CSS-in-JS ](react/css-in-js?id=css-in-js)
-- **【二】React Redux**`敬请期待`
+  - [12 - 过渡动画 ](react/transition?id=react-transition-group)
+- [**【二】React Hooks**](react/hooks?id=react-hooks)
 - **【三】React Router**`敬请期待`
-- **【四】React Hooks**`敬请期待`
+- **【四】React Redux**`敬请期待`
 
 ## 🔥TypeScript
 

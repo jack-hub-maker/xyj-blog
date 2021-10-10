@@ -1,3 +1,5 @@
+# ES6 新特性
+
 ## 一、字面量增强
 
 ES6 中对 `对象字面量` 进行了增强，称之为 Enhanced object literals（增强对象字面量）。
@@ -310,3 +312,363 @@ for (let i = 0; i < btnEl.length; i++) {
 ```
 
 这是因为 let 是有块级作用域的,当 for 循环执行完毕，我们点击的按钮的时候，onclick 函数的中 i 会通过上层作用域（块级作用域）找到 i，第一次 i 是 0，然后+1+1，不会找到全局的（全局压根就没有 i）
+
+### 4.4 暂时性死区
+
+在 ES6 中，我们还有一个概念称之为暂时性死区：（来源于社区）
+
+- 它表达的意思是在同一作用域下，使用 let、const 声明的变量，在声明之前，变量都是不可以访问的；
+- 我们将这种现象称之为 temporal dead zone（暂时性死区，TDZ）；
+
+```js
+console.log(name);
+let name = "tao";
+
+function foo() {
+  console.log(name);
+  let name = "tao";
+}
+foo();
+
+{
+  console.log(name);
+  const name = "tao";
+}
+
+// ReferenceError: Cannot access 'name' before initialization
+```
+
+## 五、var、let、const 的选择
+
+那么在开发中，我们到底应该选择使用哪一种方式来定义我们的变量呢？
+
+对于 var 的使用：
+
+- 我们需要明白一个事实，var 所表现出来的特殊性：比如作用域提升、window 全局对象、没有块级作用域等都是一些
+  历史遗留问题；
+- 其实是 JavaScript 在设计之初的一种语言缺陷；
+- 当然目前市场上也在利用这种缺陷出一系列的面试题，来考察大家对 JavaScript 语言本身以及底层的理解；
+- 但是在实际工作中，我们可以使用最新的规范来编写，也就是不再使用 var 来定义变量了；
+
+对于 let、const：
+
+- 对于 let 和 const 来说，是目前开发中推荐使用的；
+- 我们会**优先推荐使用 const**，这样可以保证数据的安全性不会被随意的篡改；
+- 只有当我们明确知道一个变量后续会需要被重新赋值时，这个时候再使用 let；
+- 这种在很多其他语言里面也都是一种约定俗成的规范，尽量我们也遵守这种规范；
+
+## 六、字符串模板基本使用
+
+### 6.1 基本用法
+
+在 ES6 之前，如果我们想要将字符串和一些动态的变量（标识符）拼接到一起，是非常麻烦和丑陋的（ugly）。
+
+ES6 允许我们使用字符串模板来嵌入 JS 的变量或者表达式来进行拼接：
+
+- 首先，我们会使用 `` 符号来编写字符串，称之为模板字符串；
+- 其次，在模板字符串中，我们可以通过 ${expression} 来嵌入动态的内容；
+
+```js
+const name = "tao";
+console.log("My name is " + name);
+
+console.log(`My name is ${name}`);
+```
+
+这里推荐一个 vscode 的插件`Template String Converter`
+
+详情：https://marketplace.visualstudio.com/items?itemName=meganrogge.template-string-converter
+
+当"${"被键入时，将字符串转换为模板字符串。
+
+### 6.2 标签模板字符串
+
+此节跳转 React 专栏[点击跳转](react/css-in-js?id=五、es6-标签模板字符串)
+
+## 七、函数的补充
+
+### 7.1 函数的默认参数
+
+在 ES6 之前，我们编写的函数参数是没有默认值的，所以我们在编写函数时，如果有下面的需求：
+
+- 传入了参数，那么使用传入的参数；
+- 没有传入参数，那么使用一个默认值；
+
+在 ES6 之前我们可能会这样来写
+
+```js
+function foo(x, y) {
+  x = x || "1";
+  y = y || "2";
+  console.log(x, y);
+}
+foo();
+```
+
+这样写其实缺点还是很明显的
+
+- 写起来不方便，且可读性不好
+- 容易产生 bug
+
+```js
+function foo(x, y) {
+  x = x || "1";
+  y = y || "2";
+  console.log(x, y); // 1 2
+}
+// 逻辑|| 其实是前面的值为true的话，才会使用前面的值
+// 传入0 和 '',这两个隐式转化会转化为false，所以就会使用后面的值
+foo(0, "");
+```
+
+而在 ES6 中，我们允许给函数一个默认值：
+
+```js
+function foo(x = "1", y = "2") {
+  console.log(x, y);
+}
+foo();
+foo(0, "");
+```
+
+如果我们函数的参数是一个对象的话，也可以添加默认值，并且可以配合解构一起使用
+
+```js
+function foo(
+  { name, age } = { name: "tao", age: 18, friends: ["zs", "ls", "ww"] }
+) {
+  // 函数参数的默认值是一个{ name, age, friends }，从对象中解构出name，age
+  console.log(name, age);
+}
+foo();
+
+function bar({ name = "tao", age = 18 } = {}) {
+  // 函数参数的默认值是一个{}，从对象中解构出name,age，给name和age添加默认值
+  console.log(name, age);
+}
+bar();
+```
+
+另外参数的默认值我们通常会将其放到最后（在很多语言中，如果不放到最后其实会报错的`规范`
+
+但是 JavaScript 允许不将其放到最后，但是意味着还是会按照顺序来匹配；
+
+```js
+function foo(x, y, z = 30) {
+  console.log(x, y, z);
+}
+foo(10, 20);
+```
+
+另外默认值会改变函数的 length 的个数，默认值以及后面的参数都不计算在 length 之内了
+
+```js
+function foo(a, b, c = 30, d) {
+  console.log(foo.length); // 2
+}
+foo();
+```
+
+### 7.2 函数的剩余参数
+
+ES6 中引用了 rest parameter，可以将不定数量的参数放入到一个数组中：
+
+- 如果最后一个参数是 ... 为前缀的，那么它会将剩余的参数放到该参数中，并且作为一个数组；
+
+```js
+function foo(x, y, ...agrs) {
+  console.log(x, y, agrs); // 10 20 [30,40,50]
+}
+foo(10, 20, 30, 40, 50);
+```
+
+那么剩余参数和 arguments 有什么区别呢？
+
+- 剩余参数只包含那些没有对应形参的实参，而 arguments 对象包含了传给函数的所有实参；
+- arguments 对象不是一个真正的数组，而 rest 参数是一个真正的数组，可以进行数组的所有操作；
+- arguments 是早期的 ECMAScript 中为了方便去获取所有的参数提供的一个数据结构，而 rest 参数是 ES6 中提供
+  并且希望以此来替代 arguments 的；
+
+详情：[点击跳转](javascript/advanced/arguments?id=认识-arguments)
+
+剩余参数**必须**放到最后一个位置，否则会报错。
+
+## 八、展开语法
+
+展开语法(Spread syntax)：
+
+- 可以在函数调用/数组构造时，将数组表达式或者 string 在语法层面展开；
+- 还可以在构造字面量对象时, 将对象表达式按 key-value 的方式展开；
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+
+展开语法的场景：
+
+- 在函数调用时使用；
+- 在数组构造时使用；
+- 在构建对象字面量时，也可以使用展开运算符，这个是在 ES2018（ES9）中添加的新特性；（本来想写在 ES9 的文章中的，因为展开语法和剩余参数配合得多，就写在这里）
+
+```js
+// 1.函数调用
+const names = ["zs", "ls", "ww"];
+const name = "tao";
+const info = { name: "tao", age: 18 };
+
+function foo(...args) {
+  console.log(args); // [ 'zs', 'ls', 'ww', 't', 'a', 'o' ]
+}
+
+foo(...names, ...name);
+
+// 2.字面量数组构造或字符串
+const newNames = [...names, ...name];
+console.log(newNames); // [ 'zs', 'ls', 'ww', 't', 'a', 'o' ]
+
+// 3.构造字面量对象时,进行克隆或者属性拷贝
+const obj = { ...info, height: 1.88, ...names }; // { '0': 'zs', '1': 'ls', '2': 'ww', name: 'tao', age: 18, height: 1.88 }
+console.log(obj);
+```
+
+!> 展开运算符其实是一种浅拷贝
+
+```js
+const info = {
+  name: "tao",
+  age: 18,
+  friends: {
+    name: "sandy",
+    age: 21,
+  },
+};
+const obj = { ...info, height: 1.88 };
+
+info.friends.age = 53;
+console.log(obj.friends.age); // 53
+```
+
+还是来画一下内存图吧
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/展开语法浅拷贝内存图.png)
+
+## 九、数值的表示
+
+```js
+// 十进制
+const num1 = 100;
+// 二进制 b -> binary
+const num2 = 0b100;
+// 八进制 o => octonary
+const num3 = 0o100;
+// 十六进制 x = hex
+const num4 = 0x100;
+console.log(num1, num2, num3, num4); // 100 4 64 256
+```
+
+另外在 ES2021 新增特性：数字过长时，可以使用`_`作为连接符(只是为了方便查看)
+
+```js
+const num5 = 100_000_000_000_000;
+console.log(num5); // 100000000000000
+```
+
+## 十、Symbol
+
+Symbol 是什么呢？Symbol 是 ES6 中新增的一个基本数据类型，翻译为符号。
+
+那么为什么需要 Symbol 呢？
+
+- 在 ES6 之前，对象的属性名都是字符串形式，那么很容易造成**属性名的冲突**；
+- 比如原来有一个对象，我们希望在其中**添加一个新的属性和值**，但是我们在不确定它原来内部有什么内容的情况下，
+  **很容易造成冲突，从而覆盖掉它内部的某个属性**；
+- 比如我们前面在讲 apply、call、bind 实现时，我们有给其中**添加一个 fn 属性**，那么如果它内部原来已经有了 fn 属性了
+  呢？
+- 比如开发中我们使用混入，那么混入中出现了同名的属性，必然有一个会被覆盖掉；
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/对象key属性底层.png)
+
+Symbol 就是为了解决上面的问题，用来`生成一个独一无二的值`。
+
+```js
+const s1 = Symbol();
+const s2 = Symbol();
+console.log(s1 === s2); // false
+```
+
+- Symbol 值是通过 **Symbol 函数**来生成的，生成后可以**作为属性名**；
+- 也就是在 ES6 中，对象的属性名可以使用**字符串**，也可以使用 **Symbol 值**；
+
+Symbol 即使多次创建值，它们也是不同的：Symbol 函数执行后每次创建出来的值都是独一无二的；
+
+我们也可以在创建 Symbol 值的时候传入一个描述 description：这个是 ES2019（ES10）新增的特性；
+
+### 10.1 Symbol 作为属性名
+
+我们通常会使用 Symbol 在对象中表示唯一的属性名：
+
+```js
+const s1 = Symbol();
+const s2 = Symbol();
+const s3 = Symbol();
+const s4 = Symbol();
+const s5 = Symbol();
+
+// 1.直接定义字面量
+const obj = {
+  name: "tao",
+  age: 18,
+  [s1]: "aaa",
+  [s2]: "bbb",
+};
+
+// 2.通过属性名赋值
+obj[s3] = "ccc";
+obj[s4] = "ddd";
+
+// 3.通过Object.defineProperty
+Object.defineProperty(obj, s5, {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  value: "eee",
+});
+console.log(obj);
+
+// 4.我们也可以在创建Symbol值的时候传入一个描述description：这个是ES2019（ES10）新增的特性；
+
+const s6 = Symbol("aaa");
+console.log(s6.description); // aaa
+
+// 5.获取Symbol属性(不能通过.语法获取)
+console.log(obj[s2]); // bbb
+console.log(obj.s2); // undefined(通过点语法会通过后面的属性（转为字符串）在对象中查找)
+
+// 6.使用Symbol作为属性名是，在遍历/Object.key等方法是无法获取Symbol的值
+console.log(Object.keys(obj)); // [ 'name', 'age' ]
+console.log(Object.getOwnPropertyNames(obj)); // [ 'name', 'age' ]
+console.log(Object.getOwnPropertySymbols(obj)); // [ Symbol(), Symbol(), Symbol(), Symbol(), Symbol() ]
+// for (const sKey of obj) {
+//   // TypeError: obj is not iterable
+//   console.log(obj[sKey]);
+// }
+const sKeys = Object.getOwnPropertySymbols(obj);
+for (const sKey of sKeys) {
+  console.log(obj[sKey]); // aaa bbb ccc ddd eee
+}
+```
+
+### 10.2 相同值的 Symbol
+
+前面我们讲 Symbol 的目的是为了创建一个独一无二的值，那么如果我们现在就是想创建相同的 Symbol 应该怎么
+来做呢？
+
+- 我们可以使用 Symbol.for 方法来做到这一点；
+- 并且我们可以通过 Symbol.keyFor 方法来获取对应的 key；
+
+```js
+const s1 = Symbol.for("aaa");
+const s2 = Symbol.for("aaa");
+const key = Symbol.keyFor(s1);
+const s3 = Symbol.for(key);
+
+console.log(s1 === s3); // true
+```
