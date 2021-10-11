@@ -407,3 +407,526 @@ export default function App() {
 Hook 允许我们按照代码的用途分离它们， 而不是像生命周期函数那样：
 
 - React 将按照 effect 声明的顺序依次调用组件中的每一个 effect；
+
+### 2.3 useContext
+
+在之前的开发中，我们要在组件中使用共享的 Context 有两种方式：
+
+- 类组件可以通过 类名.contextType = MyContext 方式，在类中获取 context；
+- 多个 Context 或者在函数式组件中通过 MyContext.Consumer 方式共享 context；
+
+但是多个 Context 共享时的方式会存在大量的嵌套：
+
+- Context Hook 允许我们通过 Hook 来直接获取某个 Context 的值；
+
+```jsx
+import React, { useContext, createContext } from "react";
+
+function Home() {
+  const info = useContext(InfoContext);
+  const theme = useContext(ThemeContext);
+  return (
+    <div>
+      <h2 style={{ color: theme.color }}>info.name</h2>
+      <h2 style={{ fontSize: theme.fontSize }}>info.age</h2>
+    </div>
+  );
+}
+
+const InfoContext = createContext();
+const ThemeContext = createContext();
+export default function App() {
+  return (
+    <div>
+      <InfoContext.Provider value={{ name: "tao", age: 18 }}>
+        <ThemeContext.Provider value={{ color: "red", fontSize: "30px" }}>
+          <Home />
+        </ThemeContext.Provider>
+      </InfoContext.Provider>
+    </div>
+  );
+}
+```
+
+### 2.4 useReducer
+
+很多人看到 useReducer 的第一反应应该是 redux 的某个替代品，其实并不是。
+
+useReducer 仅仅是 useState 的一种替代方案：
+
+- 在某些场景下，如果 state 的处理逻辑比较复杂，我们可以通过 useReducer 来对其进行拆分；
+- 或者这次修改的 state 需要依赖之前的 state 时，也可以使用；
+
+```jsx
+import React, { useReducer } from "react";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { ...state, count: state.count + 1 };
+    case "decrement":
+      return { ...state, count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  return (
+    <div>
+      <h2>当前计数：{state.count}</h2>
+      <button onClick={() => dispatch({ type: "increment" })}>+1</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-1</button>
+    </div>
+  );
+}
+```
+
+数据是不会共享的，它们只是使用了相同的 counterReducer 的函数而已。
+
+```jsx
+import React, { useReducer } from "react";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { ...state, count: state.count + 1 };
+    case "decrement":
+      return { ...state, count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+function Home() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  return (
+    <div>
+      <h2>当前计数：{state.count}</h2>
+      <button onClick={() => dispatch({ type: "increment" })}>+1</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-1</button>
+    </div>
+  );
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+  return (
+    <div>
+      <h2>当前计数：{state.count}</h2>
+      <button onClick={() => dispatch({ type: "increment" })}>+1</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-1</button>
+      <Home />
+    </div>
+  );
+}
+```
+
+### 2.5 useCallback
+
+useCallback 实际的目的是为了进行性能的优化
+
+如何进行性能的优化呢？
+
+- useCallback 会返回一个函数的 memoized（记忆的） 值；
+- 在依赖不变的情况下，多次定义的时候，返回的值是相同的；
+
+我们先来看一个案例
+
+```jsx
+import React, { useState, useCallback } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [isShow, setIsShow] = useState(true);
+
+  const increment = () => {
+    console.log("increment重新渲染");
+    setCount(count + 1);
+  };
+  const decrement = useCallback(() => {
+    console.log("decrement重新渲染");
+    setCount(count - 1);
+  }, [count]);
+
+  return (
+    <div>
+      <h2>当前计数：{count}</h2>
+      <button onClick={increment}>+1</button>
+      <button onClick={decrement}>-1</button>
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+我们简单来解析一下，当我们点击了+1/-1，count 发生了改变函数重新执行，意味着 incremenet 和 decrement 函数都会重新执行(这肯定是没问题的)
+
+但是当我们点击了切换按钮的时候，isShow 发生了改变函数重新执行（你肯定会想 decrement 用了 useCallback 依赖了 count，这个函数就不会重新执行）
+
+但其实不是这样的，useCallback 不管你依赖的值是否有没有发生改变，state 发生变化的时候这个 useCallback 函数都会重新执行，依赖的值只是决定了它返回的函数是否是同一个函数
+
+比如我们点击的是-1 的按钮，，count 发生了改变，useCallback 重新执行，useCallback 依赖的 count，那么这次 useCallback 返回的函数和更新后的 useCallback 返回的函数是同一个函数，点击的是切换按钮，isShow 发生了改变，useCallback 重新执行，useCallback 依赖的 count，那么这次 useCallback 返回的函数和更新后的 useCallback 返回的函数就不是同一个函数
+
+这个地方说起来可能有点绕，我画一个图应该就好理解一点
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/useCallback不能进行的性能优化.png)
+
+!>所以不管 DOM 发生什么改变，useCallback 都会执行，上面的案例其实是没有带来性能上的优化的
+
+那 useCallback 的使用场景是什么？
+
+- 在将一个组件中的函数，传递给子元素进行回调使用时，使用 useCallback 对函数进行处理（可以达到一定程度上的性能优化）
+
+```jsx
+import React, { useState, useCallback } from "react";
+
+function HomeIncremental(props) {
+  console.log("HomeIncremental");
+  return (
+    <div>
+      <button onClick={props.increment}>+1</button>
+    </div>
+  );
+}
+function HomeDecremental(props) {
+  console.log("HomeDecremental");
+  return (
+    <div>
+      <button onClick={props.decrement}>-1</button>
+    </div>
+  );
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [isShow, setIsShow] = useState(true);
+
+  const increment = () => {
+    console.log("increment重新渲染");
+    setCount(count + 1);
+  };
+  const decrement = useCallback(() => {
+    console.log("decrement重新渲染");
+    setCount(count - 1);
+  }, [count]);
+
+  return (
+    <div>
+      <h2>当前计数：{count}</h2>
+      <HomeIncremental increment={increment} />
+      <HomeDecremental decrement={decrement} />
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+当我们点击子组件的+1/-1 的时候，其实触发的是父组件的 increment 和 decrement,修改的也是父组件的 state，state 发生了改变了，函数重新渲染，那么子组件也会重新渲染，意味着 HomeIncremental 和 HomeDecremental 组件都会重新渲染
+
+为了处理不必要的渲染，我们以前会使用 memo
+
+```jsx
+import React, { useState, useCallback, memo } from "react";
+
+const HomeIncremental = memo((props) => {
+  console.log("HomeIncremental");
+  return (
+    <div>
+      <button onClick={props.increment}>+1</button>
+    </div>
+  );
+});
+
+const HomeDecremental = memo((props) => {
+  console.log("HomeDecremental");
+  return (
+    <div>
+      <button onClick={props.decrement}>-1</button>
+    </div>
+  );
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [isShow, setIsShow] = useState(true);
+
+  const increment = () => {
+    console.log("increment重新渲染");
+    setCount(count + 1);
+  };
+  const decrement = useCallback(() => {
+    console.log("decrement重新渲染");
+    setCount(count - 1);
+  }, [count]);
+
+  return (
+    <div>
+      <h2>当前计数：{count}</h2>
+      <HomeIncremental increment={increment} />
+      <HomeDecremental decrement={decrement} />
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+这个时候其实你会发现当我们点击+1/-1 的时候，HomeIncremental 和 HomeDecremental 组件都会重新渲染，当我们点击切换按钮的时候，HomeIncremental 组件会重新渲染，但是 HomeDecremental 组件不会重新渲染（这是为什么？，我们不是使用了 memo 了吗，为什么还会重新渲染）
+
+我还是画一个图来说，比较方便一点
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/useCallback进行的性能优化.png)
+
+### 2.6 useMemo
+
+useMemo 实际的目的也是为了进行性能的优化。
+
+如何进行性能的优化呢？
+
+- useMemo 返回的也是一个 memoized（记忆的） 值；
+- 在依赖不变的情况下，多次定义的时候，返回的值是相同的；
+
+我们就来演示两个 useMemo 基本的使用场景
+
+复杂计算的类型
+
+```jsx
+import React, { useState } from "react";
+
+function addition(count) {
+  console.log("重新计算");
+  let result = 0;
+  for (let i = 1; i < count; i++) {
+    result += i;
+  }
+  return result;
+}
+
+// 计算1~count相加的结果
+export default function App() {
+  const [count, setCount] = useState(10);
+  const [isShow, setIsShow] = useState(true);
+  const result = addition(count);
+  return (
+    <div>
+      <h2>计算结果：{result}</h2>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+当我们点击+1 按钮就会重新计算 addition 相加的结果，但是当我们点击切换按钮还是会计算 addition 相加的结果（这显然是不行的）
+
+state 发生改变，App 重新渲染，addition 重新执行，拿到新的 result 的值
+
+为了解决这样的情况，我们就可以使用 useMemo
+
+```jsx
+import React, { useState, useMemo } from "react";
+
+function addition(count) {
+  console.log("重新计算");
+  let result = 0;
+  for (let i = 1; i < count; i++) {
+    result += i;
+  }
+  return result;
+}
+
+// 计算1~count相加的结果
+export default function App() {
+  const [count, setCount] = useState(10);
+  const [isShow, setIsShow] = useState(true);
+  const result = useMemo(() => {
+    return addition(count);
+  }, [count]);
+
+  return (
+    <div>
+      <h2>计算结果：{result}</h2>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+传入子组件应用类型
+
+```jsx
+import React, { useState, memo } from "react";
+
+const Home = memo((props) => {
+  console.log("Home重新渲染");
+  return (
+    <div>
+      <h2>{props.info.name}</h2>
+      <h2>{props.info.age}</h2>
+    </div>
+  );
+});
+
+export default function App() {
+  console.log("App重新渲染");
+  const [isShow, setIsShow] = useState(true);
+
+  const info = { name: "tao", age: 18 };
+  return (
+    <div>
+      <Home info={info} />
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+我们点击切换按钮的时候，App 和 Home 都会重新渲染（App 重新渲染，会创建一个新的 info，传递给 Home 的就是一个新的 info,memo 就无效了，Home 就会重新渲染
+
+有两种办法可以解决
+
+- 把 info 设置为了 state
+- 通过 useMemo 来进行优化
+
+```jsx
+import React, { useState, memo, useMemo } from "react";
+
+const Home = memo((props) => {
+  console.log("Home重新渲染");
+  return (
+    <div>
+      <h2>{props.info.name}</h2>
+      <h2>{props.info.age}</h2>
+    </div>
+  );
+});
+
+export default function App() {
+  console.log("App重新渲染");
+  const [isShow, setIsShow] = useState(true);
+
+  const info = useMemo(() => {
+    return { name: "tao", age: 18 };
+  }, []);
+  return (
+    <div>
+      <Home info={info} />
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+state 发生改变，App 重新渲染，useMemo 重新执行，但是 useMemo 谁也不依赖，所以返回的还是原来的对象，传递给 Home 的 info 还是原来的 info，Home 组件就不会重新渲染
+
+你会发现 useCallback 和 useMemo 很像,useCallback 要求传入一个函数，在依赖的值没有发生改变的时候，返回的还是原来的**函数**，useMemo 要求传入一个回调函数，在依赖的值没有发生改变的时候，返回的**值**还是原来的值（useCallback 会自动返回回调函数，useMemo 需要手动返回一个值）
+
+所以我们可以通过 useMemo 来实现 useCallback
+
+```jsx
+const decrement = useCallback(() => {
+  console.log("decrement重新渲染");
+  setCount(count - 1);
+}, [count]);
+const decrement = useMemo(() => {
+  return () => {
+    console.log("decrement重新渲染");
+    setCount(count - 1);
+  };
+}, [count]);
+```
+
+### 2.7 useRef
+
+useRef 返回一个 ref 对象，返回的 ref 对象再组件的整个生命周期保持不变。
+
+最常用的 ref 是两种用法：
+
+- 用法一：引入 DOM（或者组件，但是需要是 class 组件）元素；
+- 用法二：保存一个数据，这个 ref 对象在整个生命周期中可以保存不变；
+
+```jsx
+import React, { useRef, forwardRef } from "react";
+
+class Home extends React.PureComponent {
+  render() {
+    return <div>Home</div>;
+  }
+}
+
+const About = forwardRef((props, ref) => {
+  return <div ref={ref}>About</div>;
+});
+
+export default function App() {
+  const titleRef = useRef();
+  const inputRef = useRef();
+  const homeRef = useRef();
+  const aboutRef = useRef();
+
+  function btnClick() {
+    titleRef.current.innerHTML = "Hello React!";
+    inputRef.current.focus();
+    console.log(homeRef.current);
+    aboutRef.current.innerHTML = "Hello About!";
+  }
+
+  return (
+    <div>
+      <h2 ref={titleRef}>Hello World!</h2>
+      <input type="text" ref={inputRef} />
+      <button onClick={btnClick}>按钮</button>
+      <Home ref={homeRef} />
+      <About ref={aboutRef} />
+    </div>
+  );
+}
+```
+
+不仅可以获取元素或者组件，我们还可以保存一个数据，这个 ref 对象在整个生命周期中可以保持不变
+
+```jsx
+import React, { useRef } from "react";
+
+export default function App() {
+  const numRef = useRef(0);
+  return (
+    <div>
+      <h2>当前计数：{numRef.current}</h2>
+    </div>
+  );
+}
+```
+
+我们可以通过 useRef 的默认值来当做变量，useRef 在整个生命周期中返回的值都是相同的
+
+那么这有什么用喃？
+
+我们可以做一个记录当前的值和上一次值的案例
+
+```jsx
+import React, { useState, useRef, useEffect } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const numRef = useRef(count);
+  useEffect(() => {
+    numRef.current = count;
+  }, [count]);
+  return (
+    <div>
+      <h2>上一次的值：{numRef.current}</h2>
+      <h2>这一次的值：{count}</h2>
+      <button onClick={() => setCount(count + 1)}>+1</button>
+    </div>
+  );
+}
+```
+
+有一个 count(state)，我们使用了 numRef 来接收 count 作为 useRef 的默认值，意味着 useRef 在整个生命周期中返回的值都是相同的（都是 count 默认的值 0）
+
+但是下面有个 useEffect，当 count 发生改变，App 函数重新执行，jsx 重新渲染完之后就会执行 useEffect 函数（依赖 count），在 useEffect 中我们就可以让 numRef 的值为 count
+
+意味着当我们第一次点击+1 的时候，App 函数重新执行，意味 numRef 永远记录的是 count 的值，所以 numRef.current 的值是 0，这一次的值是 1（count+1），jsx 渲染后，就会来到 useEffect 这个函数（依赖 count），让 numRef.current 的值等于 count（1），numRef.current 的值发生改变是不会触发更新的（因为 numRef.current 不是一个 state），所以 numRef.current 的值是 1,当我们第二次点击+1 的时候，App 函数重新执行，numRef.current 是 1，count+1（2），（所以上一次的值就是 1，这一次的值就是 2）jsx 渲染完毕，又会来到 useEffect 函数执行前面的操作，依次循环
