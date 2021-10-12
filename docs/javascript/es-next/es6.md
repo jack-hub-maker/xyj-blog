@@ -672,3 +672,191 @@ const s3 = Symbol.for(key);
 
 console.log(s1 === s3); // true
 ```
+
+## 十一、Set
+
+在 ES6 之前，我们存储数据的结构主要有两种：数组、对象。
+
+- 在 ES6 中新增了另外两种**数据结构**：Set、Map，以及它们的另外形式 WeakSet、WeakMap。
+
+Set 是一个新增的数据结构，可以用来保存数据，类似于数组，但是和数组的区别是**元素不能重复**。
+
+### 11.1 Set 的基本使用
+
+创建 Set 我们需要`通过Set构造函数`（暂时没有字面量创建的方式）：
+
+我们可以发现 Set 中存放的元素是不会重复的，那么 Set 有一个非常常用的功能就是给数组去重。
+
+以前没有 set 我们可能会自己写一个 for 循环来去重
+
+```js
+const array = [30, 40, 30, 50, 60, 50];
+const newArray = [];
+for (const item of array) {
+  if (newArray.indexOf(item) === -1) {
+    newArray.push(item);
+  }
+}
+console.log(array); // [ 30, 40, 30, 50, 60, 50 ]
+console.log(newArray); // [ 30, 40, 50, 60 ]
+```
+
+有了 set 之后我们就可以很快的进行数组去重
+
+```js
+const array = [30, 40, 30, 50, 60, 50];
+const arraySet = new Set(array);
+const newArr = Array.from(arraySet);
+console.log(newArr); // [ 30, 40, 50, 60 ]
+```
+
+set 还支持扩展语法
+
+```js
+const array = [30, 40, 30, 50, 60, 50];
+const arraySet = new Set(array);
+const newArr = [...arraySet];
+console.log(newArr); // [ 30, 40, 50, 60 ]
+```
+
+### 11.2 Set 的常见方法
+
+Set 常见的属性：
+
+- Set 常见的属性：
+
+Set 常用的方法：
+
+- add(value)：添加某个元素，返回 Set 对象本身；
+- delete(value)：从 set 中删除和这个值相等的元素，返回 boolean 类型；
+- has(value)：判断 set 中是否存在某个元素，返回 boolean 类型；
+- clear()：清空 set 中所有的元素，没有返回值；
+- forEach(callback, [, thisArg])：通过 forEach 遍历 set；
+
+另外 Set 是支持 for of 的遍历的。
+
+```js
+const arrSet = new Set();
+// add
+arrSet.add(10);
+arrSet.add(20);
+arrSet.add(30);
+arrSet.add(20);
+arrSet.add(10);
+console.log(arrSet); // { 10, 20, 30 }
+
+// forEach
+arrSet.forEach((item) => {
+  console.log(item); // 10,20,30
+});
+
+// for of
+for (const arr of arrSet) {
+  console.log(arr); // 10,20,30
+}
+
+// delete
+arrSet.delete(20);
+arrSet.delete(30);
+console.log(arrSet); // { 10 }
+
+// has
+console.log(arrSet.has(20)); // false
+
+// clear
+arrSet.clear();
+console.log(arrSet); // {}
+```
+
+## 十二、WeakSet
+
+### 12.1 WeakSet 的基本使用
+
+和 Set 类似的另外一个数据结构称之为 WeakSet，也是内部元素不能重复的数据结构。
+
+那么和 Set 有什么区别呢？
+
+- 区别一：WeakSet 中只能存放对象类型，不能存放基本数据类型；
+- 区别二：WeakSet 对元素的引用是**弱引用**，如果没有其他引用对某个对象进行引用，那么 GC 可以对该对象进行回收；
+
+!>Set 建立的是强引用，weakSet 建立的是弱引用
+
+那么有一个问题？什么是强引用，什么又是弱引用
+
+我们先来看一段代码然后通过画图来分析一下
+
+```js
+const set = new Set();
+
+let info = {
+  name: "tao",
+  age: 18,
+  friends: {
+    name: "sandy",
+    age: 21,
+  },
+};
+
+set.add(info);
+
+info = null;
+```
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/Set强引用.png)
+
+那什么是弱引用喃？
+
+```js
+const weakSet = new WeakSet();
+
+let info = {
+  name: "tao",
+  age: 18,
+  friends: {
+    name: "sandy",
+    age: 21,
+  },
+};
+
+weakSet.add(info);
+info = null;
+```
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/weakSet弱引用.png)
+
+### 12.1 WeakSet 的应用场景
+
+注意：**WeakSet 不能遍历**
+
+- 因为 WeakSet 只是对对象的弱引用，如果我们遍历获取到其中的元素，那么有可能造成对象不能正常的销毁。
+- 所以存储到 WeakSet 中的对象是没办法获取的；
+
+那么这个东西有什么用呢？
+
+- 事实上这个问题并不好回答，我们来使用一个 Stack Overflow 上的答案；
+- 这个东西在开发中的应用场景也比较少
+
+```js
+let weakSet = new WeakSet();
+class Person {
+  constructor() {
+    weakSet.add(this);
+  }
+  say() {
+    if (!weakSet.has(this)) {
+      throw "只能通过构造函数调用say方法";
+    }
+    console.log("Hello World");
+  }
+}
+let p = new Person();
+// 只能通过Person的实例来进行调用，不能通过像call啊等其它方法调用
+p.say();
+p.say.call({ name: "tao", age: 18 }); // throw '只能通过构造函数调用say方法'
+```
+
+那你可能会想这里为什么用 WeakSet 啊，用 Set 不行吗
+
+用 Set 的话，如果有一天 p = null 了，因为 Set 是强引用，我们还需要还要设置 set = null（set 里还引用着 p 的引用）
+
+使用 WeakSet 的话，p = null 的话，weakSet 就不需要设置为 null，因为 WeakSet 是弱引用，GC 会无视他，会把 p 的引用给回收掉的

@@ -930,3 +930,221 @@ export default function App() {
 但是下面有个 useEffect，当 count 发生改变，App 函数重新执行，jsx 重新渲染完之后就会执行 useEffect 函数（依赖 count），在 useEffect 中我们就可以让 numRef 的值为 count
 
 意味着当我们第一次点击+1 的时候，App 函数重新执行，意味 numRef 永远记录的是 count 的值，所以 numRef.current 的值是 0，这一次的值是 1（count+1），jsx 渲染后，就会来到 useEffect 这个函数（依赖 count），让 numRef.current 的值等于 count（1），numRef.current 的值发生改变是不会触发更新的（因为 numRef.current 不是一个 state），所以 numRef.current 的值是 1,当我们第二次点击+1 的时候，App 函数重新执行，numRef.current 是 1，count+1（2），（所以上一次的值就是 1，这一次的值就是 2）jsx 渲染完毕，又会来到 useEffect 函数执行前面的操作，依次循环
+
+### 2.8 useImperativeHandle
+
+我们先来回顾一下 ref 和 forwardRef 结合使用：
+
+- 通过 forwardRef 可以将 ref 转发到子组件；
+- 子组件拿到父组件中创建的 ref，可以对 ref 进行一些处理；
+
+```jsx
+import React, { forwardRef, useRef } from "react";
+
+const Home = forwardRef((props, ref) => {
+  return <input type="text" ref={ref} />;
+});
+
+export default function App() {
+  const inputRef = useRef();
+  function btnClick() {
+    inputRef.current.focus();
+  }
+  return (
+    <div>
+      <Home ref={inputRef} />
+      <button onClick={() => btnClick()}>按钮</button>
+    </div>
+  );
+}
+```
+
+forwardRef 的做法本身没有什么问题，但是我们是将子组件的 DOM 直接暴露给了父组件：
+
+- 直接暴露给父组件带来的问题是某些情况的不可控；
+- 父组件可以拿到 DOM 后进行任意的操作；
+- 但是，事实上在上面的案例中，我们只是希望父组件可以操作的 focus，并不希望它随意操作；
+
+通过 useImperativeHandle 可以值暴露固定的操作：
+
+- 通过 useImperativeHandle 的 Hook，将传入的 ref 和 useImperativeHandle 第二个参数返回的对象绑定到了一起；
+- 所以在父组件中，使用 inputRef.current 时，实际上使用的是返回的对象；
+
+```jsx
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
+
+const Home = forwardRef((props, ref) => {
+  const inputRef = useRef();
+  useImperativeHandle(
+    ref,
+    () => ({
+      focus() {
+        inputRef.current.focus();
+      },
+    }),
+    [inputRef.current]
+  );
+  return <input type="text" ref={inputRef} />;
+});
+
+export default function App() {
+  const inputRef = useRef();
+  function btnClick() {
+    inputRef.current.focus();
+  }
+  return (
+    <div>
+      <Home ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>按钮</button>
+    </div>
+  );
+}
+```
+
+我们把 inputRef 绑定到 Home 上，因为绑定的是一个函数式组件，我们需要通过 forwardRef 进行转发，ref 就会被转发到第二个参数，我们就可以通过 useImperativeHandle 对 ref 进行一些处理（也可以理解为拦截），返回了一个对象（对象里面有一个 focus 方法），意味着父组件绑定给我们的 inputRef 的 current 上有一个 focus 方法，
+父组件的按钮点击触发的 inputRef.current.focus 方法其实是触发的是 useImperativeHandle 里返回的对象里的 focus 方法
+
+接着子组件自身创建了一个属于自己的 inputRef，把它绑定到了自己的 input 上，所以父组件的 inputRef.current.focus 方法里的触发的 inputRef.current.focus,就是通过子组件自身的 inputRef 调用里面的 focus 方法（说起来有点绕，其实仔细看一下代码应该是能看懂的）
+
+其实我们可以试验一下，input 标签都有一个 placeholder 属性的，如果我们不通过 useImperativeHandle 来对它进行处理的话，父组件是可以随便调用 input 里的东西的(例如 placeholder)
+
+```jsx
+import React, { useRef, forwardRef } from "react";
+
+const Home = forwardRef((props, ref) => {
+  return <input type="text" ref={ref} />;
+});
+
+export default function App() {
+  const inputRef = useRef();
+  function btnClick() {
+    inputRef.current.focus();
+    inputRef.current.placeholder = "Hello World";
+  }
+  return (
+    <div>
+      <Home ref={inputRef} />
+      <button onClick={btnClick}>按钮</button>
+    </div>
+  );
+}
+```
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/没有useImperativeHandle.gif)
+
+如果我们通过 useImperativeHandle 对转发后的 ref 进行处理（拦截），就可以实现父组件只能调用子组件提供给我们的东西，而不是可以任意操作子组件的东西
+
+```jsx
+import React, { useRef, forwardRef, useImperativeHandle } from "react";
+
+const Home = forwardRef((props, ref) => {
+  const inputRef = useRef();
+  useImperativeHandle(
+    ref,
+    () => ({
+      focus() {
+        inputRef.current.focus();
+      },
+    }),
+    [inputRef.current]
+  );
+  return <input type="text" ref={inputRef} />;
+});
+
+export default function App() {
+  const inputRef = useRef();
+  function btnClick() {
+    inputRef.current.focus();
+    inputRef.current.placeholder = "Hello World";
+  }
+  return (
+    <div>
+      <Home ref={inputRef} />
+      <button onClick={btnClick}>按钮</button>
+    </div>
+  );
+}
+```
+
+我们打印 inputRef.current 里面只有子组件提供的 focus 方法，所以操作 input 的 placeholder 是没有效果的
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/有useImperativeHandle.gif)
+
+### 2.9 useLayoutEffect
+
+useLayoutEffect 看起来和 useEffect 非常的相似，事实上他们也只有一点区别而已：
+
+- useEffect 会在渲染的内容更新到 DOM 上后执行，不会阻塞 DOM 的更新；
+- useLayoutEffect 会在渲染的内容更新到 DOM 上之前执行，**会阻塞**DOM 的更新；
+
+如果我们希望在某些操作发生之后再更新 DOM，那么应该将这个操作放到 useLayoutEffect。
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(5);
+  useEffect(() => {
+    if (count === 0) {
+      setCount(Math.random() + 200);
+    }
+  }, [count]);
+  return (
+    <div>
+      <h2>数字：{count}</h2>
+      <button onClick={() => setCount(0)}>修改数字</button>
+    </div>
+  );
+}
+```
+
+点击修改数字按钮，组件重新渲染，先等 DOM 渲染完，再执行 useEffect
+
+数字就会出现两次渲染，先点击修改数字，count 会从 5 变成 0，然后会执行 useEffect 函数，count= 0，会修改 state
+
+state 发生改变，又会重新渲染 ，等 DOM 渲染完，再执行 useEffect，此时 count！=0，就没有任何操作了
+
+而且我们看到屏幕从闪烁的效果，从 0 变成 200 多的随机数（当然这里看的不是很清楚，其实是有的）
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/使用useLayoutEffect前.gif)
+
+这个时候我们就可以使用 useLayoutEffect 来进行优化
+
+```jsx
+import React, { useState, useLayoutEffect } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(5);
+  useLayoutEffect(() => {
+    if (count === 0) {
+      setCount(Math.random() + 200);
+    }
+  }, [count]);
+  return (
+    <div>
+      <h2>数字：{count}</h2>
+      <button onClick={() => setCount(0)}>修改数字</button>
+    </div>
+  );
+}
+```
+
+点击修改数字按钮，组件重新渲染，DOM 渲染完执行 useEffect，然后再渲染 DOM
+
+数字只会出现一次渲染，先点击修改数字，数字从 5 变成了 0（但是没有渲染出来），会在 DOM 渲染完前会执行 useLayoutEffect 函数，count= 0，会修改 state
+
+state 发生改变，又会重新渲染 ，DOM 渲染前执行 useLayoutEffect 此时 count！=0，就没有任何操作了，然后再更新 DOM
+
+这个时候你就会发现没有任何的闪烁效果了
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/使用useLayoutEffect后.gif)
+
+!>useLayoutEffect 其实在大多数情况下都使用不到的，除了一些非常特殊的场景会使用到
+
+### 2.10 useDebugValue
+
+useDebugValue 可用于在 React 开发者工具中显示自定义 hook 的标签。
+
+这个不是非常重要，可以自行查看
+
+https://zh-hans.reactjs.org/docs/hooks-reference.html#usedebugvalue
