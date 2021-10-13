@@ -1148,3 +1148,280 @@ useDebugValue 可用于在 React 开发者工具中显示自定义 hook 的标�
 这个不是非常重要，可以自行查看
 
 https://zh-hans.reactjs.org/docs/hooks-reference.html#usedebugvalue
+
+## 三、自定义 Hook
+
+### 3.1 了解自定义 Hook
+
+自定义 Hook 本质上只是一种函数代码逻辑的抽取，严格意义上来说，它本身并不算 React 的特性。
+
+需求：所有的组件在创建和销毁时都进行打印
+
+- 组件被创建：打印 组件被创建了；
+- 组件被销毁：打印 组件被销毁了；
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function publicLifeCycle(name) {
+  useEffect(() => {
+    console.log(`${name}组件被创建了`);
+    return () => {
+      console.log(`${name}组件被销毁了`);
+    };
+  }, []);
+}
+
+function Home() {
+  publicLifeCycle("home");
+  return (
+    <div>
+      home
+      <About />
+      <Profile />
+    </div>
+  );
+}
+
+function About() {
+  publicLifeCycle("about");
+  return <div>About</div>;
+}
+
+function Profile() {
+  publicLifeCycle("profile");
+  return <div>Profile</div>;
+}
+
+export default function App() {
+  const [isShow, setIsShow] = useState(true);
+  return (
+    <div>
+      {isShow && <Home />}
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+    </div>
+  );
+}
+```
+
+虽然这样可以使用，这是因为我是在 jsx 文件中编写的，如果是在 js 文件中编写这样的代码是会报错的
+
+React 官方也严格说过只能在 React 函数中使用 Hook，这是必须遵守的（这个时候我们就可以自定义 Hook）
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function usePublicLifeCycle(name) {
+  useEffect(() => {
+    console.log(`${name}组件被创建了`);
+    return () => {
+      console.log(`${name}组件被销毁了`);
+    };
+  }, []);
+}
+
+function Home() {
+  usePublicLifeCycle("home");
+  return (
+    <div>
+      home
+      <About />
+      <Profile />
+    </div>
+  );
+}
+
+function About() {
+  usePublicLifeCycle("about");
+  return <div>About</div>;
+}
+
+function Profile() {
+  usePublicLifeCycle("profile");
+  return <div>Profile</div>;
+}
+
+export default function App() {
+  const [isShow, setIsShow] = useState(true);
+  return (
+    <div>
+      <button onClick={() => setIsShow(!isShow)}>切换</button>
+      {isShow && <Home />}
+    </div>
+  );
+}
+```
+
+你会发现跟上面的函数没什么区别，只是我们封装的函数是以**use**开头的
+
+自定义 Hook 是一个函数，其名称以 “use” 开头，函数内部可以调用其他的 Hook。
+
+换句话说，它就像一个正常的函数。但是它的名字应该始终以 use 开头，这样可以一眼看出其符合 Hook 的规则
+
+接着我们就来做几个案例来练习一下
+
+### 3.2 自定义 Hook 练习
+
+#### 3.2.1 共享 Context
+
+有了 useContext，我们可能会这样共享 Context
+
+```jsx
+import React, { createContext } from "react";
+import Home from "./Home.jsx";
+
+export const UserContext = createContext();
+export const ThemeContext = createContext();
+
+export default function App() {
+  return (
+    <div>
+      <UserContext.Provider value={{ name: "tao", age: 18 }}>
+        <ThemeContext.Provider value={{ color: "red", fontSize: "30px" }}>
+          <Home />
+        </ThemeContext.Provider>
+      </UserContext.Provider>
+    </div>
+  );
+}
+```
+
+```jsx
+import React, { useContext } from "react";
+import { ThemeContext, UserContext } from "./App";
+
+function About() {
+  const user = useContext(UserContext);
+  const theme = useContext(ThemeContext);
+  return (
+    <div>
+      <h2 style={{ color: theme.color }}>{user.name}</h2>
+      <h2 style={{ color: theme.fontSize }}>{user.age}</h2>
+    </div>
+  );
+}
+
+export default function Home() {
+  const user = useContext(UserContext);
+  const theme = useContext(ThemeContext);
+  return (
+    <div>
+      <h2 style={{ color: theme.color }}>{user.name}</h2>
+      <h2 style={{ color: theme.fontSize }}>{user.age}</h2>
+      <hr />
+      <About />
+    </div>
+  );
+}
+```
+
+这样做有什么弊端喃？
+
+1.  第一我们需要知道我们的 Context 叫什么名字，然后通过 useContext 来使用
+2.  当多个组件需要使用的时候，有时候我们需要创建多个 useContext，也会导入多个 Context
+
+那么通过自定义 hook 就可以解决
+
+```jsx
+import { useContext } from "react";
+import { UserContext, ThemeContext } from "../App";
+
+export default function useTaoContext() {
+  const user = useContext(UserContext);
+  const theme = useContext(ThemeContext);
+  return [user, theme];
+}
+```
+
+接着我们直接使用里面的 Context 就可以了，对比一下代码你就会发现这样非常简单，如果是像以前通过高阶组件来进行 Context 来共享的话，整个代码会非常简洁，阅读性也会强很多
+
+```jsx
+import React from "react";
+import useTaoContext from "./hooks/user-hook";
+
+function About() {
+  const [user, theme] = useTaoContext();
+  return (
+    <div>
+      <h2 style={{ color: theme.color }}>{user.name}</h2>
+      <h2 style={{ color: theme.fontSize }}>{user.age}</h2>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [user, theme] = useTaoContext();
+  return (
+    <div>
+      <h2 style={{ color: theme.color }}>{user.name}</h2>
+      <h2 style={{ color: theme.fontSize }}>{user.age}</h2>
+      <hr />
+      <About />
+    </div>
+  );
+}
+```
+
+#### 3.2.2 获取鼠标滚动位置
+
+获取鼠标滚动位置
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [scroll, setScroll] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY);
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return (
+    <div style={{ padding: "1000px 0" }}>
+      <h2 style={{ position: "fixed", left: "0", top: "0" }}>
+        距离顶部:{scroll}
+      </h2>
+    </div>
+  );
+}
+```
+
+如果我们多个组件都想获取，就可以封装成 hook
+
+```jsx
+import { useState, useEffect } from "react";
+export default function useScrollPositon() {
+  const [scroll, setScroll] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY);
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return scroll;
+}
+```
+
+```jsx
+import React from "react";
+import useScrollPositon from "./hooks/scroll-position-hook";
+export default function App() {
+  const scroll = useScrollPositon();
+  return (
+    <div style={{ padding: "1000px 0" }}>
+      <h2 style={{ position: "fixed", left: "0", top: "0" }}>
+        距离顶部:{scroll}
+      </h2>
+    </div>
+  );
+}
+```

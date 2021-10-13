@@ -32,7 +32,9 @@
   - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=es6-转-es5-的代码)
 - **【三】ECMAScript 新特性**
   - [1 - ES6](javascript/es-next/es6?id=es6-新特性)
-  - [2 - ES7](javascript/es-next/es6)
+  - [2 - ES7](javascript/es-next/es7?id=es7-新特性)
+  - [2 - ES8](javascript/es-next/es8?id=es8-新特性)
+  - [2 - ES9](javascript/es-next/es9?id=es7-新特性)
 - **【四】JavaScript 高级**
 
   - [1 - 浏览器工作原理](javascript/advanced/browser-run-theory?id=浏览器的工作原理)

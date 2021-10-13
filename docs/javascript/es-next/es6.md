@@ -685,6 +685,12 @@ Set 是一个新增的数据结构，可以用来保存数据，类似于数组�
 
 创建 Set 我们需要`通过Set构造函数`（暂时没有字面量创建的方式）：
 
+```js
+// Set可以传入一个数组，数组中存放着不同的元素
+const set = new Set([20, 30, 40, 20, 30]);
+console.log(set); // { 20, 30, 40 }
+```
+
 我们可以发现 Set 中存放的元素是不会重复的，那么 Set 有一个非常常用的功能就是给数组去重。
 
 以前没有 set 我们可能会自己写一个 for 循环来去重
@@ -860,3 +866,200 @@ p.say.call({ name: "tao", age: 18 }); // throw '只能通过构造函数调用sa
 用 Set 的话，如果有一天 p = null 了，因为 Set 是强引用，我们还需要还要设置 set = null（set 里还引用着 p 的引用）
 
 使用 WeakSet 的话，p = null 的话，weakSet 就不需要设置为 null，因为 WeakSet 是弱引用，GC 会无视他，会把 p 的引用给回收掉的
+
+## 十三、Map
+
+Map，用于存储映射关系（键值对）
+
+但是我们可能会想，在之前我们可以使用对象来存储映射关系，他们有什么区别呢？
+
+- 事实上我们对象存储映射关系只能用字符串（ES6 新增了 Symbol）作为属性名（key）；
+- 某些情况下我们可能希望通过其他类型作为 key，比如对象，这个时候会自动将对象转成字符串来作为 key；
+
+```js
+const tao = { name: "tao", age: 18 };
+const sandy = { name: "sandy", age: 21 };
+const person = { [tao]: "aaa", [sandy]: "bbb" };
+console.log(person); // {[object Object]: 'bbb'}
+```
+
+你会发现我不是添加了两个键值对嘛，怎么只有后面那个，而且 key 为什么是 object object
+
+这是因为 JavaScript 中的对象的 key 只能是字符串（除了 Symbol）
+
+如果你添加的不是字符串，它内部会帮你做一个隐式转换的
+
+tao 就是'[object,object]':'aaa'
+
+sandy 转换成了'[object,object]':'bbb‘
+
+因为两个 key 都是一样的，后面的则会覆盖前面的，所以结果就只有一个'[object,object]':'bbb‘
+
+### 13.1 Map 的基本使用
+
+如果我们确实想让一个 key 为对象的话，这个时候就可以使用 Map
+
+```js
+const tao = { name: "tao", age: 18 };
+const sandy = { name: "sandy", age: 21 };
+// map可以传入一个数组，数组中可以保存多个数组，内部数组存放着键值对
+const map = new Map([
+  [tao, "aaa"],
+  [sandy, "bbb"],
+]);
+console.log(map);
+/**
+ * {
+ *   { name: 'tao', age: 18 } => 'aaa',
+ *   { name: 'sandy', age: 21 } => 'bbb'
+ * }
+ */
+```
+
+### 13.2 Map 的基本方法
+
+Map 常见的属性：
+
+- size：返回 Map 中元素的个数；
+
+Map 常见的方法：
+
+- set(key, value)：在 Map 中添加 key、value，并且返回整个 Map 对象；
+- get(key)：根据 key 获取 Map 中的 value；
+- has(key)：判断是否包括某一个 key，返回 Boolean 类型；
+- delete(key)：根据 key 删除一个键值对，返回 Boolean 类型；
+- clear()：清空所有的元素；
+- forEach(callback, [, thisArg])：通过 forEach 遍历 Map；
+  Map 也可以通过 for of 进行遍历。
+
+```js
+const map = new Map();
+const info = { name: "tao" };
+// set
+map.set(info, 18);
+map.set("aaa", "bbb");
+
+console.log(map); // { { name: 'tao' } => 18, 'aaa' => 'bbb' }
+
+// get
+console.log(map.get("aaa")); // bbb
+
+// has
+console.log(map.has(info)); // true
+
+// forEach
+map.forEach((item, key, map) => {
+  console.log(key, item, map); // { name: 'tao' } 18 Map(1) { { name: 'tao' } => 18
+});
+
+// for of
+for (const item of map) {
+  console.log(item); // [ { name: 'tao' }, 18 ]...
+}
+// 因为item拿到的是一个数组，我们也可以对其进行解构
+for (const [key, value] of map) {
+  console.log(key, value); // { name: 'tao' } 18   aaa bbb
+}
+
+// delete
+map.delete(info);
+console.log(map); // {'aaa' => 'bbb'}
+
+// clear
+map.clear();
+console.log(map); // {size: 0}
+```
+
+## 十四、WeakMap
+
+和 Map 类型相似的另外一个数据结构称之为 WeakMap，也是以键值对的形式存在的。
+
+那么和 Map 有什么区别呢？
+
+- 区别一：WeakMap 的 key 只能使用对象，不接受其他的类型作为 key；
+- 区别二：WeakMap 的 key 对对象想的引用是弱引用，如果没有其他引用引用这个对象，那么 GC 可以回收该对象；
+
+```js
+const weakMap = new WeakMap();
+weakMap.set(1, "aaa");
+// TypeError: Invalid value used as weak map key
+```
+
+### 14.1 WeakMap 的基本使用
+
+WeakMap 常见的方法有四个：
+
+- set(key, value)：在 Map 中添加 key、value，并且返回整个 Map 对象；
+- get(key)：根据 key 获取 Map 中的 value；
+- has(key)：判断是否包括某一个 key，返回 Boolean 类型；
+- delete(key)：根据 key 删除一个键值对，返回 Boolean 类型；
+
+```js
+const weakMap = new WeakMap();
+const info = {
+  name: "tao",
+  age: 18,
+};
+weakMap.set(info, "aaa");
+console.log(weakMap.get(info)); // aaa
+console.log(weakMap.has(info)); // true
+weakMap.delete(info);
+console.log(weakMap); // WeakMap { <items unknown> }
+
+// 这里补充一个小知识
+// 为什么打印出的WeakMap是一个items unknow这个东西
+// 因为WeakMap这个东西是不能遍历的，我们打印的时候本质上是会把它打印成字符串的(就跟我们打印一个对象一样)，它会隐式转为字符串然后打印出来，就看到的是这个样子
+```
+
+注意：WeakMap 也是不能遍历的
+
+因为没有 forEach 方法，也不支持通过 for of 的方式进行遍历；
+
+### 14.2 WeakMap 的应用场景
+
+其实在 vue3 的响应式原理中就存在 WeakMap
+
+那我们来简单说一下
+
+比如这里有个 info，我们把它理解为 v2 data 这种返回的对象
+
+当我们修改 info 里的 name 的时候，其实 template 里的每个标签，本质就是一行行的 render 函数，当 data 的值改变的时候，当对应依赖的值发生改变的时候，就会执行某几个函数，那么利用最新的 DOM 然后生成最新的虚拟 DOM，最后进行 diff 算法然后渲染到界面上
+
+那么我们如何让一个东西发生改变，然后触发对应的函数喃(映射)，这个时候就可以用到 WeakMap
+
+```js
+let info = {
+  name: "tao",
+  age: 18,
+};
+
+function changeNamefn1() {
+  console.log("changeNamefn1");
+}
+function changeNamefn2() {
+  console.log("changeNamefn2");
+}
+function changeAgefn1() {
+  console.log("changeAgefn1");
+}
+function changeAgefn2() {
+  console.log("changeAgefn2");
+}
+
+// 这里使用WeakMap是因为如果弱引用，如果有一天info指向null了，weakMap是弱引用，不会影响GC把info回收掉的
+const weakMap = new WeakMap();
+// 这里为什么使用Map，因为我们收集的key都是一些字符串（基本数据类型），WeakMap需要的是一个对象
+const map = new Map();
+
+// 对info进行收集
+map.set("name", [changeNamefn1, changeNamefn2]);
+map.set("age", [changeAgefn1, changeAgefn2]);
+weakMap.set(info, map);
+
+// 数据发生改变
+info.name = "sandy";
+// 通过Proxy/Object.defineProperty进行监听
+const target = weakMap.get(info);
+const fns = target.get("name");
+fns.forEach((fn) => fn());
+```
