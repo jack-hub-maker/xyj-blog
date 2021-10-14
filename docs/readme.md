@@ -33,8 +33,11 @@
 - **【三】ECMAScript 新特性**
   - [1 - ES6](javascript/es-next/es6?id=es6-新特性)
   - [2 - ES7](javascript/es-next/es7?id=es7-新特性)
-  - [2 - ES8](javascript/es-next/es8?id=es8-新特性)
-  - [2 - ES9](javascript/es-next/es9?id=es7-新特性)
+  - [3 - ES8](javascript/es-next/es8?id=es8-新特性)
+  - [4 - ES9](javascript/es-next/es9?id=es9-新特性)
+  - [5 - ES10](javascript/es-next/es10?id=es10-新特性)
+  - [6 - ES11](javascript/es-next/es11?id=es11-新特性)
+  - [7 - ES12](javascript/es-next/es12?id=es12-新特性)
 - **【四】JavaScript 高级**
 
   - [1 - 浏览器工作原理](javascript/advanced/browser-run-theory?id=浏览器的工作原理)

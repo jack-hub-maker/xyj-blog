@@ -1425,3 +1425,61 @@ export default function App() {
   );
 }
 ```
+
+#### 3.2.3 localStorage数据存储
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+export default function App() {
+  const [name, setName] = useState(() => {
+    // 如果localStorage里有数据就直接拿出来
+    const name = JSON.parse(localStorage.getItem("name"));
+    return name;
+  });
+  useEffect(() => {
+    window.localStorage.setItem("name", JSON.stringify(name));
+  }, [name]);
+  return (
+    <div>
+      <h2>当前存储:{name}</h2>
+      <button onClick={() => setName("tao")}>设置name</button>
+    </div>
+  );
+}
+
+```
+
+我们可以封装一个hook
+
+```jsx
+import { useState, useEffect } from "react";
+
+export default function useLocalStoreage(name) {
+  const [name, setName] = useState(() => {
+    // 如果localStorage里有数据就直接拿出来
+    const name = JSON.parse(localStorage.getItem("name"));
+    return name;
+  });
+  useEffect(() => {
+    window.localStorage.setItem("name", JSON.stringify(name));
+  }, [name]);
+  return [name, setName];
+}
+
+```
+
+```jsx
+import React from "react";
+import useLocalStoreage from "./hooks/local-store-hook";
+
+export default function App() {
+  const [name, setName] = useLocalStoreage("name");
+  return (
+    <div>
+      <h2>当前存储:{name}</h2>
+      <button onClick={() => setName("tao")}>设置name</button>
+    </div>
+  );
+}
+```
