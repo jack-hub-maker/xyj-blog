@@ -1063,3 +1063,271 @@ const target = weakMap.get(info);
 const fns = target.get("name");
 fns.forEach((fn) => fn());
 ```
+
+## 十五、Proxy
+
+### 15.1 监听对象的操作
+
+我们先来看一个需求：有一个对象，我们希望监听这个对象中的属性被设置或获取的过程
+- 通过我们前面所学的知识，能不能做到这一点呢？
+- 其实是可以的，我们可以通过之前的属性描述符中的存储属性描述符来做到；
+
+下面这段代码就利用了前面讲过的 Object.defineProperty 的存储属性描述符来对
+属性的操作进行监听。
+
+```js
+const obj = {
+  name: 'tao',
+  age: 18
+}
+
+Object.keys(obj).forEach(key => {
+  let value = obj[key]
+  Object.defineProperty(obj, key, {
+    get() {
+      console.log(`${key}属性的值被获取了`);
+      return value
+    },
+    set(newValue) {
+      console.log(`${key}属性的值被设置了`);
+      value = newValue
+    }
+  })
+})
+
+obj.name = 'sandy'  // name属性的值被设置了
+obj.age = 21  // age属性的值被设置了
+console.log(obj.name);  // name属性的值被获取了 sandy
+console.log(obj.age); // age属性的值被获取了  21
+```
+
+但是这样做有什么缺点呢？
+- 首先，Object.defineProperty设计的初衷，不是为了去监听截止一个对象中
+所有的属性的。
+  - 我们在定义某些属性的时候，初衷其实是定义普通的属性，但是后面我们强
+行将它变成了数据属性描述符。
+- 其次，如果我们想监听更加丰富的操作，比如新增属性、删除属性，那么
+Object.defineProperty是无能为力的。
+- 所以我们要知道，存储数据描述符设计的初衷并不是为了去监听一个完整的对
+象。
+
+### 15.2 Proxy的基本使用
+
+在ES6中，新增了一个Proxy类，这个类从名字就可以看出来，是用于帮助我们创建一个代理的：
+- 也就是说，如果我们希望监听一个对象的相关操作，那么我们可以先创建一个代理对象（Proxy对象）；
+- 之后对该对象的所有操作，都通过代理对象来完成，代理对象可以监听我们想要对原对象进行哪些操作（在handler里通过**捕获器**进行箭头）；
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+
+我们可以将上面的案例用Proxy来实现一次：
+
+
+```js
+const obj = {
+  name: 'tao',
+  age: 18
+}
+const objProxy = new Proxy(obj, {
+  // 属性读取操作的捕捉器
+  get(target, property) {
+    console.log(target, `${property}的值被获取了`);
+    return target[property]
+  },
+  // 属性设置操作的捕捉器
+  set(target, property, value) {
+    console.log(target, `的${property}的值被设置了`);
+    target[property] = value
+  }
+})
+
+objProxy.name = 'sandy' // { name: 'tao', age: 18 } 的name的值被设置了
+objProxy.age = 21 //  { name: 'sandy', age: 18 } 的age的值被设置了
+console.log(objProxy.name); // { name: 'sandy', age: 21 } name的值被获取了 sandy
+console.log(objProxy.age);  //  { name: 'sandy', age: 21 } age的值被获取了 21
+```
+
+### 15.3 Proxy的其他捕获器
+
+Proxy上有着非常多的捕获器，这里只举例一些捕获器，更多捕获器详情前往: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+
+```js
+const obj = {
+  name: 'tao',
+  age: 18
+}
+const objProxy = new Proxy(obj, {
+  // in 操作符的捕捉器
+  has(target, prop) {
+    console.log(`监听到${prop}属性使用了in操作`);
+    return prop in target
+  },
+  // delete 操作符的捕捉器
+  deleteProperty(target, property) {
+    console.log('监听到', target, `的${property}属性被删除了`);
+    return delete target[property]
+  }
+})
+
+console.log('name' in objProxy);  // true
+delete objProxy.age // 监听到 { name: 'tao', age: 18 } 的age属性被删除了
+console.log(objProxy);  // { name: 'tao' }
+```
+
+## 十六、Reflect
+
+Reflect也是ES6新增的一个API，它是一个`对象`，字面的意思是`反射`。
+
+`那么这个Reflect有什么用呢`？
+- 它主要提供了很多**操作JavaScript对象的方法**，有点像**Object中操作对象的方法**；
+- 比如Reflect.getPrototypeOf(target)类似于 Object.getPrototypeOf()；
+- 比如Reflect.defineProperty(target, propertyKey, attributes)类似于Object.defineProperty() ；
+
+如果我们有Object可以做这些操作，那么`为什么还需要有Reflect这样的新增对象`呢？
+- 这是因为在早期的ECMA规范中没有考虑到这种**对 对象本身 的操作如何设计会更加规范**，所以**将这些API放到了Object上面**；
+- 但是**Object作为一个构造函数**，这些操作实际上**放到它身上并不合适**；
+- 另外还包含一些**类似于 in、delete操作符**，让JS看起来是会有一些奇怪的；
+- 所以在ES6中**新增了Reflect**，让我们这些操作都集中到了Reflect对象上；
+
+那么Object和Reflect对象之间的API关系，可以参考MDN文档：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect/Comparing_Reflect_and_Object_methods
+
+### 16.1 Reflect的基本使用
+
+虽然之前我们并没有直接操作对象，使用Proxy来对对象进行操作，但是你会发现最终我们还是在对原来的对象进行操作（比如return target[property]）
+
+其实我们使用Reflect来做
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect
+
+```js
+const obj = {
+  name: 'tao',
+  age: 18
+}
+const objProxy = new Proxy(obj, {
+  // 属性读取操作的捕捉器
+  get(target, property) {
+    console.log(target, `${property}的值被获取了`);
+    return Reflect.get(target, property)
+  },
+  // 属性设置操作的捕捉器
+  set(target, property, value) {
+    console.log(target, `的${property}的值被设置了`);
+    Reflect.set(target, property, value)
+  }
+})
+
+objProxy.name = 'sandy' // { name: 'tao', age: 18 } 的name的值被设置了
+objProxy.age = 21 //  { name: 'sandy', age: 18 } 的age的值被设置了
+console.log(objProxy.name); // { name: 'sandy', age: 21 } name的值被获取了 sandy
+console.log(objProxy.age);  //  { name: 'sandy', age: 21 } age的值被获取了 21
+```
+
+### 16.2 receiver的作用
+
+我们先来看这段代码
+```js
+const obj = {
+  _name: 'tao',
+  get name() {
+    return this._name
+  },
+  set name(newValue) {
+    this._name = newValue
+  }
+}
+const objProxy = new Proxy(obj, {
+  get(target, property) {
+    return Reflect.get(target, property)
+  },
+  set(target, property, value) {
+    Reflect.set(target, property, value)
+  }
+})
+
+objProxy.name = 'sandy'
+objProxy.age = 21
+console.log(objProxy.name);
+console.log(objProxy.age);
+```
+
+其实上面的代码我们还是在对原对象进行操作
+
+我们设置objProxy的值的时候，其实会进入到objProxy的set捕获器里，然后调用Reflect的set方法，如果原对象里有set和get方法，我们最终是调用里面的get/set方法
+
+前面我们使用在使用getter和setter的时候其实还有第三个参数叫做receiver，它的作用是什么呢？
+
+如果我们的源对象（obj）有setter、getter的访问器属性，那么可以通过receiver来改变里面的this；
+
+```js
+const obj = {
+  _name: 'tao',
+  get name() {
+    return this._name
+  },
+  set name(newValue) {
+    this._name = newValue
+  }
+}
+const objProxy = new Proxy(obj, {
+  get(target, property, receiver) {
+    return Reflect.get(target, property, receiver)
+  },
+  set(target, property, value, receiver) {
+    Reflect.set(target, property, value, receiver)
+  }
+})
+
+objProxy.name = 'sandy'
+objProxy.age = 21
+console.log(objProxy.name);
+console.log(objProxy.age);
+``` 
+
+### 16.3 construct的作用
+
+我们来看下面这段代码
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name
+    this.age = age
+  }
+  say() {
+    console.log(this.name + ' ~say hello');
+  }
+}
+
+class Student {
+
+}
+```
+
+我提一个无理的要求，我想创建一个Person的实例，执行person里的代码，但是创建出来的是Student的实例
+
+这其实是很难做到的，但是利用Reflect的construct方法就可以做到
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
+
+```js
+class Person {
+  constructor(name, age) {
+    this.name = name
+    this.age = age
+  }
+  say() {
+    console.log(this.name + ' ~Person say');
+  }
+}
+
+class Student {
+  say() {
+    console.log(this.name + ' ~Student say');
+  }
+}
+
+
+const obj = Reflect.construct(Person, ['tao', 18], Student)
+console.log(obj); // Student { name: 'tao', age: 18 }
+obj.say() // tao ~Student say
+```

@@ -53,6 +53,9 @@
   - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
   - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
 
+
+待定[Proxy](javascript/proxy)
+
 ## 🔰Git
 
 - [1 - 认识版本控制工具](git/readme?id=版本控制的起源)
@@ -94,10 +97,10 @@
   - [11 - 严格模式 ](react/strictMode?id=strictMode)
   - [12 - CSS-in-JS ](react/css-in-js?id=css-in-js)
   - [12 - 过渡动画 ](react/transition?id=react-transition-group)
-- [**【二】React Hooks**](react/hooks?id=react-hooks)
-- **【三】React Router**`敬请期待`
+- [**【二】React Router**](react/router?id=react-router)
 - **【四】React Redux**`敬请期待`
-
+- [**【四】React Hooks**](react/hooks?id=react-hooks)
+  
 ## 🔥TypeScript
 
 - **【一】TypeScript 基础**

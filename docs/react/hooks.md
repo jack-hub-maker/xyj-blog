@@ -1153,7 +1153,7 @@ https://zh-hans.reactjs.org/docs/hooks-reference.html#usedebugvalue
 
 ### 3.1 了解自定义 Hook
 
-自定义 Hook 本质上只是一种函数代码逻辑的抽取，严格意义上来说，它本身并不算 React 的特性。
+自定义 Hook 本质上只是一种**函数代码逻辑的抽取**，严格意义上来说，它本身并不算 React 的特性。
 
 需求：所有的组件在创建和销毁时都进行打印
 
