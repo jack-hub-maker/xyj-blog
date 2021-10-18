@@ -192,6 +192,7 @@ Redirect用于路由的重定向，当这个组件出现时，就会执行跳转
   - true：那么显示用户的名称；
   - false：直接重定向到登录界面
 
+这里的useState，不需要理解，先用着（后面讲解Hooks的时候会详细解答）
 ```jsx
 import React, { useState } from "react";
 import {

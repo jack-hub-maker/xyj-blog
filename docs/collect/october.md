@@ -9,3 +9,5 @@
 **10/9** [ 浏览器渲染之回流重绘](https://mp.weixin.qq.com/s/EFwNP3EK8_D_azXEW-7WMA)
 
 **10/9** [ JavaScript 侦测手机浏览器的五种方法](https://www.ruanyifeng.com/blog/2021/09/detecting-mobile-browser.html)
+
+**10/18** [ 漫画 | 30年后，中国就会有自己的编程语言！](https://mp.weixin.qq.com/s/kjnLIlExNP3ONuOKAMzkcg)

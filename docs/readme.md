@@ -94,9 +94,9 @@
   - [11 - 严格模式 ](react/strictMode?id=strictMode)
   - [12 - CSS-in-JS ](react/css-in-js?id=css-in-js)
   - [12 - 过渡动画 ](react/transition?id=react-transition-group)
-- [**【二】React Hooks**](react/hooks?id=react-hooks)
+- [**【二】React Redux**](react/redux?id=redux)
 - [**【三】React Router**](react/router?id=react-router)
-- [**【四】React Redux**](react/redux)
+- [**【四】React Hooks**](react/hooks?id=react-hooks)
   
 ## 🔥TypeScript
 

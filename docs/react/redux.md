@@ -233,3 +233,111 @@ store/action-type
 export const ADD_NUMBER = "ADD_NUMBER";
 export const SUB_NUMBER = "SUB_NUMBER";
 ```
+
+## 六、React-Redux
+
+那么Redux如何合React一起使用喃？我们来简单演示一下
+
+App.jsx
+```jsx
+import React from "react";
+import About from "./About";
+import Home from "./Home";
+
+export default function App() {
+  return (
+    <div>
+      <Home />
+      <hr />
+      <About />
+    </div>
+  );
+}
+```
+
+
+Home.jsx && ABout.jsx
+```jsx
+import React, { PureComponent } from "react";
+import store from "./store/store";
+import { addAction, subAction } from "./store/action";
+
+export default class Home extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: store.getState().count,
+    };
+  }
+  componentDidMount() {
+    store.subscribe(() => {
+      this.setState({
+        count: store.getState().count,
+      });
+    });
+  }
+  render() {
+    return (
+      <div>
+        <h2>About</h2>
+        <h2>当前计数：{this.state.count}</h2>
+        <button onClick={() => store.dispatch(addAction(5))}>+5</button>
+        <button onClick={() => store.dispatch(subAction(10))}>-10</button>
+      </div>
+    );
+  }
+}
+```
+
+虽然我们能成功的展示出效果，但是你会发现代码非常的冗余，Home组件和ABout的组件几乎是一样的，这里只是两个组件用到了Redux，那么有10个，100个组件都是这样的，那我们的代码就显得非常冗余
+
+所以我们要对它进行进一步的封装
+
+其实我们可以封装一个connect的函数来让component和store连接在一起
+
+
+
+
+开始之前需要强调一下，redux和react没有直接的关系，你完全可以在React, Angular, Ember, jQuery, or vanilla JavaScript中
+使用Redux。
+
+尽管这样说，redux依然是和React或者Deku的库结合的更好，因为他们是通过state函数来描述界面的状态，Redux可以发射状
+态的更新，让他们作出相应。
+
+虽然我们之前已经实现了connect、Provider这些帮助我们完成连接redux、react的辅助工具，但是实际上redux官方帮助我们
+提供了 react-redux 的库，可以直接在项目中使用，并且实现的逻辑会更加的严谨和高效。
+
+详情：https://cn.redux.js.org/tutorials/fundamentals/part-5-ui-react#integrating-redux-with-a-ui
+
+
+
+
+
+<iframe src="https://codesandbox.io/embed/awesome-violet-z5chr?fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="awesome-violet-z5chr"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+## 八、组件中异步操作
+
+在之前简单的案例中，redux中保存的counter是一个本地定义的数据
+- 我们可以直接通过同步的操作来dispatch action，state就会被立即更新。
+- 但是真实开发中，redux中保存的很多数据可能来自服务器，我们需要进行异步的请求，再将数据保存到redux中。
+
+在之前学习网络请求的时候我们讲过，网络请求可以在class组件的componentDidMount中发送，所以我们可以有这样的结构：
+
+我现在完成如下案例操作：
+- 在Home组件中请求recommends的数据；
+- 在About组件中展示recommends的数据；
+
+<iframe src="https://codesandbox.io/embed/elated-goodall-1c6z4?fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="elated-goodall-1c6z4"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux异步操作.png)
