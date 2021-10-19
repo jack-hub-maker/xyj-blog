@@ -1,5 +1,7 @@
 # Redux
 
+!>还有很多东西没写完，暂时不写了，等待后续更新
+
 ## 一、了解Redux
 
 ### 1.1 JavaScript纯函数
@@ -7,7 +9,7 @@
 
 JavaScript纯函数在JavaScript专栏已经讲过，不了解回去查看[点击跳转](../javas/../javascript/advanced/pure-function.md)
 
-### 1.2 React中的纯函数
+### 1.2 React中的纯函数 
 
 当然纯函数还有很多的变种，但是我们只需要理解它的核心就可以了。
 
@@ -234,7 +236,7 @@ export const ADD_NUMBER = "ADD_NUMBER";
 export const SUB_NUMBER = "SUB_NUMBER";
 ```
 
-## 六、React-Redux
+## 六、react-redux
 
 那么Redux如何合React一起使用喃？我们来简单演示一下
 
@@ -309,17 +311,7 @@ export default class Home extends PureComponent {
 
 详情：https://cn.redux.js.org/tutorials/fundamentals/part-5-ui-react#integrating-redux-with-a-ui
 
-
-
-
-
-<iframe src="https://codesandbox.io/embed/awesome-violet-z5chr?fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="awesome-violet-z5chr"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
-
+[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/awesome-violet-z5chr?fontsize=14&hidenavigation=1&theme=dark)
 
 ## 八、组件中异步操作
 
@@ -333,11 +325,167 @@ export default class Home extends PureComponent {
 - 在Home组件中请求recommends的数据；
 - 在About组件中展示recommends的数据；
 
-<iframe src="https://codesandbox.io/embed/elated-goodall-1c6z4?fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="elated-goodall-1c6z4"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/elated-goodall-1c6z4?fontsize=14&hidenavigation=1&theme=dark)
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux异步操作.png)
+## 九、redux中异步操作
+
+上面的代码有一个缺陷：
+- 我们必须将网络请求的异步代码放到组件的生命周期中来完成；
+- 事实上，网络请求到的数据也属于我们状态管理的一部分，更好的一种方式应该是将其也交给redux来管理；
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux中异步操作.png)
+
+但是在redux中如何可以进行异步的操作呢？
+- 答案就是使用`中间件（Middleware）`；
+- 学习过Express或Koa框架的朋友对中间件的概念一定不陌生；
+- 在这类框架中，Middleware可以帮助我们在请求和响应之间嵌入一些操作的代码，比如cookie解析、日志记录、文件压缩等操作；
+
+## 十、理解中间件
+
+redux也引入了中间件（Middleware）的概念：
+- 这个中间件的目的是在dispatch的action和最终达到的reducer之间，扩展一些自己的代码；
+- 比如日志记录、调用异步接口、添加代码调试功能等等；
+
+我们现在要做的事情就是发送异步的网络请求，所以我们可以添加对应的中间件：
+- 这里官网推荐的、包括演示的网络请求的中间件是使用 redux-thunk；
+
+详情：https://redux.js.org/tutorials/essentials/part-5-async-logic#thunks-and-async-logic
+
+redux-thunk是如何做到让我们可以发送异步的请求呢？
+- 我们知道，默认情况下的dispatch(action)，action需要是一个JavaScript的对象；
+- redux-thunk可以让dispatch(action函数)，action**可以是一个函数**；
+- 该函数会被调用，并且会传给这个函数一个dispatch函数和getState函数；
+  - dispatch函数用于我们之后再次派发action；
+  - getState函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态；
+
+## 十一、redux-thunk
+
+详情：https://github.com/reduxjs/redux-thunk
+
+在创建store时传入应用了middleware的enhance函数
+- 通过applyMiddleware来结合多个Middleware, 返回一个enhancer；
+- 将enhancer作为第二个参数传入到createStore中；
+
+定义返回一个函数的action：
+- 注意：这里不是返回一个对象了，而是一个函数；
+- 该函数在dispatch之后会被执行；
+
+
+[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/happy-babycat-7r5ri?fontsize=14&hidenavigation=1&theme=dark)
+
+## 十二、redux-devtools
+
+我们之前讲过，redux可以方便的让我们对状态进行跟踪和调试，那么如何做到呢？
+- redux官网为我们提供了redux-devtools的工具；
+- 利用这个工具，我们可以知道每次状态是如何被修改的，修改前后的状态变化等等；
+
+安装该工具需要两步：
+- 第一步：在对应的浏览器中安装相关的插件（比如Chrome浏览器扩展商店中搜索Redux DevTools即可，其他方法可以参考
+GitHub）；
+  - 下载地址：
+    - https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+    - https://chrome.zzzmh.cn/info?token=lmhkpmbekcpmknklioeibfkpmmfibljd
+- 第二步：在redux中继承devtools的中间件；
+  - https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
+
+
+```jsx
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import reduer from "./reduer.jsx";
+
+// 应用中间件
+const enhancer = applyMiddleware(thunk);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reduer, composeEnhancers(enhancer));
+
+export default store;
+```
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux-devtools.png)
+
+## 十三、redux-saga
+
+redux-saga是另一个比较常用在redux发送异步请求的中间件，它的使用更加的灵活。
+
+Redux-saga的使用步骤如下
+- 安装
+- 集成redux-saga中间件
+- saga.js文件的编写
+
+详情：https://redux-saga.js.org/
+
+[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/dazzling-shannon-s0o9x?fontsize=14&hidenavigation=1&theme=dark)
+
+你会发现使用redux-saga会有些麻烦，而且是有点难的
+
+其实使用react-thunk就能解决**日常的需求**，redux-saga在**大型项目**中用的比较多，而且你会发现redux-saga更加灵活，代码耦合度更低（把一些网络请求的代码都放在了saga文件中，而不是在action里显得很乱）
+
+## 十四、redux文件拆分
+
+### 14.1 reducer代码拆分
+
+我们先来理解一下，为什么这个函数叫reducer？
+
+这个其实在官网中就有说到https://redux.js.org/tutorials/essentials/part-1-overview-concepts#terminology
+
+我们来看一下目前我们的reducer：
+- 当前这个reducer既有处理counter的代码，又有处理home页面的数据；
+- 后续counter相关的状态或home相关的状态会进一步变得更加复杂；
+- 我们也会继续添加其他的相关状态，比如购物车、分类、歌单等等；
+- 如果将所有的状态都放到一个reducer中进行管理，随着项目的日趋庞大，必然会造成代码臃肿、难以维护。
+
+因此，我们可以对reducer进行拆分：
+- 我们先抽取一个对counter处理的reducer；
+- 再抽取一个对home处理的reducer；
+- 将它们合并起来；
+
+其实我们不需要自己来拆分，官方提供了一个合并reducer的函数叫做combineReducers
+
+```jsx
+import { ADD_NUMBER, SUB_NUMBER,RECOMMEND } from "./action-type.jsx";
+
+const counterInitialState = {
+  count: 0,
+};
+
+export const counterReduer = (state = counterInitialState, action) => {
+  switch (action.type) {
+    case ADD_NUMBER:
+      return { ...state, count: state.count + action.num };
+    case SUB_NUMBER:
+      return { ...state, count: state.count - action.num };
+    default:
+      return state;
+  }
+};
+
+const homeInitialState = {
+  recommends: [],
+};
+
+export const homeReduer = (state = homeInitialState, action) => {
+  switch (action.type) {
+    case RECOMMEND:
+      return { ...state, recommends: action.recommends };
+    default:
+      return state;
+  }
+};
+
+const reducer = combineReducers({
+  home,
+  counter,
+});
+
+export default reducer;
+```
+### 14.2 redux文件拆分
+
+目前我们已经将不同的状态处理拆分到不同的reducer中，我们来思考：
+- 虽然已经放到不同的函数了，但是这些函数的处理依然是在同一个文件中，代码非常的混乱；
+- 另外关于reducer中用到的action、action-type等我们也依然是在同一个文件中；
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux文件划分.png)

@@ -1331,3 +1331,186 @@ const obj = Reflect.construct(Person, ['tao', 18], Student)
 console.log(obj); // Student { name: 'tao', age: 18 }
 obj.say() // tao ~Student say
 ```
+
+## 十七、Promise
+
+### 17.1 异步任务的处理
+
+在讲解Promise之前，我们从一个实际的例子来作为切入点
+- 我们调用一个函数，这个函数中发送网络请求（我们可以用定时器来模拟）；
+- 如果发送网络请求成功了，那么告知调用者发送成功，并且将相关数据返回过去；
+- 如果发送网络请求失败了，那么告知调用者发送失败，并且告知错误信息；
+
+```js
+function foo(url, successCallback, failureCallback) {
+  setTimeout(() => {
+    if (url === 'tao') {
+      successCallback('url传入成功')
+    } else {
+      failureCallback('url传入失败')
+    }
+  }, 1000);
+}
+
+foo('tao', (res) => {
+  console.log(res);
+}, (err) => {
+  console.log(err);
+})
+foo('sandy', (res) => {
+  console.log(res);
+}, (err) => {
+  console.log(err);
+})
+```
+
+### 17.2 了解Promise
+
+在上面的解决方案中，我们确确实实可以解决请求函数得到结果之后，获取到对应的回调，但是它存在两个主要的
+问题：
+1.  我们需要自己来设计回调函数、回调函数的名称、回调函数的使用等；
+2.  对于不同的人、不同的框架设计出来的方案是不同的，那么我们必须耐心去看别人的源码或者文档，以
+便可以理解它这个函数到底怎么用；
+
+我们来看一下Promise的API是怎么样的：
+- Promise是一个类，可以翻译成 承诺、许诺 、期约（当然我觉得还是不翻译比较好）；
+- 当我们需要给予调用者一个承诺：待会儿我会给你回调数据时，就可以创建一个Promise的对象；
+- 在通过new创建Promise对象时，我们需要传入一个回调函数，我们称之为**executor**
+  - 这个回调函数会被立即执行，并且给传入另外两个回调函数resolve、reject；
+  - 当我们调用resolve回调函数时，会执行Promise对象的then方法传入的回调函数；
+  - 当我们调用reject回调函数时，会执行Promise对象的catch方法传入的回调函数；
+
+### 17.3 Promise的代码结构
+
+```js
+const foo = new Promise((resolve, reject) => {
+  // 调用resolve就会执行then传入的回调
+  resolve('aaa')
+  // 调用reject就会执行catch传入的回调
+  reject('bbb')
+})
+
+foo.then((res) => {
+  console.log(res);
+})
+
+foo.catch((err) => {
+  console.log(err);
+})
+
+// aaa
+```
+
+上面Promise使用过程，我们可以将它划分成三个状态：
+- 待定（pending）: 初始状态，既没有被兑现，也没有被拒绝；
+  - 待定（pending）: 初始状态，既没有被兑现，也没有被拒绝；
+- 已兑现（fulfilled）: 意味着操作成功完成；
+  - 执行了resolve时，处于该状态；
+- 已拒绝（rejected）: 意味着操作失败；
+  - 执行了reject时，处于该状态；
+### 17.4 Promise的基本使用
+
+那么有了Promise，我们就可以将之前的代码进行重构了：
+
+```js
+function foo(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (url === 'tao') {
+        resolve('url传入成功')
+      } else {
+        reject('url传入失败')
+      }
+    }, 1000);
+  })
+}
+
+foo('tao').then(res => {
+  console.log(res);
+})
+
+foo('tao').catch(res => {
+  console.log(res);
+})
+```
+
+### 17.5 Executor
+
+Executor是在创建Promise时需要传入的一个回调函数，这个回调函数会被立即执行，并且传入两个参数：
+
+```js
+new Promise((resolve, reject) => {
+  console.log('Executor代码');
+})
+```
+
+通常我们会在Executor中确定我们的Promise状态：
+- 通过resolve，可以兑现（fulfilled）Promise的状态，我们也可以称之为已决议（resolved）（不可逆）；
+- 通过reject，可以拒绝（reject）Promise的状态；
+
+这里需要注意：一旦状态被确定下来，Promise的状态会被 锁死，该Promise的状态是不可更改的
+- 在我们调用resolve的时候，如果resolve传入的值本身不是一个Promise，那么会将该Promise的状态变成 兑
+现（fulfilled）；
+- 在之后我们去调用reject时，已经不会有任何的响应了（并不是这行代码不会执行，而是无法改变Promise状
+态）；
+
+```js
+new Promise((resolve, reject) => {
+  console.log('aaa');
+  resolve('bbb')
+  console.log('ccc');
+  reject('ddd')
+})
+
+// aaa ccc
+```
+
+### 17.6 resolve不同值的区别
+
+情况一:如果resolve传入一个普通的值或者对象，那么这个值会作为then回调的参数
+```js
+new Promise((resolve, reject) => {
+  resolve({ name: 'tao', age: 18 })
+}).then(res => {
+  console.log(res);
+})
+
+// { name: 'tao', age: 18 }
+```
+
+情况二:如果resolve中传入的是另外一个Promise，那么这个新Promise会决定原Promise的状态
+```js
+const foo = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+new Promise((resolve, reject) => {
+  resolve(foo)
+}).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// err aaa
+```
+
+情况三:如果resolve中传入的是一个对象，并且这个对象有实现then方法，那么会执行该then方法，并且根据
+then方法的结果来决定Promise的状态
+```js
+const info = {
+  then(resolve, reject) {
+    reject('bbb')
+  }
+}
+
+new Promise((resolve, reject) => {
+  resolve(info)
+}).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// err bbb
+```
