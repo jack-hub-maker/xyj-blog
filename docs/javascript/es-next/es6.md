@@ -1380,6 +1380,8 @@ foo('sandy', (res) => {
   - 当我们调用resolve回调函数时，会执行Promise对象的then方法传入的回调函数；
   - 当我们调用reject回调函数时，会执行Promise对象的catch方法传入的回调函数；
 
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
 ### 17.3 Promise的代码结构
 
 ```js
@@ -1408,6 +1410,9 @@ foo.catch((err) => {
   - 执行了resolve时，处于该状态；
 - 已拒绝（rejected）: 意味着操作失败；
   - 执行了reject时，处于该状态；
+  
+
+
 ### 17.4 Promise的基本使用
 
 那么有了Promise，我们就可以将之前的代码进行重构了：
@@ -1434,7 +1439,7 @@ foo('tao').catch(res => {
 })
 ```
 
-### 17.5 Executor
+### 17.5 三种状态
 
 Executor是在创建Promise时需要传入的一个回调函数，这个回调函数会被立即执行，并且传入两个参数：
 
@@ -1455,24 +1460,37 @@ new Promise((resolve, reject) => {
 态）；
 
 ```js
-new Promise((resolve, reject) => {
+const p = new Promise((resolve, reject) => {
   console.log('aaa');
   resolve('bbb')
   console.log('ccc');
   reject('ddd')
 })
 
-// aaa ccc
+
+p.then(res => {
+  console.log('res', res);
+})
+
+p.catch(err => {
+  console.log('err', err);
+})
+
+// aaa
+// ccc
+// res bbb
 ```
 
-### 17.6 resolve不同值的区别
+### 17.6 resolve参数
 
 情况一:如果resolve传入一个普通的值或者对象，那么这个值会作为then回调的参数
 ```js
-new Promise((resolve, reject) => {
+const p = new Promise((resolve, reject) => {
   resolve({ name: 'tao', age: 18 })
-}).then(res => {
-  console.log(res);
+})
+
+p.then(res => {
+  console.log('res', res);
 })
 
 // { name: 'tao', age: 18 }
@@ -1480,19 +1498,28 @@ new Promise((resolve, reject) => {
 
 情况二:如果resolve中传入的是另外一个Promise，那么这个新Promise会决定原Promise的状态
 ```js
-const foo = new Promise((resolve, reject) => {
+const p = new Promise((resolve, reject) => {
   reject('aaa')
 })
 
-new Promise((resolve, reject) => {
-  resolve(foo)
-}).then(res => {
-  console.log('res', res);
-}).catch(err => {
-  console.log('err', err);
+const p2 = new Promise((resolve, reject) => {
+  resolve(p)
 })
 
-// err aaa
+p.catch(err => {
+  console.log('err1', err);
+})
+
+p2.then(res => {
+  console.log('res', res);
+})
+
+p2.catch(err => {
+  console.log('err2', err);
+})
+
+// err1 aaa
+// err2 aaa
 ```
 
 情况三:如果resolve中传入的是一个对象，并且这个对象有实现then方法，那么会执行该then方法，并且根据
@@ -1504,13 +1531,673 @@ const info = {
   }
 }
 
-new Promise((resolve, reject) => {
+const p = new Promise((resolve, reject) => {
   resolve(info)
+})
+
+p.then(res => {
+  console.log('res', res);
+})
+
+p.catch(err => {
+  console.log('err', err);
+})
+
+// err bbb
+```
+
+### 17.7 Promise对象方法
+
+#### 17.7.1 then方法
+
+then方法是Promise对象上的一个方法：它其实是放在Promise的原型上的 Promise.prototype.then
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
+
+then方法接受两个参数：
+- fulfilled的回调函数：当状态变成fulfilled时会回调的函数；
+- reject的回调函数：当状态变成reject时会回调的函数；
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.then((res) => {
+  console.log('res', res);
+}, (err) => {
+  console.log('err', err);
+})
+
+// err aaa
+```
+
+当executor抛出异常时，是会调用reject函数的
+```js
+const p = new Promise((resolve, reject) => {
+  throw Error('抛出了异常')
+})
+
+p.then(res => {
+  console.log('res', res);
+}, (err) => {
+  console.log('err', err);
+})
+// err Error: 抛出了异常
+```
+
+一个Promise的then方法是可以被多次调用的：
+- 每次调用我们都可以传入对应的fulfilled回调；
+- 当Promise的状态变成fulfilled的时候，这些回调函数都会被执行；
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.then((res) => {
+  console.log('res1', res);
+}, (err) => {
+  console.log('err1', err);
+})
+
+p.then((res) => {
+  console.log('res2', res);
+}, (err) => {
+  console.log('err2', err);
+})
+
+p.then((res) => {
+  console.log('res3', res);
+}, (err) => {
+  console.log('err3', err);
+})
+
+// err1 aaa
+// err2 aaa
+// err3 aaa
+```
+
+then方法本身是有返回值的，它的返回值是一个Promise
+- 但是then方法返回的Promise到底处于什么样的状态呢？
+
+Promise有三种状态，那么这个Promise处于什么状态呢？
+- 当then方法中的回调函数本身在执行的时候，那么它处于pending状态；
+- 当then方法中的回调函数返回一个结果时，那么它处于fulfilled状态，并且会将结果作为resolve的参数；
+  - 情况一：返回一个普通的值；
+  - 情况二：返回一个Promise；
+  - 情况三：返回一个thenable值；
+- 当then方法抛出一个异常时，那么它处于reject状态；
+
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+
+const p2 = p.then(res => {
+  console.log(res); // aaa
+  // 这里没有返回任何值 = return undefined
+  // then内部会返回一个Promise对象（返回的值会作为返回的新的Promise的resolve值）
+})
+
+// 相对于上面的代码会变成这样
+// const p2 = p.then(res => {
+// console.log(res);
+//   return new Promise(resolve => {
+//     resolve(undefined)
+//   })
+// })
+
+// 返回一个Promise对象，所以我们可以对p2调用then方法
+p2.then(res => {
+  console.log(res); // undefined
+})
+
+
+console.log(p2);  // Promise
+```
+
+当然我们可以主动返回一个值，如果返回的是一个普通的值
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+
+// 我们其实是可以进行链式调用的
+// 其实是对第一个then方法的返回的Promise调用then方法（也就是p2），不是对调用前面的p进行调用
+const p2 = p.then(res => {
+  return 'bbb'
+}).then(res => {
+  console.log(res); // bbb
+})
+
+// 等价于
+// const p2 = p.then(res => {
+//   console.log('res1', res);
+// })
+
+// p2.then(res => {
+//   console.log('res2', res);
+// })
+
+
+// 所以你会发现这里打印的值是bbb，如果是对p调用then方法的话，打印的值应该是aaa
+```
+
+如果返回的是一个Promise的话,Promise的resolve的参数值会作为返回的新的Promise的resolve的值
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+const p2 = new Promise((resolve, reject) => {
+  resolve('bbb')
+})
+
+p.then(res => {
+  console.log(res); // aaa
+  return p2
+}).then(res => {
+  console.log(res); // bbb
+})
+```
+
+如果返回的是一个对象，而且对象实现了thenable，那么resolve的参数值会作为返回的新的Promise的resolve的值
+
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+
+
+p.then(res => {
+  console.log(res); // aaa
+  return {
+    then(resolve, reject) {
+      resolve('bbb')
+    }
+  }
+}).then(res => {
+  console.log(res); // bbb
+})
+```
+
+!>其实跟我们前面讲的resolve三种参数是一样的
+
+#### 17.1.2 catch方法
+
+catch方法也是Promise对象上的一个方法：它也是放在Promise的原型上的 Promise.prototype.catch
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch
+
+一个Promise的catch方法是可以被多次调用的：
+- 每次调用我们都可以传入对应的reject回调；
+- 当Promise的状态变成reject的时候，这些回调函数都会被执行；
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+
+p.catch(err => {
+  console.log('err1', err);
+})
+
+p.catch(err => {
+  console.log('err2', err);
+})
+
+// err1 aaa
+// err2 aaa
+```
+
+事实上catch方法也是会返回一个Promise对象的，所以catch方法后面我们可以继续调用then方法或者catch方法：
+
+那么我想问的是下面的打印结果是catch中的err2打印，还是then中的res打印呢？
+
+答案是res打印，这是因为catch传入的回调在执行完后，默认状态依然会是fulfilled的；
+
+catch返回的Promise跟then返回的Promise规则是一样的，返回的值就会作为返回的Promise的resolve的值
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.catch(err => {
+  console.log('err1', err);
+}).catch(err => {
+  console.log('err2', err);
+}).then(res => {
+  console.log('res', res);
+})
+
+// catch也会返回一个Promise
+// 等价于
+
+// p.catch(err => {
+//   console.log('err1', err);
+//   // return undefined
+//   return new Promise((resolve, reject) => {
+//     // 返回的Promise调用resolve就会执行then传入的回调
+//     // 所以会执行后面的then，不会执行后面的catch
+//     resolve(undefined)
+//   })
+// }).then(res => {
+//   console.log('res', res);
+// })
+
+// err1 aaa
+// res undefined
+```
+
+那么如果我们希望后续继续执行catch，那么需要抛出一个异常：
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.catch(err => {
+  console.log('err1', err);
+}).catch(err => {
+  console.log('err2', err);
+}).then(res => {
+  console.log('res', res);
+  throw new Error('抛出异常')
+}).catch(err => {
+  console.log('err3', err);
+})
+
+// err1 aaa
+// res undefined
+// err3 Error: 抛出异常
+```
+
+#### 17.1.3 finally
+
+finally是在`ES9`（ES2018）中新增的一个特性：表示无论Promise对象无论变成fulfilled还是reject状态，最终都会
+被执行的代码。
+
+详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally
+
+finally方法是不接收参数的，因为无论前面是fulfilled状态，还是reject状态，它**都会执行**。
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+}).finally(() => {
+  console.log('finally');
+})
+
+// err aaa
+// finally
+```
+finally方法确实是执行了，但是你会好奇，为什么这里的catch方法执行了，
+
+catch这个东西比较特殊，当你这样写的时候
+
+```js
+const p = new Promise((resolve, reject) => {
+  reject('aaa')
+})
+
+p.then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// err aaa
+```
+
+通过我们前面的学习，链式调用的话我们知道catch方式其实是执行then方法返回的新的Promise里的reject执行后的回调
+
+我catch方法不是调用then方法返回的Promise吗？（我这里then方法压根不会执行，那你catch为什么执行了）
+
+简单来说：
+
+这样写catch方法其实它内部在实现的时候会先看你上面这里(p)最有没有执行reject或者抛出异常，如果没有，才会去看前面then返回的Promise里有没有对应的reject执行或者是抛出异常（优先级的顺序）
+
+相当于catch就是then方法第二个参数的语法糖
+
+通过catch方法来传入错误（拒绝）捕获的回调函数
+```js
+const p = new Promise((resolve, reject) => {
+  throw Error('抛出了异常')
+})
+
+p.catch(err => {
+  console.log('err', err);
+})
+
+// err Error: 抛出了异常
+```
+
+上面这种方式其实是不符合[Promise/A+](https://promisesaplus.com/)规范的（社区制定的规范），其实规范里它规定我们写对应的错误（拒绝）捕获的时候，让我们写在then方法的第二个参数里的，但是ES6在实现Promise的时候，为了让我们代码的阅读性更强，为了让我们编写起来更加方便，给我们提供了catch方法
+
+理解了的话我们来看看下面这段代码
+
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+
+p.then(res => {
+  console.log('res', res);
+  return new Promise((resolve, reject) => {
+    reject('bbb')
+  })
+}).catch(err => {
+  console.log('err', err);
+})
+
+// res aaa
+// err aaa
+```
+
+那我们再来看这个代码
+
+```js
+const p = new Promise((resolve, reject) => {
+  resolve('aaa')
+})
+
+p.then(res => {
+  console.log('res1', res);
+}).then(res => {
+  console.log('res2', res);
+  throw Error('抛出了异常')
+}).then(res => {
+  console.log('res3', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// res1 aaa
+// res2 undefined
+// err Error: 抛出了异常
+```
+
+### 17.8 Promise类方法
+
+#### 17.8.1 resolve
+
+前面我们学习的then、catch、finally方法都属于Promise的实例方法，都是存放在Promise的prototype上的。
+
+有时候我们已经有一个现成的内容了，希望将其转成Promise来使用，以前的话我们可能会这样做
+
+```js
+function foo() {
+  const obj = {
+    name: 'tao',
+    age: 18
+  }
+  return new Promise((resolve, reject) => {
+    resolve(obj)
+  })
+}
+
+console.log(foo()); // Promise { { name: 'tao', age: 18 } }
+```
+
+我们其实可以用Promise.resolve 方
+法来完成。
+
+Promise.resolve的用法相当于new Promise，并且执行resolve操作：
+
+```js
+const p = Promise.resolve({ name: 'tao', age: 18 })
+console.log(p); // Promise { { name: 'tao', age: 18 } }
+
+// 等价于
+const p2 = new Promise((resolve) => {
+  resolve({ name: 'tao', age: 18 })
+})
+
+console.log(p2);  // Promise { { name: 'tao', age: 18 } }
+```
+
+resolve参数的形态：
+- 情况一：参数是一个普通的值或者对象
+- 情况二：参数本身是Promise
+- 情况三：参数是一个thenable
+
+这里就不做演示了，跟前面resolve参数是一样的
+
+#### 17.8.2 reject
+
+reject方法类似于resolve方法，只是会将Promise对象的状态设置为reject状态。
+
+Promise.reject的用法相当于new Promise，只是会调用reject
+
+```js
+Promise.reject('tao')
+// 等价于
+new Promise((reject) => reject('tao'))
+```
+
+但是Promise.reject传入的参数无论是什么形态，都会直接作为reject状态的参数传递到catch的。
+
+```js
+Promise.reject({
+  then() {
+    reject('aaa')
+  }
 }).then(res => {
   console.log('res', res);
 }).catch(err => {
   console.log('err', err);
 })
 
-// err bbb
+// err { then: [Function: then] }
+```
+
+#### 17.8.3 all
+
+all是将多个Promise包裹在一起形成一个新的Promise；
+
+新的Promise状态由包裹的所有Promise共同决定：
+- 当所有的Promise状态变成fulfilled状态时，新的Promise状态为fulfilled，并且会将所有Promise的返回值
+组成一个数组；
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('ccc')
+  }, 3000);
+})
+
+// 如果传入的值不是Promise，它会帮你把它转为Promise的
+// 它会等所有的Promise转为fulfilled的时候，再拿到结果
+// 放在数组里是按照顺序的，返回结果
+Promise.all([p1, p2, 'ccc']).then(res => {
+  console.log('res', res);
+})
+
+// res [ 'aaa', 'bbb', 'ccc' ]
+```
+
+当有一个Promise状态为reject时，新的Promise状态为reject，并且会将第一个reject的返回值作为参数；
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('ccc')
+  }, 3000);
+})
+
+Promise.all([p3, p2, p1]).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// err aaa
+```
+
+#### 17.8.4 allSettled
+
+all方法有一个缺陷：当有其中一个Promise变成reject状态时，新Promise就会立即变成对应的reject状态。
+- 那么对于resolved的，以及依然处于pending状态的Promise，我们是获取不到对应的结果的；
+
+在`ES11`（ES2020）中，添加了新的API Promise.allSettled：
+- 该方法会在所有的Promise都有结果（settled），无论是fulfilled，还是reject时，才会有最终的状态；
+- 并且这个Promise的结果一定是fulfilled的；
+
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('ccc')
+  }, 3000);
+})
+
+Promise.allSettled([p3, p2, p1]).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+/**
+ * res [
+  { status: 'fulfilled', value: 'ccc' },
+  { status: 'fulfilled', value: 'bbb' },
+  { status: 'rejected', reason: 'aaa' }
+]
+ */
+```
+
+allSettled的结果是一个数组，数组中存放着每一个Promise的结果，并且是对应一个对象的；
+
+这个对象中包含status状态，以及对应的value值；
+
+#### 17.8.5 race
+
+如果有一个Promise有了结果，我们就希望决定最终新Promise的状态，那么可以使用race方法：
+
+race是竞技、竞赛的意思，表示多个Promise相互竞争，谁先有结果，那么就使用谁的结果；
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('ccc')
+  }, 3000);
+})
+
+Promise.race([p3, p2, p1]).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// err aaa
+```
+
+
+#### 17.8.6 any
+
+any方法是`ES12`中新增的方法，和race方法是类似的：
+- any方法会等到一个fulfilled状态，才会决定新Promise的状态；
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('ccc')
+  }, 3000);
+})
+
+Promise.any([p3, p2, p1]).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+})
+
+// res bbb
+```
+
+如果所有的Promise都是reject的，那么会报一个AggregateError的错误。
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('aaa')
+  }, 1000);
+})
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('bbb')
+  }, 2000);
+})
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject('ccc')
+  }, 3000);
+})
+
+Promise.any([p3, p2, p1]).then(res => {
+  console.log('res', res);
+}).catch(err => {
+  console.log('err', err);
+  console.log(err.errors);
+})
+
+// err [AggregateError: All promises were rejected]
+// [ 'ccc', 'bbb', 'aaa' ]
 ```

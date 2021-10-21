@@ -489,3 +489,166 @@ export default reducer;
 - 另外关于reducer中用到的action、action-type等我们也依然是在同一个文件中；
 
 ![](https://gitee.com/itsandy/picgo-img/raw/master/react/redux文件划分.png)
+
+
+## 十五、Immutable 
+
+我们先来看看前面说的reduer代码
+
+```jsx
+import { RECOMMEND } from "./action-type.jsx";
+
+const homeInitialState = {
+  recommends: [],
+};
+
+export const homeReduer = (state = homeInitialState, action) => {
+  switch (action.type) {
+    case RECOMMEND:
+      return { ...state, recommends: action.recommends };
+    default:
+      return state;
+  }
+};
+```
+
+就来看看这段代码，你会发现我们每次返回的state都是将原来的initialState拷贝了一份，然后修改里面的部分属性
+
+这里的initialState的数据很少，但是如果我们的initialState数据非常多，30行，100行，我们需要使用的state只有3，4条
+
+但是它返回的state是全部的initialState（也就造成了一定的性能浪费）
+
+当然你可能会想，我这样写不就好了吗(如果我只想要initialState里的一部分数据)
+
+```jsx
+import { RECOMMEND } from "./action-type.jsx";
+
+const homeInitialState = {
+  recommends: [],
+};
+
+export const homeReduer = (state = homeInitialState, action) => {
+  switch (action.type) {
+    case RECOMMEND:
+      state.recommends = action.recommends;
+      return state;
+    default:
+      return state;
+  }
+};
+```
+
+这样是不行的，我们前面说过redux要求我们reducr必须是一个**纯函数**
+
+那我们怎么解决喃？
+
+### 15.1 数据可变性的问题
+
+在React开发中，我们总是会强调数据的不可变性：
+- 无论是类组件中的state，还是redux中管理的state；
+- 事实上在整个JavaScript编码过程中，数据的不可变性都是非常重要的；
+
+数据的可变性引发的问题（案例）：
+
+```js
+const info = {
+  name: 'tao',
+  age: 18
+}
+const obj = info
+
+info.name = 'sandy'
+console.log(obj.name);  // sandy
+```
+
+我们明明没有修改obj，只是修改了info，但是最终obj也被我们修改掉了；
+
+原因非常简单，对象是引用类型，它们指向同一块内存空间，两个引用都可以任意修改；
+
+有没有办法解决上面的问题呢？
+- 进行对象的拷贝即可：Object.assign或扩展运算符
+
+这种对象的浅拷贝有没有问题呢？
+- 从代码的角度来说，没有问题，也解决了我们实际开发中一些潜在风险；
+- 从性能的角度来说，有问题，如果对象过于庞大，这种拷贝的方式会带来性能问题以及内存浪费；
+
+有人会说，开发中不都是这样做的吗？
+- 从来如此，便是对的吗？
+
+### 15.2 认识ImmutableJS
+
+为了解决上面的问题，出现了Immutable对象的概念：
+- Immutable对象的特点是只要修改了对象，就会返回一个
+新的对象，旧的对象不会发生改变；
+
+
+但是这样的方式就不会浪费内存了吗？
+- 为了节约内存，又出现了一个新的算法：Persistent Data
+Structure（持久化数据结构或一致性数据结构）；
+
+当然，我们一听到持久化第一反应应该是数据被保存到本地或
+者数据库，但是这里并不是这个含义：
+- 用一种数据结构来保存数据；
+- 当数据被修改时，会返回一个对象，但是新的对象会尽可
+能的利用之前的数据结构而不会对内存造成浪费；
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/react/ImmutableJS.gif)
+
+### 15.3 ImmutableJS的基本使用
+
+注意：我这里只是演示了一些API，更多的方式可以参考官网https://immutable-js.com/
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/immutable@4.0.0/dist/immutable.min.js"></script>
+  <script>
+    const im = Immutable
+    const obj = {
+      name: 'tao',
+      age: 18,
+      friend: {
+        name: 'sandy',
+        age: 21
+      }
+    }
+
+    // Map(浅层转换)
+    const objIM = im.Map(obj)
+    const info = objIM
+    const newObjIM = objIM.set('name', 'zm')
+    console.log(info.get('name')) // tao
+    console.log(newObjIM.get('name')) // zm
+
+    // fromJS(深层转换)
+    const obj2IM = im.fromJS(obj)
+    const info2 = obj2IM
+    const newObj2IM = obj2IM.set('friend', { name: 'ymy', age: 20 })
+    console.log(info2.get('friend'))  
+    console.log(newObj2IM.get('friend'))  //  {name: 'ymy', age: 20}
+
+    // List
+    const names = ['zs', 'ls', 'ww', 'zl']
+    const namesIM = im.List(names)
+    const arr = namesIM
+    const newNamesIM = namesIM.set(0, 'tao')
+    console.log(arr.get(0)) // zs
+    console.log(newNamesIM.get(0))  // tao
+
+  </script>
+
+</body>
+
+</html>
+```
+
+!>你会发现上面的Map方法很像ES6中的Map[详情跳转](javascript/es-next/es6?id=十三、map)
