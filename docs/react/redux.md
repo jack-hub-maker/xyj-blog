@@ -297,9 +297,6 @@ export default class Home extends PureComponent {
 
 其实我们可以封装一个connect的函数来让component和store连接在一起
 
-
-
-
 开始之前需要强调一下，redux和react没有直接的关系，你完全可以在React, Angular, Ember, jQuery, or vanilla JavaScript中
 使用Redux。
 
@@ -312,6 +309,14 @@ export default class Home extends PureComponent {
 详情：https://cn.redux.js.org/tutorials/fundamentals/part-5-ui-react#integrating-redux-with-a-ui
 
 [![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/awesome-violet-z5chr?fontsize=14&hidenavigation=1&theme=dark)
+
+但是在v7.1的版本中react-redux为了提供了更为方便更为简单的Hook API，并且配合Ts使用效果更好
+
+详情：https://react-redux.js.org/api/hooks
+
+那我们就用react-redux提供的hook来改造一下前面的案例
+
+!>我在前面的案例中使用了react-redux提供的hook，可以形象对比两者的差距
 
 ## 八、组件中异步操作
 
@@ -652,3 +657,9 @@ Structure（持久化数据结构或一致性数据结构）；
 ```
 
 !>你会发现上面的Map方法很像ES6中的Map[详情跳转](javascript/es-next/es6?id=十三、map)
+
+### 15.4 Redux中使用ImmutableJS
+
+上面的例子看懂了，应该很容易理解，我直接进行演示
+
+[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/reduxzhong-shi-yong-immutablejs-s3012?fontsize=14&hidenavigation=1&theme=dark)
