@@ -2206,6 +2206,8 @@ Promise.any([p3, p2, p1]).then(res => {
 
 ### 18.1 什么是迭代器
 
+!>迭代器不是ES6新增的，只是因为后续讲的生成器是特殊的迭代器（所以迭代器放在了这个专栏）
+
 维基百科：
 - `迭代器`（iterator），是确使用户可在容器对象（container，例如链表或数组）上遍访的对象，使用该接口无需关心对象的内部实现细节。
   - 其行为像数据库中的光标，迭代器最早出现在1974年设计的CLU编程语言中；
@@ -2230,10 +2232,62 @@ next方法有如下的要求：
 - https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_generators
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
 
+前面说过，迭代器在JS中表现就是一个实现了特定规则的next方法的一个对象
 
-见src/01_认识什么是迭代器
+那么我们先来看看什么是迭代器？
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+我们先不管这段代码是什么意思
+
+这个itNames其实就是一个迭代器
+
+```js
+const names = ["zs", "ls", "ww", "zl"];
+
+const itNames = names[Symbol.iterator]();
+
+console.log(itNames.next()); // {value: "zs", done: false}
+console.log(itNames.next()); // {value: "ls", done: false}
+console.log(itNames.next()); // {value: "ww", done: false}
+console.log(itNames.next()); // {value: "zl", done: false}
+console.log(itNames.next()); // {value: undefined, done: true}
+```
+
+其实你会发现,调用迭代器的next方法,它会打印一个对象,里面有done和value
+
+我们会发现调用前四次的value都一样对应迭代names里的值,done为false
+
+调用第五次的时候value就是undefined,done也变成了true
+
+那我们可以理解当它调用超过names的length的时候,再调用了话对应的值就变成undefined,done(完成)就为true了
+
+那我们也可以来实现一个迭代器
+
+```js
+const names = ["zs", "ls", "ww", "zl"];
+
+// 创建一个迭代器对象来访问数组
+// 这个函数返回一个对象，对象中实现了next方法，那么这个函数就相对于是一个创建迭代器对象的函数
+function namesIterator(names) {
+  let index = 0;
+  return {
+    next() {
+      if (index < names.length) {
+        return { done: false, value: names[index++] };
+      } else {
+        return { done: true, value: undefined };
+      }
+    }
+  };
+}
+
+const it = namesIterator(names);
+console.log(it.next()); // { done: false, value: 'zs' }
+console.log(it.next()); // { done: false, value: 'ls' }
+console.log(it.next()); // { done: false, value: 'ww' }
+console.log(it.next()); // { done: false, value: 'zl' }
+console.log(it.next()); // { done: true, value: undefined }
+```
+
 
 
 ### 18.2 可迭代对象
@@ -2247,18 +2301,93 @@ next方法有如下的要求：
 - 当一个对象变成一个可迭代对象的时候，进行某些迭代操作，比如 for...of 操作时，其实就会调用它的
 @@iterator 方法； 
 
-见src/02_认识什么是可迭代对象
+其实迭代器协议和可迭代协议根本不是一个东西
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+下面是我的个人理解
+
+迭代器协议就是要求实现一个对象实现特定的next方法
+
+可迭代协议就是要求实现一个对象实现[Symbol.iterator]属性（函数），函数返回一个迭代器
+
+```js
+const names = {
+  names: ["zs", "ls", "ww", "zl"],
+  [Symbol.iterator]() {
+    let index = 0;
+    return {
+      next: () => {
+        if (index < this.names.length) {
+          return { done: false, value: this.names[index++] };
+        } else {
+          return { done: true, value: undefined };
+        }
+      }
+    };
+  }
+};
+
+const itNames = names[Symbol.iterator]();
+console.log(itNames.next());
+console.log(itNames.next());
+console.log(itNames.next());
+console.log(itNames.next());
+console.log(itNames.next());
+
+// 其实这就解答了以前困扰我的一个疑惑
+// 以前我用for of的时候只知道它是用来遍历数组的
+// 其实for...of遍历的东西必须是一个可迭代的对象
+
+for (const item of names) {
+  console.log(item); // zs ls ww zl
+}
+```
 
 ### 18.3 原生迭代器对象
 
 事实上我们平时创建的很多原生对象已经实现了可迭代协议，会生成一个迭代器对象的：
 - String、Array、Map、Set、arguments对象、NodeList集合；
 
-见src/03_内置创建可迭代对象
+```js
+// 1.String
+const name = "tao";
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+for (const item of name) {
+  console.log(item); // t a o
+}
+
+// 2.Array
+const names = ["zs", "ls", "ww", "zl"];
+for (const item of names) {
+  console.log(item); // zs ls ww zl
+}
+
+// 3.Map
+// const map = new Map()
+// map.set('age', 18);
+// map.set("aaa", "bbb");
+const map = new Map([
+  [{ name: "tao", age: 18 }, "aaa"],
+  [{ name: "sandy", age: 21 }, "bbb"]
+]);
+
+for (const item of map) {
+  console.log(item); // [ { name: 'tao', age: 18 }, 'aaa' ] [ { name: 'sandy', age: 21 }, 'bbb' ]
+}
+
+// 4.Set
+const set = new Set([20, 30, 40, 20, 30]);
+for (const item of set) {
+  console.log(item); //  20 30 40
+}
+
+// 5.arguments
+function foo(x, y, z) {
+  for (const item of arguments) {
+    console.log(item); // 10 20 30
+  }
+}
+foo(10, 20, 30);
+```
 
 ### 18.4 可迭代对象的应用
 
@@ -2267,9 +2396,35 @@ next方法有如下的要求：
 - 创建一些对象时：new Map([Iterable])、new WeakMap([iterable])、new Set([iterable])、new WeakSet([iterable]);
 - 一些方法的调用：Promise.all(iterable)、Promise.race(iterable)、Array.from(iterable);
 
-见src/04_可迭代对象的应用场景
+```js
+// 1.for...of(前面说过就不展示了)
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+// 2.展开语法
+const info = {
+  name: "tao",
+  age: 18
+};
+
+const newInfo = { ...info };
+
+// 有个疑问？
+// 你info不能进行for...of遍历（你不是一个可迭代对象）
+// 但是它可以进行解构
+// 这是因为在ES9中新增的特性的（对它进行了特殊的处理），本质上来说按照迭代器的语法是不可以解构的，所以这里它不是用的迭代器
+
+// 3.解构
+// 这个也是ES9新增的特性
+const { name } = info;
+
+// 4.创建一些其他对象（比如前面讲的Map，Set）
+
+// 5.Promise.all
+Promise.all("123").then((res) => {
+  console.log(res); // ['1','2','3']
+});
+
+```
+
 
 ### 18.5 自定义类的迭代
 
@@ -2283,9 +2438,38 @@ next方法有如下的要求：
 - 这个教室可以进来新学生（push）；
 - 创建的教室对象是可迭代对象；
 
-见src/05_自定义类的迭代
+```js
+class Classroom {
+  constructor(name, address, students) {
+    this.name = name;
+    this.address = address;
+    this.students = students;
+  }
+  entry(newStudnt) {
+    this.students.push(newStudnt);
+  }
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+  [Symbol.iterator]() {
+    let index = 0;
+    return {
+      next: () => {
+        if (index < this.students.length) {
+          return { done: false, value: this.students[index++] };
+        } else {
+          return { done: true, value: undefined };
+        }
+      }
+    };
+  }
+}
+
+const room = new Classroom("西虹市小学", "西虹市", ["zs", "ls", "ww", "zl"]);
+room.entry("qq");
+
+for (const item of room) {
+  console.log(item);  // zs ls ww zl qq
+}
+```
 
 ### 18.6 迭代器的中断
 
@@ -2295,6 +2479,429 @@ next方法有如下的要求：
 
 那么这个时候我们想要监听中断的话，可以添加return方法：
 
-见src/06_迭代器的中断
+```js
+class Classroom {
+  constructor(name, address, students) {
+    this.name = name;
+    this.address = address;
+    this.students = students;
+  }
+  entry(newStudnt) {
+    this.students.push(newStudnt);
+  }
 
-[![Go to CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/embed/long-leftpad-ix9r1?fontsize=14&hidenavigation=1&theme=dark)
+  [Symbol.iterator]() {
+    let index = 0;
+    return {
+      next: () => {
+        if (index < this.students.length) {
+          return { done: false, value: this.students[index++] };
+        } else {
+          return { done: true, value: undefined };
+        }
+      },
+      return() {
+        console.log("迭代器提前终止了");  // 迭代器提前终止了
+        return { done: true, value: undefined };
+      }
+    };
+  }
+}
+
+const room = new Classroom("西虹市小学", "西虹市", ["zs", "ls", "ww", "zl"]);
+room.entry("qq");
+
+for (const item of room) {
+  console.log(item);  // zs ls ww zl
+  if (item === "zl") break;
+}
+```
+
+!>其实监听中断的话用的很少，了解有这个东西就好了
+
+
+
+## 十九、生成器
+
+### 19.1 什么是生成器
+
+
+生成器是ES6中新增的一种函数控制、使用的方案，它可以让我们更加灵活的控制函数什么时候继续执行、暂停执
+行等
+
+生成器是ES6中新增的一种函数控制、使用的方案，它可以让我们更加灵活的控制函数什么时候继续执行、暂停执
+行等
+
+`生成器函数也是一个函数，但是和普通的函数有一些区别`：
+- 首先，生成器函数需要在function的后面加一个符号：*
+- 其次，生成器函数可以通过yield关键字来控制函数的执行流程：
+- 最后，生成器函数的返回值是一个Generator（生成器）：
+  - 生成器事实上是一种`特殊的迭代器`；
+  - MDN：Instead, they return a special type of iterator, called a Generator.
+
+```js
+function* foo() {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一段代码的结果", value1);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value3 = 300;
+  console.log("第三段代码的结果", value3);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value4 = 400;
+  console.log("第四段代码的结果", value4);
+  console.log("------------");
+  console.log("代码执行结束");
+}
+const generator = foo();
+
+console.log(generator.next());
+console.log(generator.next());
+console.log(generator.next());
+console.log(generator.next());
+
+/**
+代码执行开始
+------------
+第一段代码的结果 100
+------------
+{ value: undefined, done: false }
+------------
+第二段代码的结果 200
+------------
+{ value: undefined, done: false }
+------------
+第三段代码的结果 300
+------------
+{ value: undefined, done: false }
+------------
+第四段代码的结果 400
+------------
+代码执行结束
+{ value: undefined, done: true }
+*/
+```
+
+
+### 19.2 生成器函数的执行流程
+
+我们发现上面的生成器函数foo的执行体压根没有执行，它只是返回了一个生成器对象。
+
+那么我们如何可以让它执行函数中的东西呢？调用next即可；
+
+调用第一次next方法，就会调用第一个yield之前的代码
+
+调用第二次next方法，就会调用第一个yield到第二个yield之间的代码
+
+以此内推。。。。
+
+如果最后只有一个yield的话，就会执行yield后面的代码，然后使返回的done属性变成true，之后调用next方法
+
+理解了前面讲的迭代器的话应该很容易理解这个
+
+
+下面我们直接通过代码来看一下生成器函数的执行流程是怎么样的
+
+我们会发现打印的value值都是undefined
+
+比如第一个yield，可以理解为yield前面的代码就是一段函数执行体
+
+函数执行体当然也可以返回值咯
+
+默认没有返回，那就是return undefined
+
+所以我们可以按照以前写函数的逻辑，在最后返回我们想返回的值
+
+```js
+function* bar() {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一行代码的结果", value1);
+  console.log("------------");
+  return value1;
+  yield;
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield;
+  console.log("代码执行结束");
+}
+
+const generator2 = bar();
+console.log(generator2.next());
+console.log(generator2.next());
+
+/**
+ * 代码执行开始
+ *  ------------
+ *  第一行代码的结果 100
+ *  ------------
+ *  { value: 100, done: true }
+ *  { value: undefined, done: true }
+ */
+```
+
+你会发现的确我们可以返回值，但是我们又执行了next，第二段代码没有符合我们的预期
+
+我们只是想让第一段的代码返回的value为100，第二段代码正常执行，返回undefined
+
+但是第一段代码返回了以后done就为了true，之前学过迭代器的话应该可以理解
+
+表示这个迭代器执行完毕了，所以之后执行都会返回{done：true，value：undefined}
+
+如果按照以前函数的逻辑的话，显然是不行的，在生成器数中我们可以把return理解为终止执行，生成器提前结束
+后续我还会详细讲解return的
+
+那么我们用什么来返回值喃
+
+在生成器函数中我们会把想返回的值放在yield后面（yield后面就是我们想返回的值）
+
+```js
+function* baz() {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一行代码的结果", value1);
+  console.log("------------");
+  yield value1;
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield value2;
+  console.log("代码执行结束");
+}
+
+const generator3 = baz();
+console.log(generator3.next());
+console.log(generator3.next());
+console.log(generator3.next());
+
+/**
+代码执行开始
+------------
+第一行代码的结果 100
+------------
+{ value: 100, done: false }
+------------
+第二段代码的结果 200
+------------
+{ value: 200, done: false }
+代码执行结束
+{ value: undefined, done: true }
+*/
+```
+
+
+### 19.3 生成器的next传递参数
+
+函数既然可以暂停来分段执行，那么函数应该是可以传递参数的，我们是否可以给每个分段来传递参数呢？
+- 答案是可以的；
+- 我们在调用next函数的时候，可以给它传递参数，那么这个参数会作为上一个yield语句的返回值；
+- 注意：也就是说我们是为本次的函数代码块执行提供了一个值；
+
+```js
+function* foo(num) {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一段代码的结果", value1);
+  console.log("------------");
+  yield num;
+  console.log("------------");
+  const value2 = 200;
+  console.log(num);
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value3 = 300;
+  console.log("第三段代码的结果", value3);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value4 = 400;
+  console.log("第四段代码的结果", value4);
+  console.log("------------");
+  console.log("代码执行结束");
+}
+
+const generator = foo(5);
+// 如果我们第一次调用next方法的时候传递参数，可以在foo这里进行传递
+console.log(generator.next());
+// 那么它其实相当于变成了这样
+// function* foo(num) {
+//   const num = 5
+// }
+// foo(5)
+// 跟原来的函数是一样的，之后我们可以在函数的任何代码段里获取num的值
+
+/** 
+代码执行开始
+------------
+第一段代码的结果 100
+------------
+{ value: 5, done: false }
+*/
+```
+
+第一次调用传递参数的时候next，我们可能会像上面一样，但是我们想让自己的代码片段有自己的独立的参数值
+
+我们从第二次调用next开始，传递的参数值会作为上一次yield语句的返回值
+
+这是意思？感觉有点绕啊？
+
+```js
+function* bar(num) {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一段代码的结果", value1);
+  console.log("------------");
+  const result = yield num;
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield;
+  console.log(result);
+  console.log("代码执行结束");
+}
+
+const generator2 = bar(5);
+// result就是我们第二次调用next传递的参数
+console.log(generator2.next());
+console.log(generator2.next(10));
+console.log(generator2.next(10));
+
+/**
+代码执行开始
+------------
+第一段代码的结果 100
+------------
+{ value: 5, done: false }
+------------
+第二段代码的结果 200
+------------
+{ value: undefined, done: false }
+10
+代码执行结束
+{ value: undefined, done: true }
+*/
+
+```
+
+### 19.4 生成器的return终止执行
+
+还有一个可以给生成器函数传递参数的方法是通过return函数：
+- return传值后这个生成器函数就会结束，之后调用next不会继续生成值了；
+
+```js
+function* foo() {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一段代码的结果", value1);
+  console.log("------------");
+  yield value1;
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield value2;
+  console.log("------------");
+  const value3 = 300;
+  console.log("第三段代码的结果", value3);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value4 = 400;
+  console.log("第四段代码的结果", value4);
+  console.log("------------");
+  console.log("代码执行结束");
+}
+
+const generator = foo();
+
+console.log(generator.next());
+// return传递的参数会作为此段代码的返回值的value
+console.log(generator.return(10));
+console.log(generator.next());
+
+/**
+代码执行开始
+------------
+第一段代码的结果 100
+------------
+{ value: 100, done: false }
+{ value: 10, done: true }
+{ value: undefined, done: true }
+*/
+```
+
+
+### 19.5 生成器的throw抛出异常
+
+除了给生成器函数内部传递参数之外，也可以给生成器函数内部抛出异常：
+- 抛出异常后我们可以在生成器函数中捕获异常；
+- 但是在catch语句中不能继续yield新的值了，但是可以在catch语句外使用yield继续中断函数的执行；
+
+```js
+function* foo() {
+  console.log("代码执行开始");
+  console.log("------------");
+  const value1 = 100;
+  console.log("第一段代码的结果", value1);
+  console.log("------------");
+  try {
+    yield value1;
+  } catch (error) {
+    console.log("内部捕获到异常", error);
+  }
+  console.log("------------");
+  const value2 = 200;
+  console.log("第二段代码的结果", value2);
+  console.log("------------");
+  yield value2;
+  console.log("------------");
+  const value3 = 300;
+  console.log("第三段代码的结果", value3);
+  console.log("------------");
+  yield;
+  console.log("------------");
+  const value4 = 400;
+  console.log("第四段代码的结果", value4);
+  console.log("------------");
+  console.log("代码执行结束");
+}
+
+const generator = foo();
+
+console.log(generator.next());
+console.log(generator.throw("抛出异常"));
+
+/**
+代码执行开始
+------------
+第一段代码的结果 100
+------------
+{ value: 100, done: false }
+内部捕获到异常 抛出异常
+------------
+第二段代码的结果 200
+------------
+{ value: 200, done: false }
+*/
+```

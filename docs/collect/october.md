@@ -11,3 +11,7 @@
 **10/9** [ JavaScript 侦测手机浏览器的五种方法](https://www.ruanyifeng.com/blog/2021/09/detecting-mobile-browser.html)
 
 **10/18** [ 漫画 | 30年后，中国就会有自己的编程语言！](https://mp.weixin.qq.com/s/kjnLIlExNP3ONuOKAMzkcg)
+
+**10/27** [ 自己的开源项目被尤雨溪祖师爷写进演讲稿是一种什么体验](https://juejin.cn/post/7023048712821669896)
+
+**10/27** [ 「万字总结」熬夜总结50个JS的高级知识点，全都会你就是神！！！](https://juejin.cn/post/7022795467821940773#heading-92)
