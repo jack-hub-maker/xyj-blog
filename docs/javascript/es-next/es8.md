@@ -68,3 +68,305 @@ ES8中增加了另一个对对象的操作是 Object.getOwnPropertyDescriptors �
 复。
 
 后续补充
+
+## 六、async/await
+
+### 6.1 异步函数 async function
+
+async关键字用于声明一个异步函数：
+- async是asynchronous单词的缩写，异步、非同步；
+- sync是synchronous单词的缩写，同步、同时；
+
+async异步函数可以有很多中写法：
+
+```js
+async function foo1() {
+
+}
+
+const foo2 = async function () {
+
+}
+
+const foo3 = async () => {
+
+}
+
+class Person {
+  async foo() {
+
+  }
+}
+```
+
+### 6.2 异步函数的执行流程
+
+异步函数的内部代码执行过程和普通的函数是一致的，默认情况下也是会被同步执行。
+
+```js
+async function foo() {
+  console.log('start');
+  console.log(1);
+  console.log(2);
+  console.log(3);
+  console.log('end');
+}
+
+foo()
+console.log('abc');
+
+/**
+start
+1
+2
+3
+end
+abc
+ */
+```
+
+异步函数有返回值时，和普通函数会有区别：
+
+情况一：异步函数也可以有返回值，但是异步函数的返回值会被包裹到Promise.resolve中；
+
+```js
+async function foo() {
+  console.log('start');
+  console.log(1);
+  console.log(2);
+  console.log(3);
+  console.log('end');
+}
+
+// 默认没有返回值，那就是return undefined
+foo().then(res => {
+  console.log(res);
+})
+console.log('abc');
+
+/**
+start
+1
+2
+3
+end
+abc
+undefined
+ */
+```
+
+情况二：如果我们的异步函数的返回值是Promise，Promise.resolve的状态会由Promise决定；
+
+```js
+async function foo() {
+  console.log('start');
+  console.log(1);
+  console.log(2);
+  console.log(3);
+  console.log('end');
+  return new Promise((resolve, reject) => {
+    resolve('aaa')
+  })
+}
+
+foo().then(res => {
+  console.log(res);
+})
+console.log('abc');
+
+/**
+start
+1
+2
+3
+end
+abc
+aaa
+ */
+```
+
+情况三：如果我们的异步函数的返回值是一个对象并且实现了thenable，那么会由对象的then方法来决定；
+
+```js
+async function foo() {
+  console.log('start');
+  console.log(1);
+  console.log(2);
+  console.log(3);
+  console.log('end');
+  return {
+    then(resolve, reject) {
+      resolve('bbb')
+    }
+  }
+}
+
+foo().then(res => {
+  console.log(res);
+})
+console.log('abc');
+
+/**
+start
+1
+2
+3
+end
+abc
+bbb
+ */
+```
+
+如果我们在async中抛出了异常，那么程序它并不会像普通函数一样报错，而是会作为Promise的reject来传递；
+
+```js
+async function foo() {
+  console.log('start');
+  console.log(1);
+  console.log(2);
+  console.log(3);
+  console.log('end');
+  throw new Error('抛出异常')
+}
+
+foo().catch(err => {
+  console.log('捕获到异常');
+})
+console.log('abc');
+
+/**
+start
+1
+2
+3
+end
+abc
+捕获到异常
+ */
+```
+
+### 6.3 await关键字
+
+**async函数另外一个特殊之处**就是可以在它内部使用**await关键字**，而**普通函数中是不可以**的。
+
+await关键字有什么特点呢？
+- 通常使用await是后面会`跟上一个表达式`，这个表达式会`返回一个Promise`；
+- 那么await会`等到Promise的状态变成fulfilled状态`，之后`继续执行异步函数`；
+
+```js
+function request() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('aaa')
+    }, 1000);
+  })
+}
+
+async function foo() {
+  const res = await request()
+  console.log(1, res);
+  console.log(2);
+  console.log(3);
+}
+
+foo()
+
+console.log('abc');
+
+/**
+abc
+1 aaa
+2
+3
+ */
+```
+
+如果await后面是一个普通的值，那么会直接返回这个值；
+
+```js
+async function foo() {
+  // 其实我觉得内部它这里会把bbb给转为生成一个新的promise的resolve的值然后返回给res
+  const res = await 'bbb'
+  console.log(1, res);
+  console.log(2);
+  console.log(3);
+}
+
+foo()
+
+console.log('abc');
+
+/**
+abc
+1 bbb
+2
+3
+ */
+```
+
+如果await后面是一个thenable的对象，那么会根据对象的then方法调用来决定后续的值；
+
+```js
+async function foo() {
+  const res = await {
+    then(resolve, reject) {
+      resolve('ccc')
+    }
+  }
+  console.log(1, res);
+  console.log(2);
+  console.log(3);
+}
+
+foo()
+
+console.log('abc');
+
+/**
+abc
+1 ccc
+2
+3
+ */
+```
+
+如果await后面的表达式，返回的Promise是reject的状态，那么会将这个reject结果直接作为函数的Promise的
+reject值；
+
+```js
+function request() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('fff')
+    }, 1000);
+  })
+}
+
+
+async function foo() {
+  const res = await request()
+  console.log(1, res);
+  console.log(2);
+  console.log(3);
+}
+
+foo().catch(err => {
+  console.log('err', err);
+})
+
+console.log('abc');
+
+/**
+abc
+err fff
+ */
+```
+
+诶你可能会有些疑惑，后面的1，2，3为什么没有打印
+
+其实你可以理解为上面res后面的三句打印相对于是在then函数里的打印的
+
+之前我们说过async/await其实是Generator的语法糖
+
+都在then里面，那么上面的代码Promise是reject就不会来到then方法里，只会来到catch里面，所以后面的打印是不会执行的
+

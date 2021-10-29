@@ -2856,7 +2856,6 @@ console.log(generator.next());
 
 除了给生成器函数内部传递参数之外，也可以给生成器函数内部抛出异常：
 - 抛出异常后我们可以在生成器函数中捕获异常；
-- 但是在catch语句中不能继续yield新的值了，但是可以在catch语句外使用yield继续中断函数的执行；
 
 ```js
 function* foo() {
@@ -2869,21 +2868,8 @@ function* foo() {
     yield value1;
   } catch (error) {
     console.log("内部捕获到异常", error);
+    yield 200
   }
-  console.log("------------");
-  const value2 = 200;
-  console.log("第二段代码的结果", value2);
-  console.log("------------");
-  yield value2;
-  console.log("------------");
-  const value3 = 300;
-  console.log("第三段代码的结果", value3);
-  console.log("------------");
-  yield;
-  console.log("------------");
-  const value4 = 400;
-  console.log("第四段代码的结果", value4);
-  console.log("------------");
   console.log("代码执行结束");
 }
 
@@ -2891,17 +2877,284 @@ const generator = foo();
 
 console.log(generator.next());
 console.log(generator.throw("抛出异常"));
+console.log(generator.next());
+
 
 /**
 代码执行开始
-------------
+------------ 
 第一段代码的结果 100
 ------------
 { value: 100, done: false }
 内部捕获到异常 抛出异常
-------------
-第二段代码的结果 200
-------------
 { value: 200, done: false }
+代码执行结束
+{ value: undefined, done: true }
 */
 ```
+
+### 19.6 生成器替代迭代器使用
+
+我们发现生成器是一种特殊的迭代器，那么在某些情况下我们可以使用生成器来替代迭代器：
+
+```js
+function* foo(arr) {
+  for (const item of arr) {
+    yield item
+  }
+}
+
+const names = ['zs', 'ls', 'ww']
+
+const it = foo(names)
+
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+
+/**
+{ value: 'zs', done: false }
+{ value: 'ls', done: false }
+{ value: 'ww', done: false }
+{ value: undefined, done: true }
+*/
+```
+
+事实上我们还可以使用`yield*`来生产一个可迭代对象（yield*后面跟的是一个可迭代的对象）
+- 这个相当于是一种yield的语法糖，只不过会依次迭代这个可迭代对象，每次迭代其中的一个值；
+
+
+```js
+function* foo(arr) {
+  yield* arr
+}
+
+const names = ['zs', 'ls', 'ww']
+
+const it = foo(names)
+
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+console.log(it.next());
+
+/**
+{ value: 'zs', done: false }
+{ value: 'ls', done: false }
+{ value: 'ww', done: false }
+{ value: undefined, done: true }
+*/
+```
+
+在之前的自定义类迭代中，我们也可以换成生成器：
+
+```js
+class Classroom {
+  constructor(name, address, students) {
+    this.name = name;
+    this.address = address;
+    this.students = students;
+  }
+  entry(newStudnt) {
+    this.students.push(newStudnt);
+  }
+  *[Symbol.iterator]() {
+    yield* this.students
+  }
+}
+
+const room = new Classroom("西虹市小学", "西虹市", ["zs", "ls", "ww", "zl"]);
+room.entry("qq");
+
+for (const item of room) {
+  console.log(item);  // zs ls ww zl qq
+}
+```
+
+## 二十、异步处理的方案
+
+学完了我们前面的Promise、生成器等，我们目前来看一下异步代码的最终处理方案。
+
+需求：
+- 我们需要向服务器发送网络请求获取数据，一共需要发送三次请求；
+- 第二次的请求url依赖于第一次的结果；
+- 第三次的请求url依赖于第二次的结果；
+- 依次类推；
+
+### 20.1 回调函数
+
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+function getData() {
+  requestData('tao').then(res => {
+    requestData(res + 'aaa').then(res1 => {
+      requestData(res1 + 'bbb').then(res2 => {
+        requestData(res2 + 'ccc').then(res3 => {
+          console.log(res3);
+        })
+      })
+    })
+  })
+}
+getData() // taoaaabbbccc
+```
+
+### 20.2 Promise
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+function getData() {
+  requestData('tao').then(res => {
+    return requestData(res + 'aaa')
+  }).then(res1 => {
+    return requestData(res1 + 'bbb')
+  }).then(res2 => {
+    return requestData(res2 + 'ccc')
+  }).then(res3 => {
+    console.log(res3);
+  })
+}
+getData() // taoaaabbbccc
+```
+
+
+### 20.3 Generator
+
+上面的代码其实看起来也是阅读性比较差的，有没有办法可以继续来对上面的代码进行优化呢？
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+function* getData(url) {
+  const res = yield requestData(url)
+  const res1 = yield requestData(res + 'aaa')
+  const res2 = yield requestData(res1 + 'bbb')
+  const res3 = yield requestData(res2 + 'ccc')
+  console.log(res3);
+}
+const generator = getData('tao')
+generator.next().value.then(res => {
+  generator.next(res).value.then(res1 => {
+    generator.next(res1).value.then(res2 => {
+      generator.next(res2).value.then(res3 => {
+        console.log(res3);
+      })
+    })
+  })
+})
+
+// taoaaabbbccc
+```
+
+
+那你可能会说，这代码的阅读性不是一样的很差吗
+
+我们发现上面这种方法其实是有规律的，所以，我们可以封装一个工具函数execGenerator自动执行生成器函数：
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+function* getData(url) {
+  const res = yield requestData(url)
+  const res1 = yield requestData(res + 'aaa')
+  const res2 = yield requestData(res1 + 'bbb')
+  const res3 = yield requestData(res2 + 'ccc')
+  console.log(res3);
+}
+
+function execGenerator(url) {
+  const generator = getData(url)
+  function exec(res) {
+    const result = generator.next(res)
+    if (result.done) return result.value
+    result.value.then((res => {
+      exec(res)
+    }))
+  }
+  exec()
+}
+
+execGenerator('tao')  // taoaaabbbccc
+```
+
+其实我们不需要自己来编写execGenerator这样的工具函数，有一个叫做[co](https://github.com/tj/co)的包可以帮我们自动执行生成器函数
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+function* getData(url) {
+  const res = yield requestData(url)
+  const res1 = yield requestData(res + 'aaa')
+  const res2 = yield requestData(res1 + 'bbb')
+  const res3 = yield requestData(res2 + 'ccc')
+  console.log(res3);
+}
+
+const co = require('co')
+
+// co的第一个参数放入需要执行的生成器函数，第二个参数放入我们想要传入生成器参数的值
+co(getData, 'tao')  // taoaaabbbccc
+```
+
+### 20.4 async/await
+
+但是在`ES8`以后，我们不需要编写上面的代码了，ES8新增的async/await可以帮助我们实现上面的功能
+
+```js
+function requestData(url) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(url)
+    }, 1000)
+  })
+}
+
+async function getData(url) {
+  const res = await requestData(url)
+  const res1 = await requestData(res + 'aaa')
+  const res2 = await requestData(res1 + 'bbb')
+  const res3 = await requestData(res2 + 'ccc')
+  console.log(res3);
+}
+
+getData('tao')  // taoaaabbbccc
+```
+
+但是你要知道async/await其实是上面Generator方案的语法糖
+
+
+
