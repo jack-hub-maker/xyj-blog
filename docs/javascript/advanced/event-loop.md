@@ -118,4 +118,4 @@ ECONNREFUSED。
 - check queue：setImmediate；
 - close queue：close事件；
 
-!>听懂了，来做几道[面试题]()吧
+!>听懂了，来做几道[面试题](interview/javascript/event-loop?id=事件循环面试题)吧
