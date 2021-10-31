@@ -15,3 +15,11 @@
 **10/27** [ 自己的开源项目被尤雨溪祖师爷写进演讲稿是一种什么体验](https://juejin.cn/post/7023048712821669896)
 
 **10/27** [ 「万字总结」熬夜总结50个JS的高级知识点，全都会你就是神！！！](https://juejin.cn/post/7022795467821940773#heading-92)
+
+**10/29** [ 尤雨溪推荐神器 ni ，能替代 npm/yarn/pnpm ？简单好用！源码揭秘！](https://juejin.cn/post/7023910122770399269#heading-0)
+
+**10/30** [ 使用这些配置规范并格式化你的代码](https://mp.weixin.qq.com/s/JftKCEJeGncF2uI56mne_g)
+
+**10/30** [ 就因为这三个知识点，我彻底学废了”正则表达式“](https://mp.weixin.qq.com/s/XRIm4b5d10a2os20SRcD4Q)
+
+

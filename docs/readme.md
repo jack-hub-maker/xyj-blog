@@ -54,6 +54,7 @@
   - [10 - JavaScript 柯里化](javascript/advanced/js-currying?id=javascript-柯里化)
   - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
   - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
+  - [13 - 事件循环](javascript/advanced/event-loop?id=事件循环)
 
 ## 🔰Git
 
@@ -163,6 +164,7 @@
 - **JavaScript 面试题**
   - [1 - 作用域提升](javascript/advanced/scope-interview?id=面试题一)
   - [2 - this 指向](javascript/advanced/this-interview?id=面试题一)
+  - [3 - 事件循环](interview/javascript/event-loop?id=事件循环面试题)
 - **面经分享**`敬请期待`
 
 <!-- [![Edit on CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/s/crazy-ellis-o8h10?file=/src/index.js) -->
