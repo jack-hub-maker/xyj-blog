@@ -1,5 +1,5 @@
-
-## 模块化开发
+# 其他补充
+## 一、模块化开发
 
 TypeScript 支持两种方式来控制我们的作用域：
 
@@ -12,14 +12,14 @@ export function sum(num1: number, num2: number): number {
 }
 ```
 
-## 命名空间 namespace
+## 二、命名空间 namespace
 
 命名空间在 TypeScript 早期时，称之为内部模块，主要目的是将一个模块内部再进行作用域的划分，防止一些命名
 冲突的问题。
 
-::: tip 闲聊
-ts 是在 2014 发布的,js 的模块化是 2015(ES6)才发布的,早期 ts 没有模块化的支持,就依赖于命令空间来做类似于模块化的功能,所以命名空间也称为内部模块,这算是历史遗留问题,现在大多都使用模块化,命名空间当然也可以用
-:::
+
+!>ts 是在 2014 发布的,js 的模块化是 2015(ES6)才发布的,早期 ts 没有模块化的支持,就依赖于命令空间来做类似于模块化的功能,所以命名空间也称为内部模块,这算是历史遗留问题,现在大多都使用模块化,命名空间当然也可以用
+
 
 ```ts
 export namespace Time {
@@ -27,9 +27,9 @@ export namespace Time {
 }
 ```
 
-## 类型文件
+## 三、类型文件
 
-### 类型的查找
+### 3.1 类型的查找
 
 之前我们所有的 typescript 中的类型，几乎都是我们自己编写的，但是我们也有用到一些其他的类型：
 
@@ -54,7 +54,7 @@ const imageEl = document.querySelector("imgage") as HTMLImageElement;
 - 外部定义类型声明；
 - 自己定义类型声明；
 
-### 内置类型声明
+### 3.2 内置类型声明
 
 内置类型声明是 typescript 自带的、帮助我们内置了 JavaScript 运行时的一些标准化 API 的声明文件；
 
@@ -64,7 +64,7 @@ const imageEl = document.querySelector("imgage") as HTMLImageElement;
 
 - [https://github.com/microsoft/TypeScript/tree/main/lib](https://github.com/microsoft/TypeScript/tree/main/lib)
 
-### 外部定义类型声明和自定义声明
+### 3.3 外部定义类型声明和自定义声明
 
 外部类型声明通常是我们使用一些库（比如第三方库）时，需要的一些类型声明。
 

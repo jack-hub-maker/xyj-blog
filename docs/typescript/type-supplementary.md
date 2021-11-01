@@ -1,44 +1,7 @@
 
-## 函数
+# 类型补充
 
-### 函数的参数和返回值类型
-
-函数是 JavaScript 非常重要的组成部分，TypeScript 允许我们指定函数的参数和返回值的类型。
-
-声明函数时，可以在每个参数后添加类型注解，以声明函数接受的参数类型：
-
-我们也可以添加返回值的类型注解，这个注解出现在函数列表的后面：
-
-```ts
-function sum(num1: number, num2: number): number {
-  return num1 + num2;
-}
-```
-
-和变量的类型注解一样，我们通常情况下不需要返回类型注解，因为 TypeScript 会根据 return 返回值推断函数的
-返回类型：
-
-- 某些第三方库处于方便理解，会明确指定返回类型，但是这个看**个人喜好**；
-
-### 上下文函数的参数类型
-
-当一个函数出现在 TypeScript 可以确定该函数会被如何调用的地方时；
-
-该函数的参数会自动指定类型；
-
-```ts
-const names = ["tao", "sandy", "zm"];
-names.forEach((item) => {});
-```
-
-![10.png](https://img14.360buyimg.com/ddimg/jfs/t1/179435/16/18748/22467/61122a1bE6bcd97c0/ffa0b0a9d19760ef.png)
-
-我们并没有指定 item 的类型，但是 item 是一个 string 类型：
-
-- 这是因为 TypeScript 会根据 forEach 函数的类型以及数组的类型推断出 item 的类型；'
-- 这个过程称之为**上下文类型**（contextual typing），因为函数执行的上下文可以帮助确定参数和返回值的类型；
-
-## 对象类型
+## 一、对象类型
 
 如果我们希望限定一个函数接受的参数是一个对象，这个时候要如何限定呢？
 
@@ -54,7 +17,7 @@ function coordinate(coordinate: { x: number; y: number; z: number }) {
 coordinate({ x: 12, y: 123, z: 213 });
 ```
 
-## 可选类型
+## 二、可选类型
 
 当我们设立形参的时候,在 ts 中设立了几个就必须传几个,但是我们希望有些属性可以传也可以不传
 
@@ -68,7 +31,7 @@ function coordinate(coordinate: { x: number; y: number; z?: number }) {
 coordinate({ x: 12, y: 123 });
 ```
 
-## 联合类型
+## 三、联合类型
 
 简单的说就是或者
 
@@ -111,7 +74,7 @@ foo(123);
 - 需要进行很多的逻辑判断(类型缩小)
 - 返回值的类型是不容易确定的
 
-### 可选类型和联合类型的关系
+## 四、可选类型和联合类型的关系
 
 其实上，可选类型可以看做是 类型 和 undefined 的联合类型：
 
@@ -124,7 +87,7 @@ foo();
 foo(undefined);
 ```
 
-## 类型别名
+## 五、类型别名
 
 在前面，我们通过在类型注解中编写 对象类型 和 联合类型，但是当我们想要多次在其他地方使用时，就要编写多
 次。
@@ -146,7 +109,7 @@ function coordinate(coordinate: CoordinateType) {
 coordinate({ x: 12, y: 123 });
 ```
 
-## 类型断言
+## 六、类型断言
 
 有时候 TypeScript 无法获取具体的类型信息，这个我们需要使用类型断言（Type Assertions）。
 
@@ -215,7 +178,7 @@ const stu = new Student();
 sayHello(stu);
 ```
 
-## 非空类型断言
+## 七、非空类型断言
 
 当我们编写下面的代码时，在执行 ts 的编译阶段会报错：
 
@@ -241,7 +204,7 @@ function foo(name?: string) {
 foo("hello world");
 ```
 
-## 可选链
+## 八、可选链
 
 可选链事实上并不是 TypeScript 独有的特性，它是 ES11（ES2020）中增加的特性：
 
@@ -288,9 +251,9 @@ console.log(info.name);
 console.log(info.friend?.name);
 ```
 
-## ??和!!
+## 九、??和!!
 
-### ??
+### 9.1 ??
 
 它是 ES11 增加的新特性
 
@@ -303,7 +266,7 @@ const message = name ?? "sandy";
 console.log(message); // sandy
 ```
 
-### !!
+### 9.2 !!
 
 将一个其他类型转换成 boolean 类型；类似于 Boolean(变量)的方式；
 
@@ -313,7 +276,7 @@ let flag = !!name;
 console.log(flag); // true
 ```
 
-## 字面量
+## 十、字面量
 
 除了前面我们所讲过的类型之外，也可以使用字面量类型（literal types）：
 
@@ -355,7 +318,7 @@ changeAlign("center");
 changeAlign(311);
 ```
 
-### 字面量推理
+## 十一、字面量推理
 
 我们先来看一个案例:
 
@@ -399,7 +362,7 @@ const options = {
 
 ![13.png](https://img10.360buyimg.com/ddimg/jfs/t1/191714/14/17735/28567/61122a1bEbf95a7e9/228621285c462ebe.png)
 
-## 类型缩小
+## 十二、类型缩小
 
 什么是类型缩小呢？
 
@@ -416,7 +379,7 @@ const options = {
 - in
 - 等等
 
-### typeof
+## 十三、typeof
 
 在 TypeScript 中，检查返回的值 typeof 是一种类型保护：因为 TypeScript 对如何 typeof 操作不同的值进行编码。
 
@@ -431,7 +394,7 @@ function foo(message: MessageType) {
 }
 ```
 
-### 平等缩小
+## 十四、平等缩小
 
 我们可以使用 Switch 或者相等的一些运算符来表达相等性（比如===, !==, ==, and != ）：
 
@@ -452,7 +415,7 @@ function printDirection(direction: Direction) {
 }
 ```
 
-### instanceof
+## 十五、instanceof
 
 JavaScript 有一个运算符来检查一个值是否是另一个值的“实例”：
 
@@ -485,7 +448,7 @@ const stu = new Student();
 work(stu);
 ```
 
-### in
+## 十六、in
 
 Javascript 有一个运算符，用于确定对象是否具有带名称的属性：in 运算符
 

@@ -1,5 +1,5 @@
-
-## 接口的声明
+# 接口
+## 一、接口的声明
 
 在前面我们通过 type 可以用来声明一个对象类型：
 
@@ -26,7 +26,7 @@ const info: InfoType = {
 
 接下来我们继续学习一下接口的其他特性。
 
-## 可选属性
+## 二、可选属性
 
 接口中我们也可以定义可选属性：
 
@@ -49,7 +49,7 @@ const info: InfoType = {
 console.log(info.friend?.name);
 ```
 
-## 只读属性
+## 三、只读属性
 
 接口中也可以定义只读属性：
 
@@ -68,7 +68,7 @@ const info: InfoType = {
 info.name = "sandy"; // 不能赋值给'name'，因为它是一个只读的属性。
 ```
 
-## 索引类型
+## 四、索引类型
 
 前面我们使用 interface 来定义对象类型，这个时候其中的属性名、类型、方法都是确定的，但是有时候我们会遇
 到类似下面的对象：
@@ -97,7 +97,7 @@ const languageYear: ILanguageYear = {
 };
 ```
 
-## 函数类型
+## 五、函数类型
 
 前面我们都是通过 interface 来定义对象中普通的属性和方法的，实际上它也可以用来定义函数类型：
 
@@ -117,7 +117,7 @@ const sum: ISumFn = (num1, num2) => {
 type SumFnType = (num1: number, num2: number) => number;
 ```
 
-## 接口继承
+## 六、接口继承
 
 接口和类一样是可以进行继承的，也是使用 extends 关键字：
 
@@ -145,7 +145,7 @@ const info: IPerson = {
 };
 ```
 
-## 接口的实现
+## 七、接口的实现
 
 接口定义后，也是可以被类实现的：
 
@@ -196,7 +196,7 @@ function foo(bar: Person) {
 foo(new Person());
 ```
 
-## interface 和 type 区别
+## 八、interface 和 type 区别
 
 我们会发现 interface 和 type 都可以用来定义对象类型，那么在开发中定义对象类型时，到底选择哪一个呢？
 
@@ -237,7 +237,7 @@ For the most part, you can choose based on personal preference, and TypeScript w
 在大多数情况下，你可以根据**个人喜好**来选择，TypeScript 会告诉你，如果它需要的东西是其他类型的声明。如果你想要一个启发式的方法，请使用 interface，直到你需要使用来自 type 的特性。
 :::
 
-## 字面量赋值
+## 九、字面量赋值
 
 和字面量类型大致相似,但还是有不同点
 
@@ -281,7 +281,7 @@ const p: IPerson = info;
 console.log(p);
 ```
 
-## 交叉类型
+## 十、交叉类型
 
 前面我们学习了联合类型：
 
@@ -322,7 +322,7 @@ const info: IPerson = {
 };
 ```
 
-## 枚举类型
+## 十一、枚举类型
 
 枚举类型是为数不多的 TypeScript 特性有的特性之一：
 
@@ -362,7 +362,7 @@ turnDirection(Direction.RIGHT); // 向右转动
 turnDirection(Direction.BOTTOM); // 向下转动
 ```
 
-### 枚举类型的值
+## 十二、枚举类型的值
 
 枚举类型默认是有值的，比如上面的枚举，默认值是这样的：
 

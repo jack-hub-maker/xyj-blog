@@ -101,17 +101,15 @@
 
 
 - **【一】TypeScript 基础**
-  - [1 - 为什么要学习 TypeScript](typescript/readme?id=javascript-一门优秀的语言)
-  - [2 - 认识 TypeScript](typescript/guide?id=认识-typescript)
-  - [3 - 安装 TypeScript](typescript/install)
-  - [4 - TypeScript 中的变量](typescript/variable)
-  - [5 - 数据类型](typescript/data-type?id=javascript-类型)
-  - [6 - TypeScript 中的数据类型](typescript/data-type?id=javascript-类型)
-  - [7 - TypeScript 中的函数](typescript/function?id=函数类型)
-  - [8 - TypeScript 中的类](typescript/function?id=前言)
-  - [9 - TypeScript 中的泛型](typescript/function?id=认识泛型)
-  - [10 - TypeScript 中的接口](typescript/function?id=接口的声明)
-  - [11 -其它补充](typescript/function?id=模块化开发)
+  - [1 - 认识 TypeScript](typescript/readme?id=typescript)
+  - [2 - 变量](typescript/variable?id=typescript中的变量)
+  - [3 - 数据类型](typescript/data-type?id=数据类型)
+  - [4 - 类型补充](typescript/type-supplementary?id=类型补充)
+  - [5 - 函数](typescript/function?id=函数)
+  - [6 - 类](typescript/class?id=类)
+  - [7 - 泛型](typescript/genericity?id=泛型)
+  - [8 - 接口](typescript/interface?id=接口的声明)
+  - [9 -其它补充](typescript/other?id=其他补充)
 - **【二】TypeScript 高级**`敬请期待`
 
 # 📘 优文转载

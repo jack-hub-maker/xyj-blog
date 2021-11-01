@@ -1,5 +1,5 @@
-
-## 前言
+# 类
+## 一、前言
 
 在早期的 JavaScript 开发中（ES5）我们需要通过函数和原型链来实现类和继承，从 ES6 开始，引入了 class 关键字，可以
 更加方便的定义和使用类。
@@ -18,7 +18,7 @@ TypeScript 作为 JavaScript 的超集，也是支持使用 class 关键字的�
 - 在面向对象的世界里，任何事物都可以使用类的结构来描述；
 - 类中包含特有的属性和方法；
 
-## 类的定义
+## 二、类的定义
 
 我们来定义一个 Person 类：
 
@@ -56,7 +56,7 @@ console.log(p.age); // 19
 p.say(); // Hello World
 ```
 
-## 类的继承
+## 三、类的继承
 
 面向对象的其中一大特性就是继承，继承不仅仅可以减少我们的代码量，也是多态的使用前提。
 
@@ -105,7 +105,7 @@ const s = new Student("tao", 19, 1.85);
 s.say(); // Hello Person Hello Student
 ```
 
-## 类的多态
+## 四、类的多态
 
 关于类的多态属于面向对象的基础,这里我就简单说一下
 
@@ -147,7 +147,7 @@ mackActions([new Dog(), new Fish()]);
 // 多态的目的是为了写出更加具备通用性的代码
 ```
 
-## 类的成员修饰符
+## 五、类的成员修饰符
 
 在 TypeScript 中，类的属性和方法支持三种修饰符： public、private、protected
 
@@ -190,7 +190,7 @@ const s = new Student();
 s.getPerson(); // tao
 ```
 
-## 只读属性 readonly
+## 六、只读属性 readonly
 
 如果有一个属性我们不希望外界可以任意的修改，只希望确定值后直接使用，那么可以使用 readonly：
 
@@ -217,7 +217,7 @@ const p = new Person("tao");
 p.name = "31"; // 不能赋值给'name'，因为它是一个只读的属性。
 ```
 
-## getters/setters
+## 七、getters/setters
 
 在前面一些私有属性我们是不能直接访问的，或者某些属性我们想要监听它的获取(getter)和设置(setter)的过程，
 这个时候我们可以使用存取器。
@@ -244,7 +244,7 @@ p.name = "sandy";
 console.log(p.name); // sandy
 ```
 
-## 静态成员
+## 八、静态成员
 
 前面我们在类中定义的成员和方法都属于对象级别的, 在开发中, 我们有时候也需要定义类级别的成员和方法。
 
@@ -263,7 +263,7 @@ console.log(Perosn.age); // 19
 Perosn.say(); // Hello Person
 ```
 
-## 抽象类 abstract
+## 九、抽象类 abstract
 
 我们知道，继承是多态使用的前提。
 
@@ -323,7 +323,7 @@ calculationArea(123); // 报错
 calculationArea("12312"); // 报错
 ```
 
-## 类的类型
+## 十、类的类型
 
 类本身也是可以作为一种数据类型的：
 

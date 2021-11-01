@@ -1,7 +1,7 @@
+# 数据类型
+## 一、JavaScript 类型
 
-## JavaScript 类型
-
-### number
+### 1.1 number
 
 :::tip 提示
 小技巧: 在开发中能让它自己类型推导的就让它自己类型推导(这是我个人的开发习惯)
@@ -34,7 +34,7 @@ console.log(num3); // 72
 console.log(num4); // 256
 ```
 
-### boolean
+### 1.2 boolean
 
 boolean 类型只有两个取值：true 和 false，
 
@@ -43,7 +43,7 @@ let flag = true;
 flag = 10 > 20;
 ```
 
-### string
+### 1.3 string
 
 string 类型是字符串类型，可以使用单引号或者双引号表示：
 
@@ -59,7 +59,7 @@ let say = `my name is ${name}`;
 console.log(say); // my name is sandy
 ```
 
-### array
+### 1.4 array
 
 数组类型的定义有两种方式：
 
@@ -85,7 +85,7 @@ let names2: string[] = ["abc", "cba"];
 
 所以我更推荐你使用第二种方法来定义数组
 
-### object
+### 1.5 object
 
 object 对象类型可以用于描述一个对象：
 
@@ -109,7 +109,7 @@ let info = {
 };
 ```
 
-### null 和 undefined 类型 null 和 undefined 类型
+### 1.6 null 和 undefined 类型 null 和 undefined 类型
 
 在 JavaScript 中，undefined 和 null 是两个基本数据类型。
 
@@ -141,7 +141,7 @@ let u: undefined = undefined;
 
 ![8.png](https://img12.360buyimg.com/ddimg/jfs/t1/188098/15/17532/16321/61122a1aE398fdb85/dbc97d2e341bb0fa.png)
 
-### symbol
+### 1.7 symbol
 
 在 ES5 中，如果我们是不可以在对象中添加相同的属性名称的，比如下面的做法：
 
@@ -166,9 +166,9 @@ const info = {
 };
 ```
 
-## TypeScript 类型
+## 二、TypeScript 类型
 
-### any
+### 2.1 any
 
 在某些情况下，我们确实无法确定一个变量的类型，并且可能它会发生一些变化，这个时候我们可以使用 any 类型（类似
 于 Dart 语言中的 dynamic 类型）。
@@ -190,7 +190,7 @@ message.toString();
 如果对于某些情况的处理过于繁琐不希望添加规定的类型注解，或者在引入一些第三方库时，缺失了类型注解，这个时候
 我们可以使用 any
 
-### unknown
+### 2.2 unknown
 
 unknown 是 TypeScript 中比较特殊的一种类型，它用于描述类型**不确定**的变量。
 
@@ -234,7 +234,7 @@ let num: number = result;
 
 所以**推荐**不确定值的话使用 unknown 类型,当然我个人更喜欢联合类型(好看一点)(后面会讲)
 
-### void
+### 2.3 void
 
 void 通常用来指定一个函数是没有返回值的，那么它的返回值就是 void 类型：
 
@@ -252,7 +252,7 @@ function bar(): void {
 
 void 在开发中一般是不写的,一般要指定返回类型就直接写返回类型
 
-### never
+### 2.4 never
 
 never 表示**永远不会发生值**的类型，比如一个函数：
 
@@ -344,7 +344,7 @@ function logmessage(message: number | string | boolean) {
 }
 ```
 
-### tuple
+### 2.5 tuple
 
 tuple 是元组类型，很多语言中也有这种数据类型，比如 Python、Swift 等。
 
