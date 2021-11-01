@@ -1,14 +1,5 @@
-## 关于
-
-本章根据 **coderwhy 老师**腾讯课堂的视频讲解进行的笔记记录,感兴趣的可以去[腾讯课堂](https://ke.qq.com/course/3453141):tada::tada:查看 coderwhy 老师的课程
-
-本章的代码已上传 [GitHub](https://github.com/likesandy/learn-webpack),感兴趣的可以下载然后配合笔记更佳
-
-本章先对 webpack 进行一次简单的邂逅,后期还会深入 webpack 的学习,敬请期待:rose::rose:
-
-遇到很多问题以及更多细节相关的方面请记住多看:books:[官方文档](https://webpack.docschina.org/)
-
-## 认识 webpack
+# webpack
+## 一、认识 webpack
 
 - 事实上随着前端的快速发展，目前前端的开发已经变的越来越复杂了：
 
@@ -24,7 +15,7 @@
   - 事实上 Vue-CLI、create-react-app、Angular-CLI 都是**基于 webpack** 来帮助我们支持模块化、less、
     TypeScript、打包优化等的；
 
-## Webpack 到底是什么呢？
+## 二、Webpack 到底是什么呢？
 
 - 我们先来看一下官方的解释：
   - webpack is a **static module bundler** for **modern** JavaScript applications.
@@ -36,14 +27,14 @@
   - **现代的 modern**：我们前端说过，正是因为现代前端开发面临各种各样的问题，才催生了 webpack 的出现和发
     展；
 
-## Webpack 的使用前提
+## 三、Webpack 的使用前提
 
 - webpack 的官方文档是[https://webpack.js.org/](https://webpack.js.org/)
   - webpack 的中文官方文档是[https://webpack.docschina.org/](https://webpack.docschina.org/)
 - Webpack 的运行是依赖 **Node 环境**的，所以我们电脑上必须有 Node 环境
   - Node 官方网站：[https://nodejs.org/](https://nodejs.org/)
 
-## Webpack 的安装
+## 四、Webpack 的安装
 
 - webpack 的安装目前分为两个：**webpack**、**webpack-cli**
 - 那么它们是什么关系呢？
@@ -57,3 +48,4 @@
 npm install webpack webpack-cli –g # 全局安装
 npm install webpack webpack-cli –D # 局部安装
 ```
+

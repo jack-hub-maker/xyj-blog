@@ -1,4 +1,5 @@
-## 加载图片案例准备
+# 处理静态资源
+## 一、加载图片案例准备
 
 - 为了演示我们项目中可以加载图片，我们需要在项目中使用图片，比较常见的使用图片的方式是两种：
   - img 元素，设置 src 属性；
@@ -42,7 +43,7 @@ export function element() {
 
 ![6.png](https://img10.360buyimg.com/ddimg/jfs/t1/181027/14/18561/53976/61122e90E1789e4ca/38562bee0b7c74b9.png)
 
-## file-loader
+## 二、file-loader
 
 - 要处理 jpg、png 等格式的图片，我们也需要有对应的 loader：file-loader
   - file-loader 的作用就是帮助我们处理 import/require()方式引入的一个文件资源，并且会将它放到我们输出的文
@@ -63,7 +64,7 @@ npm install file-loader -D
 }
 ```
 
-## 文件的命名规则
+## 三、文件的命名规则
 
 - 有时候我们处理后的**文件名称**按照一定的规则进行显示：
   - 比如保留原来的**文件名**、**扩展名**，同时为了防止重复，包含一个**hash 值**等；
@@ -78,7 +79,7 @@ npm install file-loader -D
   - [hash]：截图 hash 的长度，默认 32 个字符太长了；
   - [path]：文件相对于 webpack 配置文件的路径；
 
-## 设置文件的名称
+## 四、设置文件的名称
 
 - 那么我们可以按照如下的格式编写：
 
@@ -95,7 +96,7 @@ npm install file-loader -D
 }
 ```
 
-## 设置文件的存放路径
+## 五、设置文件的存放路径
 
 - 当然，我们刚才通过 img/ 已经设置了文件夹，这个也是 vue、react 脚手架中常见的设置方式：
   - 其实按照这种设置方式就可以了；
@@ -115,7 +116,7 @@ npm install file-loader -D
 }
 ```
 
-## url-loader
+## 六、url-loader
 
 - url-loader 和 file-loader 的工作方式是相似的，但是可以将较小的文件，转成 base64 的 URI。
 - 安装 url-loader：
@@ -140,7 +141,7 @@ npm install url-loader -D
   - 这是因为我的两张图片的大小分别是 21kb 和 18kb；
   - 默认情况下 url-loader 会将所有的图片文件转成 base64 编码
 
-## url-loader 的 limit
+## 七、url-loader 的 limit
 
 - 但是开发中我们往往是**小的图片需要转换**，但是**大的图片直接使用图片**即可
   - 这是因为**小的图片转换 base64**之后可以**和页面一起被请求**，**减少不必要的请求过程**；
@@ -165,7 +166,7 @@ npm install url-loader -D
 
 ![7.png](https://img10.360buyimg.com/ddimg/jfs/t1/193995/39/17520/63946/61122e93Ebd04bf49/8c6828cdb840fe1d.png)
 
-## 认识 asset module type
+## 八、认识 asset module type
 
 - 我们当前使用的 webpack 版本是 webpack5：
   - 在 webpack5 之前，加载这些资源我们需要**使用一些 loader，比如 raw-loader 、url-loader、file-loader**；
@@ -177,7 +178,7 @@ npm install url-loader -D
   - asset 在导出一个 data URI 和发送一个单独的文件之间自动选择。之前通过使用 url-loader，并且配置资源体
     积限制实现；
 
-## asset module type 的使用
+## 九、asset module type 的使用
 
 - 比如加载图片，我们可以使用下面的方式：
 
@@ -210,7 +211,7 @@ output: {
 }
 ```
 
-## url-loader 的 limit 效果
+## 十、url-loader 的 limit 效果
 
 - 我们需要两个步骤来实现：
   - 步骤一：将 type 修改为 asset；
@@ -231,7 +232,7 @@ output: {
 }
 ```
 
-## 加载字体文件
+## 十一、加载字体文件
 
 - 如果我们需要使用某些特殊的字体或者字体图标，那么我们会引入很多字体相关的文件，这些文件的处理也是一样
   的。
@@ -254,7 +255,7 @@ export function element() {
 }
 ```
 
-## 字体的打包
+## 十二、字体的打包
 
 - 这个时候打包会报错，因为无法正确的处理 eot、ttf、woff 等文件：
   - 我们可以选择使用 file-loader 来处理，也可以选择直接使用 webpack5 的资源模块类型来处理；

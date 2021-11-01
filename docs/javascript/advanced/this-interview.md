@@ -1,4 +1,5 @@
-## 面试题一
+# this指向面试题
+## 一、面试题一
 
 ```js
 var name = "window";
@@ -31,7 +32,7 @@ person.sayName(): person(隐式绑定)
 
 </details>
 
-## 面试题二
+## 二、面试题二
 
 ```js
 var name = 'window'
@@ -94,7 +95,7 @@ person1.foo4.call(person2)()：perosn2(给foo4显式绑定了person2，但是跟
 person1.foo4().call(person2)：person1(返回了闭包，然后给闭包显式绑定了person2，但是闭包是一个箭头函数，箭头函数不绑定this)
 </details>
 
-## 面试题三
+## 三、面试题三
 
 ```js
 var name = 'window'
@@ -158,7 +159,7 @@ person1.foo4().call(person2)：person1(显式绑定里面的函数为person2，�
 
 </details>
 
-## 面试题四
+## 四、面试题四
 
 ```js
 var name = 'window'

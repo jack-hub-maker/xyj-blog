@@ -1,4 +1,6 @@
-## 认识 Plugin
+# 插件的使用
+
+## 一、认识 Plugin
 
 - Webpack 的另一个核心是 Plugin，官方有这样一段对 Plugin 的描述：
   - While loaders are used to transform certain types of modules, plugins can be leveraged to perform a
@@ -8,7 +10,7 @@
   - Loader 是用于**特定的模块类型**进行转换；
   - Plugin 可以用于**执行更加广泛的任务**，比如打包优化、资源管理、环境变量注入等；
 
-## CleanWebpackPlugin
+## 二、CleanWebpackPlugin
 
 - 前面我们演示的过程中，每次修改了一些配置，重新打包时，都需要**手动删除 dist 文件夹**：
   - 我们可以借助于一个插件来帮助我们完成，这个插件就是**CleanWebpackPlugin**；
@@ -29,7 +31,7 @@ module.exports = {
 };
 ```
 
-## HtmlWebpackPlugin
+## 三、HtmlWebpackPlugin
 
 - 另外还有一个不太规范的地方：
   - 我们的 HTML 文件是编写在根目录下的，而最终打包的 **dist 文件夹中是没有 index.html 文件**的。(事实上我们根目录是不需要 index.html 文件,以外这个插件内部有一个 ejs 模板会帮我们渲染出来,这涉及到源码的知识,后期阅读源码的时候再来进行讲解)
@@ -51,7 +53,7 @@ module.exports = {
 
 ![9.png](https://img12.360buyimg.com/ddimg/jfs/t1/184293/13/18533/122777/61122e91E38edd6f3/665fe106dcf3c9f1.png)
 
-## 生成 index.html 分析
+## 四、生成 index.html 分析
 
 - 我们会发现，现在自动在 dist 文件夹中，生成了一个 index.html 的文件：
   - 该文件中也自动添加了我们打包的 bundle.js 文件；
@@ -59,7 +61,7 @@ module.exports = {
   - 默认情况下是根据**ejs 的一个模板**来生成的；
   - 在 html-webpack-plugin 的源码中，有一个 default_index.ejs 模块；
 
-## 自定义 HTML 模板
+## 五、自定义 HTML 模板
 
 - 如果我们想在自己的模块中加入一些比较特别的内容：
   - 比如添加一个 noscript 标签，在用户的 JavaScript 被关闭时，给予响应的提示；
@@ -91,14 +93,14 @@ module.exports = {
 </html>
 ```
 
-## 自定义模板数据填充
+## 六、自定义模板数据填充
 
 - 上面的代码中，会有一些类似这样的语法<% 变量 %>，这个是 EJS 模块填充数据的方式。
 - 在配置 HtmlWebpackPlugin 时，我们可以添加如下配置：
   - template：指定我们要使用的模块所在的路径；
   - title：在进行 htmlWebpackPlugin.options.title 读取时，就会读到该信息；
 
-## DefinePlugin 的介绍
+## 七、DefinePlugin 的介绍
 
 - 但是，这个时候编译还是会报错，因为在我们的模块中还使用到一个 **BASE_URL 的常量**：
 
@@ -108,7 +110,7 @@ module.exports = {
   - 但是我们并没有设置过这个常量值，所以会出现没有定义的错误；
 - 这个时候我们可以使用 DefinePlugin 插件；
 
-## DefinePlugin 的使用
+## 八、DefinePlugin 的使用
 
 - DefinePlugin 允许在编译时创建配置的全局常量，是一个 webpack 内置的插件（不需要单独安装）：
 
@@ -127,7 +129,7 @@ module.exports = {
 
 - 这个时候，编译 template 就可以正确的编译了，会读取到 **BASE_URL** 的值；
 
-## CopyWebpackPlugin
+## 九、CopyWebpackPlugin
 
 - 在 vue 的打包过程中，如果我们将一些文件**放到 public 的目录**下，那么这个目录会**被复制到 dist 文件夹中**。
   - 这个复制的功能，我们可以使用 CopyWebpackPlugin 来完成；
@@ -170,7 +172,7 @@ module.exports = {
 ![11.png](https://img13.360buyimg.com/ddimg/jfs/t1/176960/30/18564/88623/61122e90Eba04631d/7ac79ab2fbc2cd96.png)
 ![12.png](https://img14.360buyimg.com/ddimg/jfs/t1/195342/30/17414/467245/61122e94E13c9f881/26c6aea452537c26.png)
 
-## Mode 配置
+## 十、Mode 配置
 
 - 前面我们一直没有讲 mode。
 - Mode 配置选项，可以告知 webpack 使用响应模式的内置优化：

@@ -1,5 +1,5 @@
-
-## 面试题一
+# 作用域提升面试题
+## 一、面试题一
 
 ```js
 var n = 100;
@@ -34,7 +34,7 @@ console.log(n);
 
 </details>
 
-## 面试题二
+## 二、面试题二
 
 ```js
 function foo() {
@@ -63,7 +63,7 @@ undefined
 
 </details>
 
-## 面试题三
+## 三、面试题三
 
 ```js
 var n = 100;
@@ -101,7 +101,7 @@ console.log(n);
 
 </details>
 
-## 面试题四
+## 四、面试题四
 
 ```js
 var a = 100;
@@ -135,7 +135,7 @@ undefined
 
 </details>
 
-## 面试题五
+## 五、面试题五
 
 ```js
 function foo() {

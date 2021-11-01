@@ -1,4 +1,6 @@
-## 编写案例代码
+# 处理css
+
+## 一、编写案例代码
 
 - 我们创建一个 element.js
   - 通过 JavaScript 创建了一个元素，并且希望给它设置一些样式；
@@ -34,7 +36,7 @@ element();
 
 ![3.png](https://img13.360buyimg.com/ddimg/jfs/t1/202821/9/685/44299/61122e90Ef1c0cae5/afba34937e227110.png)
 
-## css-loader 的使用
+## 二、css-loader 的使用
 
 - 上面的错误信息告诉我们需要一个 loader 来加载这个 css 文件，但是**loader**是什么呢？
   - loader 可以用于**对模块的源代码**进行转换；
@@ -49,7 +51,7 @@ element();
 npm install css-loader -D
 ```
 
-## css-loader 的使用方案
+## 三、css-loader 的使用方案
 
 - **如何使用这个 loader 来加载 css 文件呢？有三种方式**：
   - 内联方式；
@@ -67,7 +69,7 @@ npm install css-loader -D
   - 在 webpack5 的文档中已经没有了--module-bind；
   - 实际应用中也比较少使用，因为不方便管理；
 
-## loader 配置方式
+## 四、loader 配置方式
 
 - 配置方式表示的意思是在我们的 webpack.config.js 文件中写明配置信息：
   - module.rules 中允许我们配置多个 loader（因为我们也会继续使用其他的 loader，来完成其他文件的加载）；
@@ -102,7 +104,7 @@ module: {
 }
 ```
 
-## 认识 style-loader
+## 五、认识 style-loader
 
 - 我们已经可以通过 css-loader 来加载 css 文件了
   - 但是你会发现这个 css 在我们的代码中并**没有生效（页面没有效果**）。
@@ -115,7 +117,7 @@ module: {
 npm install style-loader -D
 ```
 
-## 配置 style-loader
+## 六、配置 style-loader
 
 - 那么我们应该如何使用 style-loader：
   - 在配置文件中，添加 style-loader；
@@ -131,7 +133,7 @@ npm install style-loader -D
   - 当前目前我们的 css 是通过页内样式的方式添加进来的；
   - 后续我们也会讲如何将 css 抽取到单独的文件中，并且进行压缩等操作；
 
-## 如何处理 less 文件？
+## 七、如何处理 less 文件？
 
 - 在我们开发中，我们可能会使用 less、sass、stylus 的预处理器来编写 css 样式，效率会更高。
 - 那么，如何可以让我们的环境支持这些预处理器呢
@@ -149,7 +151,7 @@ npm install style-loader -D
 }
 ```
 
-## Less 工具处理
+## 八、Less 工具处理
 
 - 我们可以使用 less 工具来完成它的编译转换：
 
@@ -165,7 +167,7 @@ npx lessc ./src/css/title.less ./src/css/title.css
 
 ![4.png](https://img12.360buyimg.com/ddimg/jfs/t1/188889/38/17866/69965/61122e92Ed2b8c7e0/b4468caa51c18db7.png)
 
-## less-loader 处理
+## 九、less-loader 处理
 
 - 但是在项目中我们会编写大量的 css，它们如何可以自动转换呢？
   - 这个时候我们就可以使用 less-loader，来自动使用 less 工具转换 less 到 css；
@@ -187,7 +189,7 @@ npm install less-loader -D
 }
 ```
 
-## 认识 PostCSS 工具
+## 十、认识 PostCSS 工具
 
 - 什么是 PostCSS 呢？
 - PostCSS 是一个通过 JavaScript 来转换样式的工具；
@@ -197,7 +199,7 @@ npm install less-loader -D
   - 第一步：查找 PostCSS 在构建工具中的扩展，比如 webpack 中的 postcss-loader；
   - 第二步：选择可以添加你需要的 PostCSS 相关的插件；
 
-## 命令行使用 postcss
+## 十一、命令行使用 postcss
 
 - 当然，我们能不能也直接在终端使用 PostCSS 呢？
   - 也是可以的，但是我们需要单独安装一个工具 postcss-cli；
@@ -211,7 +213,7 @@ npm install postcss postcss-cli -D
   - [https://autoprefixer.github.io/](https://autoprefixer.github.io/)
   - 我们可以在上面的网站中查询一些添加 css 属性的样式；
 
-## 插件 autoprefixer
+## 十二、插件 autoprefixer
 
 - 因为我们需要添加前缀，所以要安装 autoprefixer：
 
@@ -227,7 +229,7 @@ npx postcss --use autoprefixer -o post.css title.css
 
 ![5.png](https://img11.360buyimg.com/ddimg/jfs/t1/192075/34/17249/53407/61122e90Eacfaa74f/f9a3dc17bc903b7a.png)
 
-## postcss-loader
+## 十三、postcss-loader
 
 - 真实开发中我们必然不会直接使用命令行工具来对 css 进行处理，而是可以借助于构建工具：
   - 在 webpack 中使用 postcss 就是使用 postcss-loader 来处理的；
@@ -253,7 +255,7 @@ npm install postcss-loader -D
 }
 ```
 
-## 单独的 postcss 配置文件
+## 十四、单独的 postcss 配置文件
 
 - 当然，我们也可以将这些配置信息放到一个单独的文件中进行管理：
   - 在根目录下创建 postcss.config.js
@@ -264,7 +266,7 @@ module.exports = {
 };
 ```
 
-### postcss-preset-env
+## 十五、postcss-preset-env
 
 - 事实上，在配置 postcss-loader 时，我们配置插件并不需要使用 autoprefixer。
 - 我们可以使用另外一个插件：postcss-preset-env

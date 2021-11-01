@@ -1,4 +1,19 @@
-## 集成 editorconfig 配置
+# 开发规范
+
+## 一、代码规范
+### 1.1 JavaScript
+
+详情可见：[https://github.com/airbnb/javascript](https://github.com/airbnb/javascript)
+
+还有一个阮一峰老师的 JavaScript 编程风格[https://es6.ruanyifeng.com/#docs/style](https://es6.ruanyifeng.com/#docs/style)
+
+### 1.2 Vue
+
+详情可见:[https://v3.cn.vuejs.org/style-guide/](https://v3.cn.vuejs.org/style-guide/)
+
+## 二、项目规范
+
+### 2.1集成 editorconfig 配置
 
 EditorConfig 有助于为不同 IDE 编辑器上处理同一项目的多个开发人员维护一致的**编码风格**。
 
@@ -20,7 +35,7 @@ EditorConfig 有助于为不同 IDE 编辑器上处理同一项目的多个开�
 
 另外 vscode 还需要安装一个插件:EditorConfig for VS Code
 
-## 使用 prettier 工具
+### 2.2 使用 prettier 工具
 
 Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScript、CSS、SCSS、Less、JSX、Angular、Vue、GraphQL、JSON、Markdown 等语言，基本上前端能用到的文件格式它都可以搞定，是当下最流行的**代码格式化工具**。
 
@@ -38,7 +53,7 @@ npm install prettier -D
 
 ![4.png](https://img11.360buyimg.com/ddimg/jfs/t1/202811/26/652/36107/611223f8E8b336830/6818b18d3ad816ff.png)
 
-## 使用 ESLint 检测
+### 2.3 使用 ESLint 检测
 
 如果我们开发 vue 的项目,使用了 cli 进行开发,在进行配置的时候选择了 eslint,那么 vue 会默认帮助我们配置需要的环境
 ![5.png](https://img11.360buyimg.com/ddimg/jfs/t1/187253/26/17387/22353/611223f8E5358c37a/b9a39d673ab4b68e.png)
@@ -61,7 +76,7 @@ npm i eslint-plugin-prettier eslint-config-prettier -D
 
 📖 官网:[https://eslint.org/](https://eslint.org/)
 
-## git Husky 和 eslint
+### 2.4 git Husky 和 eslint
 
 虽然我们已经要求项目使用 eslint 了，但是不能保证组员提交代码之前都将 eslint 中的问题解决掉了：
 
@@ -97,9 +112,7 @@ npx husky-init;npm install
 
 ![7.png](https://img11.360buyimg.com/ddimg/jfs/t1/204369/6/608/20908/611223f8E7129e06e/52a00d70cccc6ca0.png)
 
-## git commit 规范
-
-### 代码提交风格
+### 2.5 代码提交风格
 
 通常我们的 git commit 会按照统一的风格来提交，这样可以快速定位每次提交的内容，方便之后对版本进行控制。
 
@@ -107,7 +120,7 @@ npx husky-init;npm install
 
 但是如果每次手动来编写这些是比较麻烦的事情，我们可以使用一个工具：Commitizen
 
-- Commitizen 是一个帮助我们编写规范 commit message 的工具；
+Commitizen 是一个帮助我们编写规范 commit message 的工具；
 
   1.安装 Commitizen
 
@@ -171,13 +184,13 @@ npx commitizen init cz-conventional-changelog --save-dev --save-exact
 
 ![image-20210723150526211](https://tva1.sinaimg.cn/large/008i3skNgy1gsqwc4gtkxj30e207174t.jpg)
 
-### 代码提交验证
+### 2.6 代码提交验证
 
 如果我们按照 cz 来规范了提交风格，但是依然有同事通过 `git commit` 按照不规范的格式提交应该怎么办呢？
 
-- 我们可以通过 commitlint 来限制提交；
+我们可以通过 commitlint 来限制提交；
 
-  1.安装 @commitlint/config-conventional 和 @commitlint/cli
+1.安装 @commitlint/config-conventional 和 @commitlint/cli
 
 ```shell
 npm i @commitlint/config-conventional @commitlint/cli -D

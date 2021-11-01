@@ -1,4 +1,6 @@
-## Vue 源码的打包
+# 处理Vue
+
+## 一、Vue 源码的打包
 
 - 安装 vue
 
@@ -32,7 +34,7 @@ const app = createApp({
 
 默认现在采用的是 vue2,所以不会对 template 进行解析处理
 
-## Vue 打包后不同版本解析
+## 二、Vue 打包后不同版本解析
 
 - vue(.runtime).global(.prod).js：
   - runtime 表示不包括 compiler,相对于不会对 template 进行解析处理,包也就更小一点
@@ -65,7 +67,7 @@ import { createApp } from "vue/dist/vue.esm-bundler";
 
 ![25.png](https://img10.360buyimg.com/ddimg/jfs/t1/204402/18/598/462381/61122f83E8b73f43e/05f1452ae817f22e.png)
 
-## 运行时+编译器 vs 仅运行时
+## 三、运行时+编译器 vs 仅运行时
 
 - 在 Vue 的开发过程中我们有三种方式来编写 DOM 元素：
   - 方式一：**template 模板**的方式（之前经常使用的方式）；
@@ -80,14 +82,14 @@ import { createApp } from "vue/dist/vue.esm-bundler";
   - **运行时+编译器**包含了对 template 模板的编译代码，更加完整，但是也更大一些；
   - **仅运行时**没有包含对 template 版本的编译代码，相对更小一些;
 
-## VSCode 对 SFC 文件的支持
+## 四、VSCode 对 SFC 文件的支持
 
 - 在前面我们提到过，真实开发中多数情况下我们都是使用 SFC（ **single-file components (单文件组件)** ）。
 - 我们先说一下 VSCode 对 SFC 的支持：
   - 插件一：Vetur，从 Vue2 开发就一直在使用的 VSCode 支持 Vue 的插件；
   - 插件二：Volar，官方推荐的插件（后续会基于 Volar 开发官方的 VSCode 插件）；
 
-## 编写 App.vue 代码
+## 五、编写 App.vue 代码
 
 - 接下来我们编写自己的 App.vue 代码
 
@@ -121,7 +123,7 @@ const app = createApp(App);
 app.mount("#app");
 ```
 
-## App.vue 的打包过程
+## 六、App.vue 的打包过程
 
 - 我们对代码打包会报错：我们需要合适的 Loader 来处理文件。
 
@@ -143,7 +145,7 @@ npm install vue-loader@next -D #v3
 }
 ```
 
-## @vue/compiler-sfc
+## 七、@vue/compiler-sfc
 
 ![27.png](https://img10.360buyimg.com/ddimg/jfs/t1/192857/13/17549/17125/61122f81E4799b5d6/1ff4910aceef5ab6.png)
 
@@ -168,7 +170,7 @@ plugins: [new VueLoaderPlugin()];
 
 ![29.png](https://img11.360buyimg.com/ddimg/jfs/t1/186770/20/16839/459579/61122f83Eac612182/98d7f8c17bfce306.png)
 
-## 全局标识的配置
+## 八、全局标识的配置
 
 - 我们会发现控制台还有另外的一个警告：
 

@@ -1,4 +1,5 @@
-## Webpack 的默认打包
+# 邂逅webpack
+## 一、Webpack 的默认打包
 
 - 我们可以通过 webpack 进行打包，之后运行打包之后的代码
   - 在目录下直接执行 webpack 命令
@@ -18,7 +19,7 @@
   npx webpack --entry ./src/main.js --output-path ./build
   ```
 
-## 创建局部的 webpack
+## 二、创建局部的 webpack
 
 - 前面我们直接执行 webpack 命令使用的是全局的 webpack，如果希望使用局部的可以按照下面的步骤来操作。
 
@@ -44,7 +45,7 @@
   ```
   - 以后我们打包项目就可以直接通过**npm run build** 来进行打包
 
-## Webpack 配置文件
+## 三、Webpack 配置文件
 
 - 在通常情况下，webpack 需要打包的项目是非常复杂的，并且我们需要一系列的配置来满足要求，默认配置必然
   是不可以的。
@@ -119,27 +120,28 @@ module.exports = {
 
 ![1.png](https://img12.360buyimg.com/ddimg/jfs/t1/201845/10/664/26339/61122e90E7c4f4859/a3c832d1d489b807.png)
 
-## 指定配置文件
+## 四、指定配置文件
 
-- 但是如果我们的配置文件并不是 webpack.config.js 的名字，而是其他的名字呢？
+但是如果我们的配置文件并不是 webpack.config.js 的名字，而是其他的名字呢？
   - 比如我们将 webpack.config.js 修改成了 wk.config.js；
   - 这个时候我们可以通过 --config 来指定对应的配置文件；
-  ```sh
-  webpack --config t.config.js
-  ```
-- 但是每次这样执行命令来对源码进行编译，会非常繁琐，所以我们可以在 package.json 中增加一个新的脚本：
 
-  ```json
-  "scripts": {
-    "build": "webpack --config t.config.js"
-  },
-  ```
+```sh
+webpack --config t.config.js
+```
+但是每次这样执行命令来对源码进行编译，会非常繁琐，所以我们可以在 package.json 中增加一个新的脚本：
 
-> 但是在开发中**不推荐**更改 webpac 配置文件的名称
+```json
+"scripts": {
+  "build": "webpack --config t.config.js"
+},
+```
 
-## Webpack 的依赖图
+但是在开发中**不推荐**更改 webpac 配置文件的名称
 
-- webpack 到底是如何对我们的项目进行打包的呢？
+## 五、Webpack 的依赖图
+
+webpack 到底是如何对我们的项目进行打包的呢？
   - 事实上 webpack 在处理应用程序时，它会根据命令或者配置文件找到入口文件；
   - 从入口开始，会生成一个 **依赖关系图**，这个**依赖关系图**会包含应用程序中所需的所有模块（比如.js 文件、css 文件、图片、字
     体等）；

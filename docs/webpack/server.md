@@ -1,4 +1,6 @@
-## 为什么要搭建本地服务器？
+# devServer
+
+## 一、为什么要搭建本地服务器？
 
 - 目前我们开发的代码，为了运行需要有两个操作：
   - 操作一：**npm run build**，编译相关的代码；
@@ -9,7 +11,7 @@
   - webpack-dev-server（常用）；
   - webpack-dev-middleware；
 
-## Webpack watch
+## 二、Webpack watch
 
 - webpack 给我们提供了 watch 模式：
   - 在该模式下，webpack 依赖图中的所有文件，只要有一个**发生了更新**，那么代码将**被重新编译**；
@@ -28,7 +30,7 @@ wathc: true,
 },
 ```
 
-## webpack-dev-server
+## 三、webpack-dev-server
 
 - 上面的方式可以监听到文件的变化，但是事实上它本身是没有自动刷新浏览器的功能的：
   - 当然，目前我们可以在 VSCode 中使用 live-server 来完成这样的功能；
@@ -101,7 +103,7 @@ devServer: {
   - webpack 直接打包到内存中,放在内存中就少了从文件读取到内存的过程,这样提供服务的服务器性能就会更高一点,用户访问的速度就会更快一点
   - 事实上 webpack-dev-server 使用了一个库叫 memfs（以前用的自己写的 memory-fs 库 ）
 
-## 认识模块热替换（HMR）
+## 四、认识模块热替换（HMR）
 
 - 什么是 HMR 呢？
   - HMR 的全称是**Hot Module Replacement**，翻译为**模块热替换**；
@@ -114,7 +116,7 @@ devServer: {
   - 默认情况下，**webpack-dev-server 已经支持 HMR**，我们只需要开启即可；
   - 在不开启 HMR 的情况下，当我们修改了源代码之后，整个页面会自动刷新，使用的是 live reloading；
 
-## 开启 HMR
+## 五、开启 HMR
 
 - 修改 webpack 的配置：
 
@@ -139,7 +141,7 @@ if (module.hot) {
 }
 ```
 
-## 框架的 HMR
+## 六、框架的 HMR
 
 - 有一个问题：在开发其他项目时，我们是否需要经常手动去写入 module.hot.accpet 相关的 API 呢？
   - 比如**开发 Vue、React 项目**，我们**修改了组件**，希望**进行热更新**，这个时候**应该如何去操作**呢？
@@ -147,7 +149,7 @@ if (module.hot) {
   - 比如 vue 开发中，我们使用**vue-loader**，此 loader 支持 vue 组件的 HMR，提供开箱即用的体验；
   - 比如 react 开发中，有 React Hot Loader，实时调整 react 组件（目前 React 官方已经弃用了，改成使用**reactrefresh**）；
 
-## HMR 的原理
+## 九、HMR 的原理
 
 - 那么 HMR 的原理是什么呢？如何可以做到只更新一个模块中的内容呢？
   - webpack-dev-server 会创建两个服务：**提供静态资源的服务（express）**和 **Socket 服务（net.Socket）**；
@@ -158,11 +160,11 @@ if (module.hot) {
   - 通过长连接，可以直接**将这两个文件主动发送给客户端**（浏览器）；
   - 浏览器**拿到两个新的文件**后，通过 HMR runtime 机制，**加载这两个文件**，并且**针对修改的模块进行更新**；
 
-## HMR 的原理图
+## 十、HMR 的原理图
 
 ![37.png](https://img12.360buyimg.com/ddimg/jfs/t1/182138/28/18484/275431/61122f83E1a68e6ea/255085131165b4fb.png)
 
-## hotOnly、host 配置
+## 十一、hotOnly、host 配置
 
 - host 设置主机地址：
   - 默认值是 localhost；
@@ -176,7 +178,7 @@ if (module.hot) {
   - 0.0.0.0：监听 IPV4 上所有的地址，再根据端口找到不同的应用程序;
     - 比如我们监听 0.0.0.0 时，在同一个网段下的主机中，通过 ip 地址是可以访问的;
 
-## port、open、compress
+## 十二、port、open、compress
 
 - port 设置监听的端口，默认情况下是 8080
 - open 是否打开浏览器：
@@ -199,7 +201,7 @@ open: true;
 
 ![38.png](https://img11.360buyimg.com/ddimg/jfs/t1/203416/21/666/63035/61122f81E6f136d34/160e451ef33e2c73.png)
 
-## Proxy
+## 十三、Proxy
 
 - proxy 是我们开发中非常常用的一个配置选项，它的目的设置代理来解决跨域访问的问题：
 
@@ -258,7 +260,7 @@ module.exports = {
 };
 ```
 
-## resolve 模块解析
+## 十四、resolve 模块解析
 
 - resolve 用于设置模块如何被解析：
   - 在开发中我们会有各种各样的模块依赖，这些模块可能来自于自己编写的代码，也可能来自第三方库；
@@ -275,7 +277,7 @@ module.exports = {
       - 默认值是 'node_modules'，所以默认会从 node_modules 中查找文件；
     - 我们可以通过设置别名的方式来替换初识模块路径，具体后面讲解 alias 的配置；
 
-## 确实文件还是文件夹
+## 十五、确实文件还是文件夹
 
 - 如果是一个文件：
   - 如果文件具有扩展名，则直接打包文件；
@@ -285,7 +287,7 @@ module.exports = {
     - resolve.mainFiles 的默认值是 ['index']；
     - 再根据 resolve.extensions 来解析扩展名；
 
-## extensions 和 alias 配置
+## 十六、extensions 和 alias 配置
 
 - extensions 是解析到文件时自动添加扩展名：
   - 默认值是 ['.wasm', '.mjs', '.js', '.json']；
@@ -333,7 +335,7 @@ import { element } from "js/element";
 import App from "@/vue/App";
 ```
 
-## 如何区分开发环境
+## 十七、如何区分开发环境
 
 - 目前我们所有的 webpack 配置信息都是放到一个配置文件中的：webpack.config.js
   - 当配置越来越多时，这个文件会变得越来越不容易维护；
@@ -351,7 +353,7 @@ import App from "@/vue/App";
 },
 ```
 
-## 入口文件解析
+## 十八、入口文件解析
 
 - 我们之前编写入口文件的规则是这样的：./src/index.js，但是如果我们的配置文件所在的位置变成了 config 目录，
   我们是否应该变成 ../src/index.js 呢？
@@ -377,7 +379,7 @@ module.exports = {
 };
 ```
 
-## 区分开发和生成环境配置
+## 十九、区分开发和生成环境配置
 
 - 这里我们创建三个文件：
   - webpack.public.config.js

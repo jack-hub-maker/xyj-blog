@@ -1,5 +1,5 @@
-
-## 为什么需要 babel？
+# Babel
+## 一、为什么需要 babel？
 
 - 事实上，在开发中我们很少直接去接触 babel，但是 babel 对于前端开发来说，目前是不可缺少的一部分：
   - 开发中，我们想要使用 **ES6+的语法**，想要使用 **TypeScript**，开发**React 项目**，它们**都是离不开 Babel 的**；
@@ -9,7 +9,7 @@
     JavaScript；
   - 包括：语法转换、源代码转换等；
 
-## Babel 命令行使用
+## 二、Babel 命令行使用
 
 - babel 本身可以作为一个独立的工具（和 postcss 一样），不和 webpack 等构建工具配置来单独使用。
 - 如果我们希望在命令行尝试使用 babel，需要安装如下库：
@@ -49,7 +49,7 @@ npx babel demo.js --out-file text.js
 
 转换后发现感觉没有任何转换
 
-## 插件的使用
+## 三、插件的使用
 
 - 比如我们需要转换箭头函数，那么我们就可以使用箭头函数转换相关的插件：
 
@@ -75,7 +75,7 @@ npx babel demo.js --out-file text.js --plugins=@babel/plugin-transform-block-sco
 ```
 
 ![20.png](https://img13.360buyimg.com/ddimg/jfs/t1/176942/34/18661/52656/61122e93Ed1a77595/0a17a6ce4ae0d614.png)
-## Babel 的预设 preset
+## 四、Babel 的预设 preset
 
 - 但是如果要转换的内容过多，一个个设置是比较麻烦的，我们可以使用预设（preset）：
   - 后面我们再具体来讲预设代表的含义；
@@ -94,7 +94,7 @@ npx babel demo.js --out-file text.js --presets=@babel/preset-env
 所以一般开发我们就直接使用预设就可以了
 :::
 
-## Babel 的底层原理
+## 五、Babel 的底层原理
 
 - babel 是如何做到将我们的一段代码（ES6、TypeScript、React）转成另外一段代码（ES5）的呢？
   - 从一种**源代码（原生语言）**转换成**另一种源代码（目标语言）**，这是什么的工作呢？
@@ -106,7 +106,7 @@ npx babel demo.js --out-file text.js --presets=@babel/preset-env
   - 生成阶段（Code Generation）
 - [https://github.com/jamiebuilds/the-super-tiny-compiler](https://github.com/jamiebuilds/the-super-tiny-compiler)
 
-## Babel 编译器执行原理
+## 六、Babel 编译器执行原理
 
 - Babel 的执行阶段
 
@@ -115,7 +115,7 @@ npx babel demo.js --out-file text.js --presets=@babel/preset-env
 
 ![23.png](https://img12.360buyimg.com/ddimg/jfs/t1/196976/35/2480/359244/61122f82E2c7e34b7/c34fbabf3dbe6b04.png)
 
-## babel-loader
+## 七、babel-loader
 
 - 在实际开发中，我们通常会在构建工具中通过配置 babel 来对其进行使用的，比如在 webpack 中。
 - 那么我们就需要去安装相关的依赖：
@@ -141,7 +141,7 @@ module: {
 },
 ```
 
-## 指定使用的插件
+## 八、指定使用的插件
 
 - 我们必须指定使用的插件才会生效
 
@@ -160,7 +160,7 @@ module: {
 }
 ```
 
-## babel-preset
+## 九、babel-preset
 
 - 如果我们一个个去安装使用插件，那么需要手动来管理大量的 babel 插件，我们可以直接给 webpack 提供一个
   preset，webpack 会根据我们的预设来加载对应的插件列表，并且将其传递给 babel。
@@ -189,7 +189,7 @@ npm install @babel/preset-env
 }
 ```
 
-## Babel 的配置文件
+## 十、Babel 的配置文件
 
 - 像之前一样，我们可以将 babel 的配置信息放到一个独立的文件中，babel 给我们提供了两种配置文件的编写：
   - babel.config.json（或者.js，.cjs，.mjs）文件；
