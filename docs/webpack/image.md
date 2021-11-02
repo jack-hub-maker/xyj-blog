@@ -1,7 +1,7 @@
 # 处理静态资源
 ## 一、加载图片案例准备
 
-- 为了演示我们项目中可以加载图片，我们需要在项目中使用图片，比较常见的使用图片的方式是两种：
+为了演示我们项目中可以加载图片，我们需要在项目中使用图片，比较常见的使用图片的方式是两种：
   - img 元素，设置 src 属性；
   - 其他元素（比如 div），设置 background-image 的 css 属性；
 
@@ -45,17 +45,19 @@ export function element() {
 
 ## 二、file-loader
 
-- 要处理 jpg、png 等格式的图片，我们也需要有对应的 loader：file-loader
+要处理 jpg、png 等格式的图片，我们也需要有对应的 loader：file-loader
   - file-loader 的作用就是帮助我们处理 import/require()方式引入的一个文件资源，并且会将它放到我们输出的文
     件夹中；
   - 当然我们待会儿可以学习如何修改它的名字和所在文件夹；
-- 安装 file-loader：
+
+
+安装 file-loader：
 
 ```sh
 npm install file-loader -D
 ```
 
-- 配置处理图片的 Rule：
+配置处理图片的 Rule：
 
 ```js
 {
@@ -66,7 +68,7 @@ npm install file-loader -D
 
 ## 三、文件的命名规则
 
-- 有时候我们处理后的**文件名称**按照一定的规则进行显示：
+有时候我们处理后的**文件名称**按照一定的规则进行显示：
   - 比如保留原来的**文件名**、**扩展名**，同时为了防止重复，包含一个**hash 值**等；
 - 这个时候我们可以使用**PlaceHolders**来完成，webpack 给我们提供了大量的 PlaceHolders 来显示不同的内容：
   - [https://webpack.docschina.org/loaders/file-loader/](https://webpack.docschina.org/loaders/file-loader/)
@@ -81,7 +83,7 @@ npm install file-loader -D
 
 ## 四、设置文件的名称
 
-- 那么我们可以按照如下的格式编写：
+那么我们可以按照如下的格式编写：
 
 ```js
 {
@@ -98,7 +100,7 @@ npm install file-loader -D
 
 ## 五、设置文件的存放路径
 
-- 当然，我们刚才通过 img/ 已经设置了文件夹，这个也是 vue、react 脚手架中常见的设置方式：
+当然，我们刚才通过 img/ 已经设置了文件夹，这个也是 vue、react 脚手架中常见的设置方式：
   - 其实按照这种设置方式就可以了；
   - 当然我们也可以通过 outputPath 来设置输出的文件夹；
 
@@ -118,13 +120,15 @@ npm install file-loader -D
 
 ## 六、url-loader
 
-- url-loader 和 file-loader 的工作方式是相似的，但是可以将较小的文件，转成 base64 的 URI。
-- 安装 url-loader：
+url-loader 和 file-loader 的工作方式是相似的，但是可以将较小的文件，转成 base64 的 URI。
+
+安装 url-loader：
 
 ```sh
 npm install url-loader -D
 ```
 
+配置
 ```js
 {
   test: /\.(png|jpe?g|gif|svg)$/i,
@@ -137,38 +141,38 @@ npm install url-loader -D
 }
 ```
 
-- 在 build 文件夹中，我们会看不到图片文件：
+在 build 文件夹中，我们会看不到图片文件：
   - 这是因为我的两张图片的大小分别是 21kb 和 18kb；
   - 默认情况下 url-loader 会将所有的图片文件转成 base64 编码
 
 ## 七、url-loader 的 limit
 
-- 但是开发中我们往往是**小的图片需要转换**，但是**大的图片直接使用图片**即可
-  - 这是因为**小的图片转换 base64**之后可以**和页面一起被请求**，**减少不必要的请求过程**；
+但是开发中我们往往是**小的图片需要转换**，但是**大的图片直接使用图片**即可
+  - 因为**小的图片转换 base64**之后可以**和页面一起被请求**，**减少不必要的请求过程**；
   - 而**大的图片也进行转换**，反而会**影响页面的请求速度**；
-- 那么，我们如何可以限制哪些大小的图片转换和不转换呢？
 
+那么，我们如何可以限制哪些大小的图片转换和不转换呢？
   - url-loader 有一个 options 属性**limit**，可以用于设置转换的限制；
   - 下面的代码 18kb 的图片会进行 base64 编码，而 21kb 的不会；
 
-  ```js
-  {
-    test: /\.(png|jpe?g|gif|svg)$/i,
-    use: {
-      loader: 'url-loader',
-      options: {
-        name: "img/[name]_[hash:6].[ext]",
-        limit: 20 * 1024  // 限制:比20kb小的图片转换成url
-      }
+```js
+{
+  test: /\.(png|jpe?g|gif|svg)$/i,
+  use: {
+    loader: 'url-loader',
+    options: {
+      name: "img/[name]_[hash:6].[ext]",
+      limit: 20 * 1024  // 限制:比20kb小的图片转换成url
     }
-  },
-  ```
+  }
+},
+```
 
 ![7.png](https://img10.360buyimg.com/ddimg/jfs/t1/193995/39/17520/63946/61122e93Ebd04bf49/8c6828cdb840fe1d.png)
 
 ## 八、认识 asset module type
 
-- 我们当前使用的 webpack 版本是 webpack5：
+我们当前使用的 webpack 版本是 webpack5：
   - 在 webpack5 之前，加载这些资源我们需要**使用一些 loader，比如 raw-loader 、url-loader、file-loader**；
   - 在 webpack5 开始，我们可以直接使用**资源模块类型（asset module type）**，来替代上面的这些 loader；
 - 资源模块类型(asset module type)，通过添加 4 种新的模块类型，来替换所有这些 loader：
@@ -180,7 +184,7 @@ npm install url-loader -D
 
 ## 九、asset module type 的使用
 
-- 比如加载图片，我们可以使用下面的方式：
+比如加载图片，我们可以使用下面的方式：
 
 ```js
 {
@@ -189,7 +193,7 @@ npm install url-loader -D
 },
 ```
 
-- 但是，如何可以自定义文件的输出路径和文件名呢？
+但是，如何可以自定义文件的输出路径和文件名呢？
   - 方式一：修改 output，添加 assetModuleFilename 属性；(**用的很少**)
   - 方式二：在 Rule 中，添加一个 generator 属性，并且设置 filename；
 
@@ -213,7 +217,7 @@ output: {
 
 ## 十、url-loader 的 limit 效果
 
-- 我们需要两个步骤来实现：
+我们需要两个步骤来实现：
   - 步骤一：将 type 修改为 asset；
   - 步骤二：添加一个 parser 属性，并且制定 dataUrl 的条件，添加 maxSize 属性；
 
@@ -234,14 +238,11 @@ output: {
 
 ## 十一、加载字体文件
 
-- 如果我们需要使用某些特殊的字体或者字体图标，那么我们会引入很多字体相关的文件，这些文件的处理也是一样
-  的。
+如果我们需要使用某些特殊的字体或者字体图标，那么我们会引入很多字体相关的文件，这些文件的处理也是一样的。
 
-- 首先，我从阿里图标库中下载了几个字体图标：
+首先，我从阿里图标库中下载了几个字体图标：
 
-![8.png](https://img12.360buyimg.com/ddimg/jfs/t1/178177/10/18387/148169/61122e92Ee84e4199/b41bd12f1bd278d2.png)
-
-- 在 element.js 文件中引入，并且添加一个 i 元素用于显示字体图标：
+在 element.js 文件中引入，并且添加一个 i 元素用于显示字体图标：
 
 ```js
 // src/element.js
@@ -257,8 +258,9 @@ export function element() {
 
 ## 十二、字体的打包
 
-- 这个时候打包会报错，因为无法正确的处理 eot、ttf、woff 等文件：
-  - 我们可以选择使用 file-loader 来处理，也可以选择直接使用 webpack5 的资源模块类型来处理；
+这个时候打包会报错，因为无法正确的处理 eot、ttf、woff 等文件：
+
+我们可以选择使用 file-loader 来处理，也可以选择直接使用 webpack5 的资源模块类型来处理；
 
 ```js
 {

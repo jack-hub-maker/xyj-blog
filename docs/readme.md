@@ -55,6 +55,7 @@
   - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
   - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
   - [13 - 事件循环](javascript/advanced/event-loop?id=事件循环)
+  - [14 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
 
 ## [🔰Git](git/basic?id=git)
 ## 🌈Vue
