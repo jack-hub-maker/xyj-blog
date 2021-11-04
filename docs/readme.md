@@ -57,8 +57,11 @@
   - [13 - 事件循环](javascript/advanced/event-loop?id=事件循环)
   - [14 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
 
-## [🔰Git](git/basic?id=git)
 ## 🌈Vue
+- **【一】vue基础语法**
+  - [1 - 认识vue](vue/readme?id=vue)
+  - [2 - 数组更新检测](vue/list?id=数组更新检测)
+
 
 ## 🎈WebPack
 
@@ -125,9 +128,15 @@
 
 # 📚 更多
 
-## [📜 开发规范](more/lint/readme?id=开发规范)
+## [🔰Git](git/basic?id=git)
 
 ## [🔧axios](more/axios/basic?id=axios)
+
+## [📣 提问的智慧](more/qulz/readme)
+
+## [📜 开发规范](more/lint/readme?id=开发规范)
+
+## [🔮 代码片段](more/code-clips/readme?id=代码片段)
 
 <!-- ## 🏹docker
 
@@ -138,9 +147,7 @@
   - [4 - docker 多容器的操作](more/docker/more-container)
   - [5 - docker 端口映射和模式讲解](more/docker/prot-map) -->
 
-## [🔮 代码片段](more/code-clips/readme?id=代码片段)
 
-## [📣 提问的智慧](more/qulz/readme)
 
 # 📝 面试宝典
 
@@ -150,6 +157,7 @@
   - [1 - 作用域提升](javascript/advanced/scope-interview?id=作用域提升面试题)
   - [2 - this 指向](javascript/advanced/this-interview?id=面试题一)
   - [3 - 事件循环](interview/javascript/event-loop?id=事件循环面试题)
-- **面经分享**`敬请期待`
+
+## 📝面经分享
 
 <!-- [![Edit on CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/s/crazy-ellis-o8h10?file=/src/index.js) -->

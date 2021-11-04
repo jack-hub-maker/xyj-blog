@@ -106,5 +106,3 @@
 
 请自行跳转到 webpack 或者 vite 专栏
 
-> [!tip]
-> 在家用 vite，上班用 cli

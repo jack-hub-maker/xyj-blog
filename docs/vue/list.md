@@ -1,125 +1,4 @@
-# 列表渲染
-
-在真实开发中，我们往往会从服务器拿到一组数据，并且需要对其进行渲染。
-
-- 这个时候我们可以使用 v-for 来完成；
-- v-for 类似于 JavaScript 的 for 循环，可以用于遍历一组数据；
-
-## v-for 基本使用
-
-v-for 的基本格式是 "item in 数组"：
-
-- 数组通常是来自 data 或者 prop，也可以是其他方式；
-- item 是我们给每项元素起的一个别名，这个别名可以自定来定义；
-
-我们知道，在遍历一个数组的时候会经常需要拿到数组的索引：
-
-- 如果我们需要索引，可以使用格式： "(item, index) in 数组"；
-- 注意上面的顺序：数组元素项 item 是在前面的，索引项 index 是在后面的；
-
-```vue
-<template>
-  <div>
-    <ul>
-      <li v-for="item in names" :key="item">{{ item }}</li>
-      <li v-for="(item, index) in names" :key="item">
-        {{ index + 1 }}-{{ item }}
-      </li>
-    </ul>
-  </div>
-</template>
-```
-
-```js
-<script>
-export default {
-  data() {
-    return {
-      names: ["tao", "sandy", "zm", "ymy"],
-    };
-  },
-};
-</script>
-```
-
-这里绑定了 key 属性等后续再讲
-
-## v-for 支持的类型
-
-v-for 也支持遍历对象，并且支持有一二三个参数：
-
-- 一个参数： "value in object";
-- 二个参数： "(value, key) in object";
-- 三个参数： "(value, key, index) in object";
-
-v-for 同时也支持数字的遍历：每一个 item 都是一个数字
-
-```vue
-<template>
-  <div>
-    <ul>
-      <li v-for="(value, key, index) in info" :key="value">
-        {{ index + 1 }}-{{ key }}-{{ value }}
-      </li>
-      <li v-for="item in 10" :key="item">{{ item }}</li>
-    </ul>
-  </div>
-</template>
-```
-
-```js
-<script>
-export default {
-  data() {
-    return {
-      info: {
-        name: "tao",
-        age: 19,
-        height: 183,
-      },
-    };
-  },
-};
-</script>
-```
-
-## template 元素
-
-类似于 v-if，你可以使用 template 元素来循环渲染一段包含多个元素的内容：
-
-我们使用 template 来对多个元素进行包裹，而不是使用 div 来完成；
-
-```vue
-<template>
-  <div>
-    <button @click="toogle">切换</button>
-    <template v-if="isShow">
-      <ul>
-        <li v-for="item in 10" :key="item">{{ item }}</li>
-      </ul>
-    </template>
-  </div>
-</template>
-```
-
-```js
-<script>
-export default {
-  data() {
-    return {
-      isShow: true,
-    };
-  },
-  methods: {
-    toogle() {
-      this.isShow = !this.isShow;
-    },
-  },
-};
-</script>
-```
-
-## 数组更新检测
+# 数组更新检测
 
 Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会触发视图更新。这些被包裹过的方法包括：
 
@@ -135,28 +14,19 @@ Vue 将被侦听的数组的变更方法进行了包裹，所以它们也将会�
     </ul>
   </div>
 </template>
-```
 
-```js
-<script>
-export default {
-  data() {
-    return {
-      message: "",
-      names: ["tao", "sandy", "zm", "ymy"],
-    };
-  },
-  methods: {
-    addItem() {
-      this.names.push(this.message);
-      this.message = "";
-    },
-  },
+<script setup>
+import { ref } from 'vue';
+const message = ref('');
+const names = ref(['tao', 'sandy', 'zm', 'ymy']);
+const addItem = () => {
+  names.value.push(message.value);
+  message.value = '';
 };
 </script>
 ```
 
-## v-for 中的 key 是什么作用？
+## 一、v-for 中的 key 是什么作用？
 
 在使用 v-for 进行列表渲染时，我们通常会给元素或者组件绑定一个 key 属性。
 
@@ -172,7 +42,7 @@ export default {
 - 没有 key 的时候，如何尝试修改和复用的？
 - 有 key 的时候，如何基于 key 重新排列的？
 
-## 认识 VNode
+## 二、认识 VNode
 
 我们先来解释一下 VNode 的概念：
 
@@ -183,13 +53,13 @@ export default {
 
 ![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/61450/24/17363/10187/613f10a4Eee15d99d/4900c6cc39736c51.png)
 
-## 虚拟 DOM
+## 三、虚拟 DOM
 
 如果我们不只是一个简单的 div，而是有一大堆的元素，那么它们应该会形成一个 VNode Tree：
 
 ![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/73668/17/16556/314426/613f117cE17093613/e31718d3df181780.png)
 
-## 插入 F 的案例
+## 四、插入 F 的案例
 
 我们先来看一个案例：这个案例是当我点击按钮时会在中间插入一个 f；
 
@@ -202,21 +72,12 @@ export default {
     </ul>
   </div>
 </template>
-```
 
-```js
-<script>
-export default {
-  data() {
-    return {
-      names: ["a", "b", "c", "d"],
-    };
-  },
-  methods: {
-    addItem() {
-      this.names.splice(2, 0, "f");
-    },
-  },
+<script setup>
+import { ref } from "vue";
+const names = ref(["a", "b", "c", "d"]);
+const addItem = () => {
+  names.value.splice(2, 0, "f");
 };
 </script>
 ```
@@ -235,15 +96,15 @@ export default {
 - 有 key，那么就使用 patchKeyedChildren 方法；
 - 没有 key，那么就使用 patchUnkeyedChildren 方法；
 
-## Vue 源码对于 key 的判断
+## 五、Vue 源码对于 key 的判断
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/85283/37/20422/865786/613f2d45Eb1bd439a/c4f997c005fd2d5f.png)
 
-## 没有 key 的操作
+## 六、没有 key 的操作
 
 ![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/6884/7/13023/789360/613f2d5fEebcd1a2c/ccdc1019c392390c.png)
 
-## 没有 key 的过程如下
+## 七、没有 key 的过程如下
 
 我们会发现上面的 diff 算法效率并不高：
 
@@ -252,11 +113,11 @@ export default {
 
 ![image.png](https://img10.360buyimg.com/ddimg/jfs/t1/61150/30/17519/315691/613f2d8cE20a97eb0/bf1275cbd2827023.png)
 
-## 有 key 执行操作
+## 八、有 key 执行操作
 
 ![image.png](https://img14.360buyimg.com/ddimg/jfs/t1/62508/13/17277/868810/613f2dabE6dec1156/9020c819dd39301d.png)
 
-## 有 key 的 diff 算法
+## 九、有 key 的 diff 算法
 
 第一步的操作是从头开始进行遍历、比较：
 
