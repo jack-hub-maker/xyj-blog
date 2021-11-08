@@ -1,4 +1,4 @@
-# 实现 apply、call、bind
+# 手写 apply、call、bind
 
 接下来我们来实现一下 apply、call、bind 函数：
 
@@ -6,7 +6,7 @@
 
 !>注意：我们的实现是练习函数、this、调用关系，不会过度考虑一些**边界情况**(egde case),只考虑部分的边界情况，主要是为了模拟
 
-## apply
+## 一、apply
 
 系统的 apply
 
@@ -68,7 +68,7 @@ var result = sum.gtapply({}, [10, 20]);
 console.log(result);
 ```
 
-## call
+## 二、call
 
 系统的 call
 
@@ -107,7 +107,7 @@ var result = sum.gtcall({}, 10, 20);
 console.log(result);
 ```
 
-## bind
+## 三、bind
 
 系统的 bind
 

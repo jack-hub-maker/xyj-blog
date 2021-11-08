@@ -187,7 +187,7 @@ console.log(name); // Cannot access 'name' before initialization
 let name = "tao";
 ```
 
-那么是不是意味着 foo 变量只有在代码执行阶段才会创建的呢？
+那么是不是意味着 name 变量只有在代码执行阶段才会创建的呢？
 
 - 事实上并不是这样的，我们可以看一下 ECMA262 对 let 和 const 的描述；
 
@@ -3154,7 +3154,7 @@ async function getData(url) {
 getData('tao')  // taoaaabbbccc
 ```
 
-但是你要知道async/await其实是上面Generator方案的语法糖
+但是你要知道async/await其实是generator 和 promise 实现的一个自动执行的语法糖
 
 
 ## 二十一、模块化

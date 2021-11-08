@@ -1,6 +1,6 @@
 # 🎨 前言
 
-!>安利一本书：《黑客与画家》此书适合所有程序员和互联网创业者，也适合一切对计算机行业感兴趣的读者
+!> 最近在刷面试题找工作，偶尔更新JavaScript内容和整理文章目录
 
 - ⏳ 爱分享，爱生活！在我眼里，`你永远是不一样的烟火`！觉得还不错的话，记得好好学习吖！
 - ✨ 本仓库建立的初衷是为了记录一路走来学习的计算机专业知识，方便之后复习与查看。`起于此，但不止于此`，在不断的摸索和完善，勤能补拙，相信一点点的积累最后汇聚成海！希望我的这个小小的计划，可以帮助到实力强大的你！`止于至善` 🧡🧡
@@ -28,10 +28,12 @@
 ## 🏆JavaScript
 
 - **【一】JavaScript 基础**`敬请期待`
+  - [1 - arguments](javascript/advanced/arguments?id=arguments)
+  - [2 - 严格模式](javascript/advanced/strict-mode?id=认识严格模式)
 - **【二】JavaScript 面向对象**
   - [1 - 面向对象](javascript/advanced/object-oriented?id=面向对象是现实的抽象方式)
   - [2 - ES6 中类的使用](javascript/object-oriented/es6-class?id=class-定义类的方式)
-  - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=es6-转-es5-的代码)
+  - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=阅读class源码)
 - **【三】ECMAScript 新特性**
   - [1 - ES6](javascript/es-next/es6?id=es6-新特性)
   - [2 - ES7](javascript/es-next/es7?id=es7-新特性)
@@ -41,21 +43,14 @@
   - [6 - ES11](javascript/es-next/es11?id=es11-新特性)
   - [7 - ES12](javascript/es-next/es12?id=es12-新特性)
 - **【四】JavaScript 高级**
-
   - [1 - 浏览器工作原理](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
-  - [2 - 认识 JavaScript 引擎](javascript/advanced/js-engine?id=认识-javascript-引擎)
-  - [3 - JavaScript 的执行过程](javascript/advanced/js-implementation?id=javascript-的执行过程)
-  - [4 - JavaScript 内存管理](javascript/advanced/memory-management?id=认识内存管理)
-  - [5 - 闭包](javascript/advanced/js-closure?id=让人迷惑的闭包)
-  - [6 - JavaScript 的 this 指向](javascript/advanced/this-point?id=为什么需要-this？)
-  - [7 - 实现-apply、call、bind](javascript/advanced/realize-this-methods?id=实现-apply、call、bind)
-  - [8 - 认识 arguments](javascript/advanced/arguments?id=认识-arguments)
-  - [9 - JavaScript 纯函数](javascript/advanced/pure-function?id=理解-javascript-纯函数)
-  - [10 - JavaScript 柯里化](javascript/advanced/js-currying?id=javascript-柯里化)
-  - [11 - 组合函数](javascript/advanced/composite-function?id=理解组合函数)
-  - [12 - 认识严格模式](javascript/advanced/strict-mode?id=认识严格模式)
-  - [13 - 事件循环](javascript/advanced/event-loop?id=事件循环)
-  - [14 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
+  - [2 - JavaScript 的执行过程](javascript/advanced/js-implementation?id=javascript-的执行过程)
+  - [3 - JavaScript 内存管理](javascript/advanced/memory-management?id=认识内存管理)
+  - [4 - 闭包](javascript/advanced/js-closure?id=让人迷惑的闭包)
+  - [5 - this 指向](javascript/advanced/this-point?id=为什么需要-this？)
+  - [6 - 函数式编程](javascript/advanced/pure-function?id=函数式编程)
+  - [7 - 事件循环](javascript/advanced/event-loop?id=事件循环)
+  - [8 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
 
 ## 🌈Vue
 - **【一】vue基础语法**
@@ -125,6 +120,7 @@
   - [八月](collect/august)
   - [九月](collect/september)
   - [十月](collect/october)
+  - [十一月](collect/eleven)
 
 # 📚 更多
 
@@ -157,6 +153,7 @@
   - [1 - 作用域提升](javascript/advanced/scope-interview?id=作用域提升面试题)
   - [2 - this 指向](javascript/advanced/this-interview?id=面试题一)
   - [3 - 事件循环](interview/javascript/event-loop?id=事件循环面试题)
+  - [4 - 手写apply、call、bind](interview/javascript/write-apply?id=手写-apply、call、bind)
 
 ## 📝面经分享
 

@@ -1,4 +1,6 @@
-## 认识 arguments
+# arguments
+
+## 一、认识arguments
 
 arguments 是一个 对应于 传递给函数的参数 的 **类数组**(array-like)对象。
 
@@ -17,11 +19,11 @@ array-like 意味着它看起来是一个数组，本质上是一个对象
 - 但是它却拥有数组的一些特性，比如说 length，比如可以通过 index 索引来访问；
 - 但是它却没有数组的一些方法，比如 forEach、map 等；
 
-## arguments 转成 array
+## 二、arguments 转成 array
 
 在以前开发中经常会让我们把 arguments 转成 array
 
-> 方式一
+### 2.1 方式一
 
 手动遍历 arguments，然后把结果放在一个新的数组里面
 
@@ -37,7 +39,7 @@ function foo() {
 foo(10, 20);
 ```
 
-> 方式二
+### 2.2 方式二
 
 通过显式绑定 arguments 为数组的 slice 方法中
 
@@ -72,7 +74,7 @@ function foo() {
 foo(10, 20);
 ```
 
-> 方式三
+### 2.3 方式三
 
 我们可以通过 Array 的原型上获取，当然也可以从 Array 的实例上获取
 
@@ -85,7 +87,7 @@ function foo() {
 foo(10, 20);
 ```
 
-> 方式四
+### 2.4 方式四
 
 ES6 的 from 方式
 
@@ -98,7 +100,7 @@ function foo() {
 foo(10, 20);
 ```
 
-> 方式五
+### 2.5 方式五
 
 也可以通过扩展运算符的方式
 
@@ -111,7 +113,7 @@ function foo() {
 foo(10, 20);
 ```
 
-## 箭头函数不绑定 arguments
+## 三、箭头函数不绑定 arguments
 
 箭头函数是不绑定 arguments 的，所以我们在箭头函数中使用 arguments 会去上层作用域查找：
 

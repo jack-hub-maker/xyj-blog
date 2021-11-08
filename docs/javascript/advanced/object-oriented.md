@@ -1,4 +1,5 @@
-## 面向对象是现实的抽象方式
+# 面向对象
+## 一、理解面向对象
 
 对象是 JavaScript 中一个非常重要的概念，这是因为对象可以将多个相关联的数据封装到一起，更好的描述一个事物：
 
@@ -12,7 +13,7 @@
 - 所以有一些编程语言就是纯面向对象的编程语言，比如 Java；
 - 你在实现任何现实抽象时都需要先创建一个类，根据类再去创建对象；
 
-## JavaScript 的面向对象
+## 二、JavaScript 的面向对象
 
 JavaScript 其实支持多种编程范式的，包括函数式编程和面向对象编程：
 
@@ -27,9 +28,9 @@ JavaScript 其实支持多种编程范式的，包括函数式编程和面向对
 - 后来很多开发者为了方便起见，都是直接`通过字面量的形式来创建对象`：
   - 这种形式看起来更加的简洁，并且对象和属性之间的内聚性也更强，所以这种方式后来就流行了起来；
 
-## JS 创建对象的方案
+## 三、JS创建对象的方案
 
-### 创建对象的两种方式
+### 3.1 创建对象的两种方式
 
 ```js
 // new
@@ -53,7 +54,7 @@ var info = {
 console.log(info);
 ```
 
-### 对属性操作的控制
+### 3.2 对属性操作的控制
 
 在前面我们的属性都是`直接定义在对象内部`，或者`直接添加到对象内部`的：
 
@@ -65,18 +66,16 @@ console.log(info);
 - 通过属性描述符`可以精准的添加或修改对象的属性`；
 - 属性描述符需要使用 `Object.defineProperty` 来对属性进行添加或者修改；
 
-#### Object.defineProperty
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 
-### 属性描述符分类
 
 属性描述符的类型有两种：
 
 - `数据属性`（Data Properties）描述符（Descriptor）；
 - `存取属性`（Accessor 访问器 Properties）描述符（Descriptor）；
 
-### 数据属性描述符
+#### 3.2.1 数据属性描述符
 
 ```js
 // name和age虽然没有属性描述符来定义，但是它们也是具有对应的特性（默认都为true）
@@ -106,7 +105,7 @@ obj.height = "123";
 console.log(obj.height);
 ```
 
-### 存取属性描述符
+#### 3.2.2 存取属性描述符
 
 ```js
 var obj = {
@@ -151,9 +150,6 @@ data(){return{name:'tao',age:19}}
 
 首先会对 data 中返回的对象的 key 遍历，然后通过 Object.defineProperty 截获它的 get 和 set，截获到了我就可以做到如果某个地方对 name 或者 age 有依赖，我就会收集对应的依赖，当我有一天设置新的值的时候，我就从那些依赖里面拿到所有该执行的方法重新执行一遍，就可以当这些属性发生改变的时候让它该更新的地方就更新
 
-#### Object.defineProperties
-
-定义多个属性描述符
 
 ```js
 var obj = {
@@ -196,22 +192,20 @@ obj._age = "20";
 console.log(obj._age);
 ```
 
-这其实是等价的，只不过上面的写法能够更改属性描述符，下面的写法比较简洁
+这其实是等价的，只不过上面的写法能够更该属性描述符，下面的写法比较简洁
 
 这里补充一个小的知识点
 
-> [!tip]
-> 关于私有属性的概念
-> 在 JavaScript 中一般定义私有属性会在属性的前面加上`_`，这并不是严格意义上的私有，只是在 JS 社区里的一种`规范`，当 JS 程序员看到属性前面有个`_`,就会把他视为是一个私有属性，所以在上面的案例中，我们是可以获取私有属性的
+!> 在 JavaScript 中一般定义私有属性会在属性的前面加上`_`，这并不是严格意义上的私有，只是在 JS 社区里的一种`规范`，当 JS 程序员看到属性前面有个`_`,就会把他视为是一个私有属性，所以在上面的案例中，我们是可以获取私有属性的
 
-### 其它方法补充
+### 3.3 其它方法补充
 
-#### 获取对象的属性描述符：
+获取对象的属性描述符：
 
 - getOwnPropertyDescriptor
 - getOwnPropertyDescriptors
 
-#### 禁止对象继续添加新的属性
+禁止对象继续添加新的属性
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions
 
@@ -226,7 +220,7 @@ obj.height = 1.88;
 console.log(obj);
 ```
 
-#### 禁止对象配置/删除里面的属性
+禁止对象配置/删除里面的属性
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal
 
@@ -242,7 +236,7 @@ delete obj.name;
 console.log(obj);
 ```
 
-#### 让属性不可以修改
+让属性不可以修改
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
 
@@ -258,7 +252,7 @@ obj.name = "sandy";
 console.log(obj.name);
 ```
 
-## 创建多个对象的方案
+## 四、创建多个对象的方案
 
 如果我们现在希望创建一系列的对象：比如 Person 对象
 
@@ -272,7 +266,7 @@ console.log(obj.name);
 
 这种方式有一个很大的弊端：创建同样的对象时，需要编写重复的代码；
 
-### 工厂模式
+### 4.1 工厂模式
 
 如果我们想创建一次性多个具有相同性的对象，这个我们会联想到工厂模式
 
@@ -296,7 +290,7 @@ var p1 = person("tao", 18);
 var p2 = person("sandy", 21);
 ```
 
-### 认识构造函数
+### 4.2 构造函数
 
 工厂方法创建对象有一个比较大的问题：我们在打印对象时，对象的类型都是 Object 类型
 
@@ -315,7 +309,7 @@ JavaScript 中的构造函数是怎么样的？
 - 那么如果这么一个普通的函数被使用 new 操作符来调用了，那么这个函数就称之为是一个构造函数；
 - 那么被 new 调用有什么特殊的呢？
 
-### new 操作符调用的作用
+**new 操作符调用的作用**
 
 如果一个函数被使用 new 操作符调用了，那么它会执行如下操作：
 
@@ -335,8 +329,6 @@ console.log(p);
 ```
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/207788/2/1338/3727/6146fa8dEf384db2a/8e83019d490d17d7.png)
-
-### 构造函数
 
 我们来通过构造函数实现一下创建一次性多个具有相同性的对象
 
@@ -363,7 +355,9 @@ console.log(p1, p2);
 
 构造函数也是有缺点的，它在于我们需要为每个对象的函数去创建一个函数对象实例；
 
-### 认识对象的原型
+## 五、原型
+
+### 5.1 对象的原型
 
 JavaScript 当中每个对象都有一个特殊的内置属性 [[prototype]]，这个特殊的对象可以指向另外一个对象。
 
@@ -394,7 +388,7 @@ console.log(info.height);
 
 这个也设计到原型链，后续会讲到
 
-### 函数的原型
+### 5.2 函数的原型
 
 广义的说函数也是一个对象
 
@@ -472,7 +466,7 @@ console.log(p1.name);
 
 本质上我们修改 p1，p2 的原型，实际上最终修改的是 Foo 构造函数对象的原型，因为 p1，p2 指向的是构造函数对象的原型
 
-### constructor 属性
+### 5.3 constructor 属性
 
 事实上每个原型对象上都有一个 constructor 属性
 
@@ -503,7 +497,7 @@ console.log(
 ); // foo
 ```
 
-### 重写原型对象
+### 5.4 重写原型对象
 
 我们可以在原型上添加自己的属性
 
@@ -535,7 +529,7 @@ foo.prototype = {
 
 这个时候会想那我的 constructor 属性怎么办喃？这个时候我们就可以手动给原型上添加 constructor 属性
 
-### 原型对象的 constructor
+### 5.5 原型对象的 constructor
 
 ```js
 function foo() {}
@@ -569,7 +563,7 @@ Object.defineProperty(foo.prototype, "constructor", {
 });
 ```
 
-### 构造函数和原型组合
+### 5.6 构造函数和原型组合
 
 接下来我们就可以回到最初的问题了，我们在上一个构造函数的方式创建对象时，有一个弊端：会创建出重复的函数，比如 running、eating 这些函数
 
@@ -619,9 +613,9 @@ var p2 = new Person("sandy", 21);
 
 这也用到了我们前面所讲的内容，所以我们都是循序渐进的
 
-## 原型链
+## 六、原型链
 
-### JavaScript 中的类和对象
+### 6.1 JavaScript 中的类和对象
 
 当我们编写如下代码的时候，我们会如何来称呼这个 Person 呢？
 
@@ -635,7 +629,7 @@ var p1 = new Person();
 var p2 = new Person();
 ```
 
-### 面向对象的特征-继承
+### 6.2 面向对象的特征-继承
 
 面向对象有三大特性：封装、继承、多态
 
@@ -649,7 +643,7 @@ var p2 = new Person();
 
 然后再通过原型链的机制来实现继承
 
-### JavaScript 原型链
+### 6.3 JavaScript 原型链
 
 前面说过，当我们想获取一个对象的属性的时候，会触发属性内部的 get 方法，会首先在自己的对象中查找属性
 
@@ -661,7 +655,7 @@ var p2 = new Person();
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/111417/39/19533/56220/614c8bf1Eec68cafc/5684df21f1f0ceb4.png)
 
-### Object 的原型
+### 6.4 Object 的原型
 
 那到底顶层对象是什么呢？
 
@@ -737,7 +731,7 @@ obj2 对象的原型自然是 Object 的原型对象
 
 这里我理解为 Object.prototype 上也有原型属性，但是 Object.prototype 的原型属性已经指向的 null 了，也就是说 Object.prototype 就是顶层对象
 
-### 构造函数的原型
+### 6.5 构造函数的原型
 
 构造函数的顶层原型是 Object 的原型对象
 
@@ -758,19 +752,19 @@ console.log(Person.prototype.__proto__); // [Object: null prototype] {}
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/146769/18/25290/56102/614d41fcE57a7944f/593772343d81ab98.png)
 
-### Object 是所有类的父类
+### 6.6 Object 是所有类的父类
 
 通过上面的 Object 和构造函数原型我们可以得出一个结论：原型链的最顶层的原型对象就是 Object 的原型对象
 
 也就是说 Object 是所有类的父类，所有子类继承 Object（后面讲解继承的知识）
 
-## 继承
+## 七、继承
 
-### 为什么需要继承
+### 7.1 为什么需要继承
 
 总结说来，继承让代码实现共享，提高代码的重用性，子类可以形似父类，也可异于父类，让代码的可扩展性提高，框架中的扩展接口都是通过继承父类实现的，产品或者项目的开发性通过继承得到提高。
 
-### 原型链的继承方案
+### 7.2 原型链的继承方案
 
 ```js
 function Person() {
@@ -819,7 +813,7 @@ console.log(stu2.friends); // ['sandy']
 
 - 不能给Person传递参数，因为这个对象是一次性创建的（没办法定制化）；不能给Person传递参数，因为这个对象是一次性创建的（没办法定制化）；
 
-### 借用构造函数继承
+### 7.3 借用构造函数继承
 
 为了解决原型链继承中存在的问题，社区中提供了一种新的方法：constructor stealing（借用构造函数/经典继承/伪造对象）
 
@@ -862,7 +856,7 @@ console.log(stu2.friends);
 - Person 对象至少会被调用两次
 - stu 的原型对象上会多出一些属性，但是这些属性没有被用到，没有存在的必要
 
-### 原型式继承函数
+### 7.4 原型式继承函数
 
 原型式继承的渊源
 
@@ -923,7 +917,7 @@ console.log(newObj.__proto__ === obj); // true
 
 当然这并不能满足我们的需求，如果我们有很多都想实现继承就会写很多重复的代码，我们其实想要实现的是构造函数之间的继承
 
-### 寄生式继承函数
+### 7.5 寄生式继承函数
 
 寄生式(Parasitic)继承是与原型式继承紧密相关的一种思想, 并且同样由道格拉斯·克罗克福德(Douglas
 Crockford)提出和推广的；
@@ -955,7 +949,7 @@ console.log(newObj1.__proto__ === obj); // true
 
 虽然这种方式也可以实现，但是也相对于是前面讲到的工厂模式差不多，相对于每一个实现的对象都有自己的方法，也没有属于自己的类型
 
-### 寄生组合式继承
+### 7.6 寄生组合式继承
 
 现在我们来回顾一下之前提出的比较理想的组合继承
 
@@ -1110,9 +1104,9 @@ stu.eating();
 stu.say();
 ```
 
-## 方法补充
+## 八、其它补充
 
-### hasOwnProperty
+### 8.1 hasOwnProperty
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
 
@@ -1132,7 +1126,7 @@ console.log(obj.hasOwnProperty("age")); // true
 console.log(obj.hasOwnProperty("height")); // false
 ```
 
-### in 操作符
+### 8.2 in 操作符
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in
 
@@ -1173,7 +1167,7 @@ for (const key in obj) {
 }
 ```
 
-### instanceof
+### 8.3 instanceof
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof
 
@@ -1198,7 +1192,7 @@ console.log(stu instanceof Object); // true
 
 我简单画了一下内存图，从内存图来看就可以直观看出 instanceof 的用法了
 
-### isPrototypeOf
+### 8.4 isPrototypeOf
 
 详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/isPrototypeOf
 
@@ -1222,7 +1216,7 @@ console.log(p.__proto__.isPrototypeOf(stu)); // false
 console.log(Object.prototype.isPrototypeOf(stu)); // true
 ```
 
-### 对象、函数、原型之间的关系
+## 九、对象、函数、原型之间的关系
 
 千言万语汇成一张图
 
