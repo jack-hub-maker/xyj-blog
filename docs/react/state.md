@@ -1,4 +1,5 @@
-## 为什么使用 setState
+# setState
+## 一、为什么使用 setState
 
 开发中我们并不能直接通过修改 state 的值来让界面发生更新：
 
@@ -7,7 +8,7 @@
 - React 并没有实现类似于 Vue2 中的 Object.defineProperty 或者 Vue3 中的 Proxy 的方式来监听数据的变化；
 - 我们必须通过 setState 来告知 React 数据已经发生了变化；
 
-## setState 异步更新
+## 二、setState 异步更新
 
 setState 的更新是异步的？
 
@@ -38,7 +39,7 @@ setState 设计为异步，可以显著的提升性能；
 
 - state 和 props 不能保持一致性，会在开发中产生很多的问题；
 
-## setState 一定是异步吗？
+## 三、setState 一定是异步吗？
 
 其实分成两种情况：
 

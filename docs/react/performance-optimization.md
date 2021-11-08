@@ -1,4 +1,5 @@
-## React 更新机制
+# 性能优化
+## 一、React 更新机制
 
 react 的渲染机制：
 
@@ -8,7 +9,7 @@ react 的更新流程：
 
 ![image.png](https://img13.360buyimg.com/ddimg/jfs/t1/202913/4/7435/39373/614b371eE4c98a8b2/f51c479d6bb107a0.png)
 
-## React 的更新流程
+## 二、React 的更新流程
 
 React 在 props 或 state 发生改变时，会调用 React 的 render 方法，会创建一颗不同的树。
 
@@ -25,7 +26,7 @@ React 需要基于这两颗不同的树之间的差别来判断如何有效的�
 - 不同类型的节点，产生不同的树结构；
 - 开发中，可以通过 key 来指定哪些节点在不同的渲染下保持稳定；
 
-### 情况一：对比不同类型的元素
+### 2.1 情况一：对比不同类型的元素
 
 当节点为不同的元素，React 会拆卸原有的树，并且建立起新的树：
 
@@ -35,7 +36,7 @@ React 需要基于这两颗不同的树之间的差别来判断如何有效的�
 - 当建立一棵新的树时，对应的 DOM 节点会被创建以及插入到 DOM 中，组件实例将执行 componentWillMount() 方法，
   紧接着 componentDidMount() 方法；
 
-### 情况二：对比同一类型的元素
+### 2.2 情况二：对比同一类型的元素
 
 当比对两个相同类型的 React 元素时，React 会保留 DOM 节点，仅比对及更新有改变的属性。
 
@@ -64,7 +65,7 @@ React 需要基于这两颗不同的树之间的差别来判断如何有效的�
   法；
 - 下一步，调用 render() 方法，diff 算法将在之前的结果以及新的结果中进行递归；
 
-### 情况三：对子节点进行递归
+### 2.3 情况三：对子节点进行递归
 
 在默认条件下，当递归 DOM 节点的子元素时，React 会同
 时遍历两个子元素的列表；当产生差异时，生成一个
@@ -107,7 +108,7 @@ mutation。
 </ul>
 ```
 
-## keys 的优化
+## 三、keys 的优化
 
 当你遍历列表的时候，总是会提示一个警告，让我们添加一个 key 属性：
 
@@ -126,7 +127,7 @@ key 的注意事项：
 - key 不要使用随机数（随机数在下一次 render 时，会重新生成一个数字）；
 - 使用 index 作为 key，对性能是没有优化的；
 
-## render 函数被调用
+## 四、render 函数被调用
 
 还是哪张图
 
@@ -138,7 +139,7 @@ key 的注意事项：
 
 通过 shouldComponentUpdate 方法即可；
 
-## shouldComponentUpdate
+## 五、shouldComponentUpdate
 
 详情：https://zh-hans.reactjs.org/docs/optimizing-performance.html#avoid-reconciliation
 
@@ -210,7 +211,7 @@ export default class App extends Component {
 }
 ```
 
-## PureComponent
+## 六、PureComponent
 
 详情：https://zh-hans.reactjs.org/docs/render-props.html#caveats
 
@@ -229,7 +230,7 @@ class Son extends PureComponent {
 }
 ```
 
-## memo
+## 七、memo
 
 详情：https://zh-hans.reactjs.org/docs/react-api.html#reactmemo
 
@@ -244,7 +245,7 @@ const Son2 = memo(() => {
 
 所以以后我们创建类组件或者是函数组件都可以使用 PureComponent 和 memo
 
-## 不可变数据的力量
+## 八、不可变数据的力量
 
 详情：https://zh-hans.reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data
 

@@ -1,4 +1,5 @@
-## React 的起源
+# React
+## 一、React 的起源
 
 React 是 2013 年，Facebook 开源的 JavaScript 框架，那么当时为什么 Facebook 要推出这样一款框架呢？
 
@@ -22,9 +23,9 @@ bug 是否可以修复呢？当然可以修复，但是 Facebook 的工程师并
 2.  组件内以 jsx 来描述 UI 的样子，以 state 来存储组件内的状态
 3.  当应用的状态发生改变时，通过 setState 来修改状态，状态发生变化时，UI 会自动发生更新
 
-## React 的特点
+## 二、React 的特点
 
-### 声明式编程
+### 2.1 声明式编程
 
 声明式编程是目前整个大前端开发的模式：Vue、React、Flutter、SwiftUI；
 
@@ -32,7 +33,7 @@ bug 是否可以修复呢？当然可以修复，但是 Facebook 的工程师并
 
 ![image.png](https://img11.360buyimg.com/ddimg/jfs/t1/78488/2/17033/218092/6142b204E568116f5/690af293487b7b88.png)
 
-### 组件化开发
+### 2.2 组件化开发
 
 组件化开发页面目前前端的流行趋势，我们会讲复杂的界面拆分成一个个小的组件；
 
@@ -40,7 +41,7 @@ bug 是否可以修复呢？当然可以修复，但是 Facebook 的工程师并
 
 ![](https://cn.vuejs.org/images/components.png)
 
-### 多平台适配
+### 2.3 多平台适配
 
 2013 年，React 发布之初主要是开发 Web 页面；
 

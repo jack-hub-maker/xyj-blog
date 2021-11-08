@@ -1,4 +1,5 @@
-## 类组件的生命周期
+# 生命周期
+## 一、类组件的生命周期
 
 详情：https://zh-hans.reactjs.org/docs/react-component.html
 
@@ -93,6 +94,6 @@ componentDidUpdate执行了
 componentWillUnmount执行了
 ```
 
-## 函数组件的生命周期
+## 二、函数组件的生命周期
 
 这个后期学到hooks的时候再来写

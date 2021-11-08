@@ -79,14 +79,14 @@
 ## ⚛React
 
 - **【一】React 基础**
-  - [1 - 认识 React ](react/readme?id=React的起源)
-  - [2 - JSX ](react/jsx?id=认识JSX)
-  - [3 - React 的生命周期 ](react/lifecycle?id=类组件的生命周期)
-  - [4 - State ](react/state?id=为什么使用setState)
+  - [1 - 认识 React ](react/readme?id=react)
+  - [2 - JSX ](react/jsx?id=jsx)
+  - [3 - 生命周期 ](react/lifecycle?id=生命周期)
+  - [4 - setState ](react/state?id=setstate)
   - [5 - 跨组件的通信 ](react/cross-communication?id=跨组件的通信)
   - [6 - 表单 ](react/form?id=表单)
-  - [7 - 性能优化 ](react/performance-optimization?id=React更新机制)
-  - [8 - Refs ](react/refs?id=refs)
+  - [7 - 性能优化 ](react/performance-optimization?id=性能优化)
+  - [8 - ref ](react/refs?id=refs)
   - [9 - Portals ](react/portals?id=portals)
   - [10 - Fragments ](react/fragments?id=fragments)
   - [11 - 严格模式 ](react/strictMode?id=strictMode)
