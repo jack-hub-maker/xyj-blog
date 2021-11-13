@@ -366,7 +366,7 @@ err fff
 
 其实你可以理解为上面res后面的三句打印相对于是在then函数里的打印的
 
-之前我们说过async/await其实是Generator的语法糖
+之前我们说过async/await其实是generator 和 promise 实现的一个自动执行的语法糖
 
 都在then里面，那么上面的代码Promise是reject就不会来到then方法里，只会来到catch里面，所以后面的打印是不会执行的
 

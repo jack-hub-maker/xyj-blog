@@ -24,6 +24,9 @@ JSX 是什么？
 
 ![](https://img11.360buyimg.com/ddimg/jfs/t1/78488/2/17033/218092/6142b204E568116f5/690af293487b7b88.png)
 
+JSX 是一个 JavaScript 的语法扩展，结构类似 XML。JSX 主要用于声明 React 元素，但 React 中并不强制使用 JSX。即使使用了 JSX，也会在构建过程中，通过 Babel 插件编译为 React.createElement。所以 JSX 更像是 React.createElement 的一种语法糖。
+
+
 JSX 的书写规范：
 
 - JSX 的顶层只能有一个根元素（跟 vue2 的 template 一样），所以我们很多时候会在外层包裹一个 div 原生（或者使用后面我们学习的 Fragment）；

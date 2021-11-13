@@ -39,7 +39,7 @@
 
 首先会渲染 html 文件，因为我们第一次请求的就是 html 文件
 
-html 无非就是很多的标签，把标签转换成对应的 html parser，然后形成 DOM 树，这个时候也可以对 DOM 进行操作，如果在 html 转成成 DOM 树的过程中有遇到 js 代码，因为 JavaScript 可以对 DOM 进行操作的，这个时候有个问题，如果 js 代码要对 DOM 树进行操作，那么谁来执行 js 代码喃，因为 JavaScript 是高级语言，CPU 是不认识 JavaScript 的，这个 js 代码其实是通过 js 引擎来执行（下节讲解）
+html 无非就是很多的标签，把标签转换成对应的 html parser，然后形成 DOM 树，这个时候也可以对 DOM 进行操作，如果在 html 转成成 DOM 树的过程中有遇到 js 代码，因为 JavaScript 可以对 DOM 进行操作的，这个时候有个问题，如果 js 代码要对 DOM 树进行操作，那么谁来执行 js 代码喃，因为 JavaScript 是高级语言，CPU 是不认识 JavaScript 的，这个 js 代码其实是通过 js 引擎来执行
 
 style 样式会转换成 css parse 然后形成 style 规则
 

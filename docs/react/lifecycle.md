@@ -96,4 +96,55 @@ componentWillUnmount执行了
 
 ## 二、函数组件的生命周期
 
-这个后期学到hooks的时候再来写
+有了Hooks以后，我们就可以在hooks中模拟生命周期
+
+```jsx
+import React, { memo, useState } from "react";
+import Test from "./Test";
+
+export default memo(function App() {
+  const [isShow, setIsShow] = useState(true);
+  return (
+    <div>
+      <button onClick={(e) => setIsShow(!isShow)}>切换</button>
+      {isShow && <Test />}
+    </div>
+  );
+});
+```
+
+```jsx
+import React, { memo, useState, useEffect } from "react";
+
+export default memo(function Test() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log("组件发生了更新");
+    return () => {
+      console.log("组件被销毁了");
+    };
+  }, [count]);
+  return (
+    <div>
+      <h2>当前计数：{count}</h2>
+      <button onClick={(e) => setCount(count + 1)}>+1</button>
+    </div>
+  );
+});
+```
+
+页面初始化
+```
+组件发生了更新
+```
+
+DOM 更新
+```
+组件被销毁了
+组件发生了更新
+```
+
+组件卸载
+```
+组件被销毁了
+```

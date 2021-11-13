@@ -30,6 +30,8 @@
 - **【一】JavaScript 基础**`敬请期待`
   - [1 - arguments](javascript/advanced/arguments?id=arguments)
   - [2 - 严格模式](javascript/advanced/strict-mode?id=认识严格模式)
+  - [3 - JSON](javascript/basic/json?id=json)
+  - [4 - 浏览器存储方案](javascript/basic/storage?id=浏览器存储方案)
 - **【二】JavaScript 面向对象**
   - [1 - 面向对象](javascript/advanced/object-oriented?id=面向对象是现实的抽象方式)
   - [2 - ES6 中类的使用](javascript/object-oriented/es6-class?id=class-定义类的方式)
@@ -56,6 +58,7 @@
 - **【一】vue基础语法**
   - [1 - 认识vue](vue/readme?id=vue)
   - [2 - 数组更新检测](vue/list?id=数组更新检测)
+  <!-- - [3 - 组件通信](vue/component-communication?id=数组更新检测) -->
 
 
 ## 🎈WebPack
