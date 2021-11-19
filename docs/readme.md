@@ -53,6 +53,7 @@
   - [6 - 函数式编程](javascript/advanced/pure-function?id=函数式编程)
   - [7 - 事件循环](javascript/advanced/event-loop?id=事件循环)
   - [8 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
+  - [9 - 防抖和节流](javascript/advanced/debounce-throttle?id=防抖和节流)
 
 ## 🌈Vue
 - **【一】vue基础语法**
@@ -157,6 +158,7 @@
   - [2 - this 指向](javascript/advanced/this-interview?id=面试题一)
   - [3 - 事件循环](interview/javascript/event-loop?id=事件循环面试题)
   - [4 - 手写apply、call、bind](interview/javascript/write-apply?id=手写-apply、call、bind)
+  - [5 - 手写防抖和节流函数](interview/javascript/advanced/debounce-throttle)
 
 ## 📝面经分享
 
