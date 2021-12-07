@@ -1,6 +1,6 @@
 # 🎨 前言
 
-!> 最近在刷面试题找工作，偶尔更新JavaScript内容和整理文章目录
+!> 最近偏忙,正在准备前端可视化专栏的专栏,期待后续更新
 
 - ⏳ 爱分享，爱生活！在我眼里，`你永远是不一样的烟火`！觉得还不错的话，记得好好学习吖！
 - ✨ 本仓库建立的初衷是为了记录一路走来学习的计算机专业知识，方便之后复习与查看。`起于此，但不止于此`，在不断的摸索和完善，勤能补拙，相信一点点的积累最后汇聚成海！希望我的这个小小的计划，可以帮助到实力强大的你！`止于至善` 🧡🧡
@@ -23,8 +23,6 @@
 
 # 🎉 前端
 
-!>博客不久进行了重构，很多细节还没优化，具体优化后续更新🥺
-
 ## 🏆JavaScript
 
 - **【一】JavaScript 基础**`敬请期待`
@@ -32,11 +30,14 @@
   - [2 - 严格模式](javascript/advanced/strict-mode?id=认识严格模式)
   - [3 - JSON](javascript/basic/json?id=json)
   - [4 - 浏览器存储方案](javascript/basic/storage?id=浏览器存储方案)
+  - [5 - 浏览器事件解析](javascript/basic/flow-events?id=浏览器事件解析)
 - **【二】JavaScript 面向对象**
-  - [1 - 面向对象](javascript/advanced/object-oriented?id=面向对象是现实的抽象方式)
+  - [1 - 面向对象](javascript/advanced/objectflow-events-oriented?id=面向对象是现实的抽象方式)
   - [2 - ES6 中类的使用](javascript/object-oriented/es6-class?id=class-定义类的方式)
   - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=阅读class源码)
-- **【三】ECMAScript 新特性**
+- [**【三】DOM**](javascript/dom?id=dom操作架构)
+- [**【四】BOM**](javascript/bom?id=bom-浏览器操作)
+- [**【五】ECMA 新特性**](javascript/es-next)
   - [1 - ES6](javascript/es-next/es6?id=es6-新特性)
   - [2 - ES7](javascript/es-next/es7?id=es7-新特性)
   - [3 - ES8](javascript/es-next/es8?id=es8-新特性)
@@ -44,7 +45,7 @@
   - [5 - ES10](javascript/es-next/es10?id=es10-新特性)
   - [6 - ES11](javascript/es-next/es11?id=es11-新特性)
   - [7 - ES12](javascript/es-next/es12?id=es12-新特性)
-- **【四】JavaScript 高级**
+- **【六】JavaScript 高级**
   - [1 - 浏览器工作原理](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
   - [2 - JavaScript 的执行过程](javascript/advanced/js-implementation?id=javascript-的执行过程)
   - [3 - JavaScript 内存管理](javascript/advanced/memory-management?id=认识内存管理)
@@ -54,26 +55,27 @@
   - [7 - 事件循环](javascript/advanced/event-loop?id=事件循环)
   - [8 - 错误处理方案](javascript/advanced/handle-error?id=错误处理方案)
   - [9 - 防抖和节流](javascript/advanced/debounce-throttle?id=防抖和节流)
+  - [10 - 浅拷贝和深拷贝](javascript/senior/depth-copy?id=浅拷贝和深拷贝)
 
 ## 🌈Vue
-- **【一】vue基础语法**
-  - [1 - 认识vue](vue/readme?id=vue)
-  - [2 - 数组更新检测](vue/list?id=数组更新检测)
-  <!-- - [3 - 组件通信](vue/component-communication?id=数组更新检测) -->
 
+- **【一】vue 基础语法**
+  - [1 - 认识 vue](vue/readme?id=vue)
+  - [2 - 数组更新检测](vue/list?id=数组更新检测)
+- [**【二】Vue3**](vue/composition/readme?id=composition-api)
 
 ## 🎈WebPack
 
-- **【一】webpakc基础**
-  - [1 - 认识webpack ](webpack/readme?id=webpack)
-  - [2 - 邂逅webpack ](webpack/default?id=邂逅webpack)
-  - [3 - 处理css ](webpack/css?id=处理css)
+- **【一】webpakc 基础**
+  - [1 - 认识 webpack ](webpack/readme?id=webpack)
+  - [2 - 邂逅 webpack ](webpack/default?id=邂逅webpack)
+  - [3 - 处理 css ](webpack/css?id=处理css)
   - [4 - 处理静态资源 ](webpack/image?id=处理静态资源)
   - [5 - 插件的使用 ](webpack/plugin?id=插件的使用)
   - [6 - Babel ](webpack/babel?id=Babel)
-  - [7 - 处理Vue ](webpack/vue?id=处理vue)
+  - [7 - 处理 Vue ](webpack/vue?id=处理vue)
   - [8 - devServer ](webpack/server?id=devServer)
-- **【二】webpakc高级配置**`敬请期待`
+- **【二】webpakc 高级配置**`敬请期待`
 
 ## ⚡Vite
 
@@ -102,7 +104,6 @@
 
 ## 🔥TypeScript
 
-
 - **【一】TypeScript 基础**
   - [1 - 认识 TypeScript](typescript/readme?id=typescript)
   - [2 - 变量](typescript/variable?id=typescript中的变量)
@@ -115,16 +116,29 @@
   - [9 -其它补充](typescript/other?id=其他补充)
 - **【二】TypeScript 高级**`敬请期待`
 
+## 👴Node
+
+- **【三】Web 开发基础**
+  - [1 - web 服务基础](node/03-web-development-foundation/01-web-services-bas?id=web-服务基础)
+  - [2 - express](node/03-web-development-foundation/02-express?id=express)
+  <!-- - [3 - koa] -->
+
+## 📊 前端数据可视化
+
+- **【一】基础阶段**
+  - [1 - 应用场景](data-visualization/01-application-scenarios?id=数据可视化应用场景)
+  - [2 - 技术选型](data-visualization/02-technical-options?id=数据可视化前端技术选型)
+
 # 📘 优文转载
 
-- **【一】2021年**
+- **【一】2021 年**
   - [五月](collect/may)
   - [六月](collect/june)
   - [七月](collect/july)
   - [八月](collect/august)
-  - [九月](collect/september)
   - [十月](collect/october)
   - [十一月](collect/eleven)
+  - [十二月](collect/twelve)
 
 # 📚 更多
 
@@ -147,8 +161,6 @@
   - [4 - docker 多容器的操作](more/docker/more-container)
   - [5 - docker 端口映射和模式讲解](more/docker/prot-map) -->
 
-
-
 # 📝 面试宝典
 
 ## 📂 技术面试题
@@ -157,11 +169,11 @@
   - [1 - 作用域提升](javascript/advanced/scope-interview?id=作用域提升面试题)
   - [2 - this 指向](javascript/advanced/this-interview?id=面试题一)
   - [3 - 事件循环](interview/javascript/event-loop?id=事件循环面试题)
-  - [4 - 手写apply、call、bind](interview/javascript/write-apply?id=手写-apply、call、bind)
-  - [5 - 手写防抖和节流函数](interview/javascript/advanced/debounce-throttle)
+  - [4 - 手写 apply、call、bind](interview/javascript/write-apply?id=手写-apply、call、bind)
 
-## 📝面经分享
+## 📝 面经分享
 
-- [实习第一次面试](interview/scene/one)
+- [实习第一次面试](interview/scene/one?id=实习第一次面试)
+- [实习第二次面试(offer)](interview/scene/two?id=实习第二次面试offer)
 
 <!-- [![Edit on CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/s/crazy-ellis-o8h10?file=/src/index.js) -->
