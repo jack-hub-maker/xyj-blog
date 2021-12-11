@@ -126,3 +126,69 @@ ECharts 4 开始支持了 [数据集](https://echarts.apache.org/handbook/zh/con
 [案例：dataset 移植](https://codesandbox.io/embed/echartsshu-ju-ji-lwb49?fontsize=14&hidenavigation=1&theme=dark)
 
 ### 5.3 组件
+
+ECharts 中除了绘图之外其他部分，都可抽象为 「组件」。例如，ECharts 中至少有这些组件：xAxis（直角坐标系 X 轴）、yAxis（直角坐标系 Y 轴）、grid（直角坐标系底板）、angleAxis（极坐标系角度轴）...
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/数据可视化/Eacharts组件.jpg)
+
+[案例:各种组件](https://codesandbox.io/s/hardcore-ellis-12hcw?file=/index.html)
+
+
+### 5.4 定位
+
+大多数组件都提供了定位属性，我们可以采用类似 CSS absolute 的定位属性来控制组件的位置，下面这个案例可以通过修改 grid 组件定位来控制图表的位置
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/数据可视化/Eacharts定位.jpg)
+
+[定位基本案例](https://codesandbox.io/embed/serene-rubin-k5miu?fontsize=14&hidenavigation=1&theme=dark)
+
+### 5.5 坐标系
+
+很多系列，例如 line（折线图）、bar（柱状图）、scatter（散点图）、heatmap（热力图）等等，需要运行在 “坐标系” 上。坐标系用于布局这些图，以及显示数据的刻度等等。例如 ECharts 中至少支持这些坐标系：直角坐标系、极坐标系、地理坐标系（GEO）、单轴坐标系、日历坐标系 等。其他一些系列，例如 pie（饼图）、tree（树图）等等，并不依赖坐标系，能独立存在。还有一些图，例如 graph（关系图）等，既能独立存在，也能布局在坐标系中，依据用户的设定而来。
+
+一个坐标系，可能由多个组件协作而成。我们以最常见的直角坐标系来举例。直角坐标系中，包括有 xAxis（直角坐标系 X 轴）、yAxis（直角坐标系 Y 轴）、grid（直角坐标系底板）三种组件。xAxis、yAxis 被 grid 自动引用并组织起来，共同工作。
+
+[案例：散点图](https://codesandbox.io/embed/async-cache-14wms?fontsize=14&hidenavigation=1&theme=dark)
+
+我们来看下图，这是最简单的使用直角坐标系的方式：只声明了 xAxis、yAxis 和一个 scatter（散点图系列），ECharts 会为它们创建 grid 并进行关联：
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/数据可视化/Eacharts散点图.jpg)
+
+[案例：双坐标系](https://codesandbox.io/embed/black-platform-47md0?fontsize=14&hidenavigation=1&theme=dark)
+
+再来看下图，两个 yAxis，共享了一个 xAxis。两个 series，也共享了这个 xAxis，但是分别使用不同的 yAxis，使用 yAxisIndex 来指定它自己使用的是哪个 yAxis：
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/数据可视化/双坐标系.jpg)
+
+[案例：多坐标系](https://codesandbox.io/embed/objective-surf-urjbn?fontsize=14&hidenavigation=1&theme=dark)
+
+再来看下图，一个 ECharts 实例中，有多个 grid，每个 grid 分别有 xAxis、yAxis，他们使用 xAxisIndex、yAxisIndex、gridIndex 来指定引用关系：
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/数据可视化/多坐标系.jpg)
+
+## 六、技术选型
+
+**ECharts VS Highcharts**
+
+Highcharts 和 ECharts 的争论非常多，整体来说，我个人的感受是：
+- Highcharts 能够兼容 IE6+，ECharts 通过 VML 兼容低端浏览器
+- Highcharts 文档体验略胜一筹
+- Highcharts 收费，这是很多开发者转向 ECharts 的`主要原因`
+- Highcharts 基于 svg 实现，ECharts 默认采用 canvas 渲染，4.0 支持 svg 渲染
+- ECharts 国内知名度更高，国内企业认可度更高
+
+**ECharts VS AntV**
+
+- AntV 文档阅读体验更符合互联网产品使用习惯
+- AntV 产品体系拆分更加清晰，但一定程度上提升了学习成本
+- ECharts 社区更强大
+- ECharts 使用更加广泛
+
+**ECharts 优势总结**
+
+- 简单易用
+- 文档全面
+- 社区强大
+- 高知名度
+
+!> 本专栏前端可视化我会采用Eacharts作为数据可视化技术栈
