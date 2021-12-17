@@ -47,13 +47,27 @@
 
 那么明确好了我们的范围之后，接下来就让我们创建一个项目，开始我们的代码规范之旅吧！
 
-## 二、编码规范
+## 二、编码风格
 
-### 2.1 代码检测工具 ESLint
+在企业多人开发中，每个人都有自己的编码风格，我喜欢缩进两行，你喜欢缩进四行，我喜欢单引号，你喜欢多引号
+
+这样的话项目就存在各种各样的代码风格，我们需要一个东西来统一我们的编码风格
+
+[editorconfig](https://editorconfig.org/) 有助于为不同 IDE 编辑器上处理同一项目的多个开发人员维护一致的编码风格。
+
+在根目录下创建.editorconfig 文件,在文件中编写对应的约束
+
+如果你使用的是 vscode 的话，这里我推荐一个插件`EditorConfig for VS Code`
+
+![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/EditorConfig%20for%20VS%20Code.png)
+
+## 三、编码规范
+
+### 3.1 代码检测工具 ESLint
 
 在我们去创建项目的时候，脚手架工具已经帮助我们安装了 [ESLint](https://github.com/eslint/eslint) 代码检测工具。
 
-对于 `ESLint` 的大名，同学们或多或少的应该都听说过，只不过有些同学可能了解的多一些，有些同学了解的少一些。
+对于 `ESLint` 的大名，朋友们或多或少的应该都听说过，只不过有些朋友可能了解的多一些，有些朋友了解的少一些。
 
 那么本小节我们就先来聊一下，这个赫赫有名的代码检测工具 `ESLint`
 
@@ -148,7 +162,7 @@ module.exports = {
 
 这个时候我们就可以使用 Prettier ，让你的代码变得更漂亮！
 
-### 2.2 代码格式化 Prettier
+### 3.2 代码格式化 Prettier
 
 我们知道了 ESLint 可以让我们的代码格式变得更加规范，但是同样的它也会带来开发时编码复杂度上升的问题。
 
@@ -158,16 +172,9 @@ module.exports = {
 
 而解决这个问题的关键就是 [Prettier](https://github.com/prettier/prettier)
 
-`Prettier` 是什么？
-
-1.  一个代码格式化工具
-2.  开箱即用
-3.  可以直接集成到 **VSCode** 之中
-4.  在保存时，让代码直接符合 ESLint 标准（需要通过一些简单配置）
+Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScript、CSS、SCSS、Less、JSX、Angular、Vue、GraphQL、JSON、Markdown 等语言，基本上前端能用到的文件格式它都可以搞定，是当下最流行的**代码格式化工具**。
 
 那么这些简单配置具体指的是什么呢？
-
-### 2.3 ESLint 与 Prettier 配合解决代码格式问题
 
 我们提到《prettier 可以在保存代码时，让我们的代码直接符合 ESLint 标准》但是想要实现这样的功能需要进行一些配置。
 
@@ -225,25 +232,21 @@ module.exports = {
 
 但是当我们加入了这个空格之后，只要一保存代码，就会发现 prettier 会自动帮助我们去除掉这个空格。
 
-那么此时的这个问题就是 prettier 和 ESLint 的冲突问题。
+这个时候可以安装一个插件
 
-针对于这个问题我们想要解决也非常简单：
-
-1. 打开 `.eslintrc.js` 配置文件
-2. 在 `rules` 规则下，新增一条规则
-
-```js
-'space-before-function-paren': 'off'
+```sh
+pnpm i eslint-plugin-prettier eslint-config-prettier -D
 ```
 
-3.  该规则表示关闭《方法名后增加空格》的规则
-4.  重启项目
+如果你在使用 cli 开发项目,选择了 prettier+eslint 的话,那么这两个插件会自动安装
+
+修改完配置之后我们需要重启项目
 
 至此我们整个的 perttier 和 ESLint 的配合使用就算是全部完成了。
 
 在之后我们写代码的过程中，只需要保存代码，那么 perttier 就会帮助我们自动格式化代码，使其符合 ESLint 的校验规则。而无需我们手动进行更改了。
 
-## 三、Git 提交规范
+## 四、Git 提交规范
 
 在前面我们通过 `Prettier + ESLint` 解决了代码格式的问题，但是我们之前也说过 **编程规范** 指的可不仅仅只是 **代码格式规范** 。
 
@@ -294,7 +297,7 @@ module.exports = {
 
 如果你有这样的困惑，那么 ”恭喜你“ ，接下来我们将一起解决这个问题！
 
-### 3.1 代码提交规范
+### 4.1 代码提交规范
 
 我们知道如果严格安装 约定式提交规范， 来手动进行代码提交的话，那么是一件非常痛苦的事情，但是 git 提交规范的处理 又势在必行，那么怎么办呢？
 
@@ -379,13 +382,73 @@ module.exports = {
 
 那么到这里我们就已经可以使用 git cz 来代替了 git commit 实现了规范化的提交诉求了，但是当前依然存在着一个问题，那就是我们必须要通过 git cz 指令才可以完成规范化提交！
 
+如果觉得配置很麻烦的话，这里我推荐使用另外一个插件 [cz-conventional-changelog](https://github.com/commitizen/cz-conventional-changelog)
+
+安装 cz-conventional-changelog，并且初始化 cz-conventional-changelog
+
+```sh
+npx commitizen init cz-conventional-changelog --save-dev --save-exact
+```
+
+安装完毕之后在 package.json 中进行配置：
+
+```json
+"config": {
+  "commitizen": {
+    "path": "node_modules/cz-conventional-changelog"
+  }
+}
+```
+
+这个时候我们提交代码需要使用 npx cz：
+
+- 第一步是选择 type，本次更新的类型
+
+| Type     | 作用                                                                                   |
+| -------- | -------------------------------------------------------------------------------------- |
+| feat     | 新增特性 (feature)                                                                     |
+| fix      | 修复 Bug(bug fix)                                                                      |
+| docs     | 修改文档 (documentation)                                                               |
+| style    | 代码格式修改(white-space, formatting, missing semi colons, etc)                        |
+| refactor | 代码重构(refactor)                                                                     |
+| perf     | 改善性能(A code change that improves performance)                                      |
+| test     | 测试(when adding missing tests)                                                        |
+| build    | 变更项目构建或外部依赖（例如 scopes: webpack、gulp、npm 等）                           |
+| ci       | 更改持续集成软件的配置文件和 package 中的 scripts 命令，例如 scopes: Travis, Circle 等 |
+| chore    | 变更构建流程或辅助工具(比如更改测试环境)                                               |
+| revert   | 代码回退                                                                               |
+
+- 第二步选择本次修改的范围（作用域）
+
+![image-20210723150147510](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8ca15oj30r600wmx4.jpg)
+
+- 第三步选择提交的信息
+
+![image-20210723150204780](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8mq3zlj60ni01hmx402.jpg)
+
+- 第四步提交详细的描述信息
+
+![image-20210723150223287](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw8y05bjj30kt01fjrb.jpg)
+
+- 第五步是否是一次重大的更改
+
+![image-20210723150322122](https://tva1.sinaimg.cn/large/008i3skNgy1gsqw9z5vbij30bm00q744.jpg)
+
+- 第六步是否影响某个 open issue
+
+![image-20210723150407822](https://tva1.sinaimg.cn/large/008i3skNgy1gsqwar8xp1j30fq00ya9x.jpg)
+
+我们也可以在 scripts 中构建一个命令来执行 cz：
+
+![image-20210723150526211](https://tva1.sinaimg.cn/large/008i3skNgy1gsqwc4gtkxj30e207174t.jpg)
+
 那么如果有马虎的同事，它们忘记了使用 git cz 指令，直接就提交了怎么办呢？
 
 那么有没有方式来限制这种错误的出现呢？
 
 答案是有的！
 
-### 3.2 代码提交验证
+### 4.2 代码提交验证
 
 先来明确一下我们最终要实现的效果：
 
@@ -597,4 +660,4 @@ npx lint-staged
 
 5.  发现 **暂存区中** 不符合 ESlint 的内容，被自动修复
 
-那么处理完成这些规范操作之后，请方法大胆讲规范使用在项目中并安利其它同事一起使用
+?>那么完成这些规范操作之后，请放心大胆将这些在项目中使用并安利其它同事一起使用 🤞💗

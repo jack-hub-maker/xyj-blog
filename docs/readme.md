@@ -32,7 +32,7 @@
   - [4 - 浏览器存储方案](javascript/basic/storage?id=浏览器存储方案)
   - [5 - 浏览器事件解析](javascript/basic/flow-events?id=浏览器事件解析)
 - **【二】JavaScript 面向对象**
-  - [1 - 面向对象](javascript/advanced/objectflow-events-oriented?id=面向对象是现实的抽象方式)
+  - [1 - 面向对象](javascript/object-oriented/object-oriented?id=面向对象是现实的抽象方式)
   - [2 - ES6 中类的使用](javascript/object-oriented/es6-class?id=class-定义类的方式)
   - [3 - 阅读 class 源码](javascript/object-oriented/sound-code-class?id=阅读class源码)
 - [**【三】DOM**](javascript/dom?id=dom操作架构)
