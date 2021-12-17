@@ -1,7 +1,5 @@
 # 🎨 前言
 
-!> 最近偏忙,正在准备前端可视化专栏的专栏,期待后续更新
-
 - ⏳ 爱分享，爱生活！在我眼里，`你永远是不一样的烟火`！觉得还不错的话，记得好好学习吖！
 - ✨ 本仓库建立的初衷是为了记录一路走来学习的计算机专业知识，方便之后复习与查看。`起于此，但不止于此`，在不断的摸索和完善，勤能补拙，相信一点点的积累最后汇聚成海！希望我的这个小小的计划，可以帮助到实力强大的你！`止于至善` 🧡🧡
 
@@ -148,8 +146,6 @@
 
 ## [📣 提问的智慧](more/qulz/readme)
 
-## [📜 开发规范](more/lint/readme?id=开发规范)
-
 ## [🔮 代码片段](more/code-clips/readme?id=代码片段)
 
 ## [👏 企业开发编程规范](specification/readme?id=企业开发编程规范)
@@ -177,5 +173,3 @@
 
 - [实习第一次面试](interview/scene/one?id=实习第一次面试)
 - [实习第二次面试(offer)](interview/scene/two?id=实习第二次面试offer)
-
-<!-- [![Edit on CodeSandbox](https://camo.githubusercontent.com/90808661433696bc57dce8d4ad732307b5cec6270e6b846f114dcd7ee7f9458a/68747470733a2f2f636f646573616e64626f782e696f2f7374617469632f696d672f706c61792d636f646573616e64626f782e737667)](https://codesandbox.io/s/crazy-ellis-o8h10?file=/src/index.js) -->

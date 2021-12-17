@@ -661,3 +661,8 @@ npx lint-staged
 5.  发现 **暂存区中** 不符合 ESlint 的内容，被自动修复
 
 ?>那么完成这些规范操作之后，请放心大胆将这些在项目中使用并安利其它同事一起使用 🤞💗
+
+参考资料:
+
+1.  [标准化大厂编程规范解决方案之 ESLint + Git Hooks](https://coding.imooc.com/class/542.html#Anchor)
+2.  [项目规范](https://ke.qq.com/course/3453141)
