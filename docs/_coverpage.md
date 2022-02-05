@@ -15,3 +15,5 @@
 
 [GitHub](https://github.com/likesandy)
 [开始阅读](/readme?id=🎨-前言)
+
+![color](#fff)
