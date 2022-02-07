@@ -2,7 +2,7 @@
 
 <!-- ?> 小 tao 在这里祝大家新年快乐 🎉🎉 -->
 
-?> [🌟 最近更新《最强大的 CSS 布局 —— Grid 布局》文章,点击查看 ](css/grid?id=grid-布局)
+?> [🌟 最近更新《ESNext！(已更新 2021)》文章,点击查看 ](javascript/es-next?id=es6)
 
 - ⏳ 爱分享，爱生活！在我眼里，`你永远是不一样的烟火`！觉得还不错的话，记得好好学习吖！
 - ✨ 本仓库建立的初衷是为了记录一路走来学习的计算机专业知识，方便之后复习与查看。`起于此，但不止于此`，在不断的摸索和完善，勤能补拙，相信一点点的积累最后汇聚成海！希望我的这个小小的计划，可以帮助到实力强大的你！`止于至善` 🧡🧡
@@ -42,13 +42,7 @@
 - [**回到基础：什么是 DOM 及 DOM 操作？**](javascript/dom?id=dom操作架构)
 - [**从架构的角度看待 BOM**](javascript/bom?id=bom-浏览器操作)
 - [**你会用 ES6，那倒是用啊！**](javascript/es-next/es6?id=es6-新特性)
-- [**ESNext！(已更新 2021)**](javascript/es-next/es6?id=es6-新特性)
-  <!-- - [**ES7**](javascript/es-next/es7?id=es7-新特性) -->
-    <!-- - [**ES8**](javascript/es-next/es8?id=es8-新特性) -->
-    <!-- - [**ES9**](javascript/es-next/es9?id=es9-新特性) -->
-    <!-- - [**ES10**](javascript/es-next/es10?id=es10-新特性) -->
-    <!-- - [**ES11**](javascript/es-next/es11?id=es11-新特性) -->
-    <!-- - [**ES12**](javascript/es-next/es12?id=es12-新特性) -->
+- [**ESNext！(已更新 2021)**](javascript/es-next?id=es6)
 - [**前端开发者应该明白的浏览器工作原理**](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
 - [**理解 JavaScript 中的执行上下文和执行栈**](javascript/advanced/js-implementation?id=javascript-的执行过程)
 - [**JS 中的内存管理**](javascript/advanced/memory-management?id=认识内存管理)
