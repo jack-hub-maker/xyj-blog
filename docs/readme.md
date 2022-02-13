@@ -41,7 +41,7 @@
 - [**JavaScript 基础: 类与继承**](javascript/object-oriented/es6-class?id=class-定义类的方式)
 - [**回到基础：什么是 DOM 及 DOM 操作？**](javascript/dom?id=dom操作架构)
 - [**从架构的角度看待 BOM**](javascript/bom?id=bom-浏览器操作)
-- [**你会用 ES6，那倒是用啊！**](javascript/es-next/es6?id=es6-新特性)
+- [**你会用 ES6，那倒是用啊！**](javascript/es6?id=es6-新特性)
 - [**ESNext！(已更新 2021)**](javascript/es-next?id=es6)
 - [**前端开发者应该明白的浏览器工作原理**](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
 - [**理解 JavaScript 中的执行上下文和执行栈**](javascript/advanced/js-implementation?id=javascript-的执行过程)
@@ -130,9 +130,9 @@
 - [**技术选型**](data-visualization/02-technical-options?id=数据可视化前端技术选型)
 - [**稀缺中的稀缺—— 地图可视化（百度+高德）**](data-visualization/map) -->
 
-# 😫 数据结构与算法
+<!-- # 😫 数据结构与算法
 
-?>🔊 本专栏只针对 JavaScript 开发者撰写的数据结构与算法专栏
+?>🔊 本专栏只针对 JavaScript 开发者撰写的数据结构与算法专栏 -->
 
 - [排序算法](/algorithm/sort?id=排序算法)
 
