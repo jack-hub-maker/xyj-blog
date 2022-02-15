@@ -77,7 +77,7 @@ webpack
 
 ```js
 // src/js/person.js
-const name = "codertao";
+const name = "xyj";
 let age = 19;
 const say = (name) => {
   console.log("你好啊" + name);

@@ -1,6 +1,16 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: 
+ * @Date: 2022-02-15 10:14:30
+ * @LastEditors: YingJie Xing
+ * @LastEditTime: 2022-02-15 13:33:18
+ * @FilePath: /sandy.gitee.io/README.md
+ * Copyright 2022 YingJie Xing, All Rights Reserved. 
+-->
 # 🎨 前言
 
-做一个有趣的爱分享的人，记录学习前端的过程。如果你喜欢这个文档网站欢迎到 GitHub 点个 Star，或者交换友链 ( •̀ ω •́ )✧🔑
+做一个有趣的爱分享的人，记录学习前端的过程。如果你喜欢这个文档网站欢迎到 GitHub 点个 Star
 
 搭建博客的本意只是为了是当做学习笔记记录学习的内容，一个人可以走的很快，但一群人才能走的更远！
 

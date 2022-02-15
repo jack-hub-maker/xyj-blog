@@ -651,7 +651,7 @@ console.log(message); // 0
 const obj = {
   name: "tao",
   friend: {
-    name: "sandy",
+    name: "xyj",
     girlfriend: {
       name: "zm",
     },

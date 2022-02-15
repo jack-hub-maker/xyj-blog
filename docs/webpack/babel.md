@@ -35,7 +35,7 @@ npx babel src --out-dir dist
 ```js
 // demo.js
 
-const name = "codertao";
+const name = "xyj";
 const say = (name) => {
   console.log("你好啊" + name);
 };

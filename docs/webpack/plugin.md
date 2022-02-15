@@ -188,7 +188,7 @@ Mode 配置选项，可以告知 webpack 使用响应模式的内置优化：
   - 可选值有：'none' | 'development' | 'production'；
 - 这几个选项有什么样的区别呢?
 
-比如我们在 element.js 文件中打印 codertao.lenght,这个肯定是要**报错**的
+比如我们在 element.js 文件中打印 xyj.lenght,这个肯定是要**报错**的
 
 ![13.png](https://img11.360buyimg.com/ddimg/jfs/t1/178047/36/18461/27482/61122e93Ef318531a/81305057dd330150.png)
 

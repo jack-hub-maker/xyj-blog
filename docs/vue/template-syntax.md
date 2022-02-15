@@ -137,7 +137,7 @@ v-bind 有一个对应的语法糖，也就是简写方式
 export default {
   data() {
     return {
-      src: "https://likesandy.github.io/#/",
+      src: " https://jack-hub-maker.github.io/xyj-blog/",
     };
   },
 };
