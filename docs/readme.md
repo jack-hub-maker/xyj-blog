@@ -33,6 +33,7 @@
 
 <!-- - [**Arguments 对象深入了解**](javascript/advanced/arguments?id=arguments) -->
 
+- [**一些对ES6的吐槽**](javascript/es6/es6吐槽?id=es6-吐槽)
 - [**JSON 详解**](javascript/basic/json?id=json)
 - [**聊一聊常见的浏览器端数据存储方案**](javascript/basic/storage?id=浏览器存储方案)
 <!-- - [浏览器事件解析](javascript/basic/flow-events?id=浏览器事件解析) -->
@@ -40,7 +41,7 @@
 - [**JavaScript 基础: 类与继承**](javascript/object-oriented/es6-class?id=class-定义类的方式)
 - [**回到基础：什么是 DOM 及 DOM 操作？**](javascript/dom?id=dom操作架构)
 - [**从架构的角度看待 BOM**](javascript/bom?id=bom-浏览器操作)
-- [**你会用 ES6，那倒是用啊！**](javascript/es6?id=es6-新特性)
+- [**你会用 ES6，那倒是用啊！**](javascript/es6/es6小结?id=es6-新特性)
 - [**ESNext！(已更新 2021)**](javascript/es-next?id=es6)
 - [**前端开发者应该明白的浏览器工作原理**](javascript/advanced/browser-run-theory?id=浏览器的工作原理)
 - [**理解 JavaScript 中的执行上下文和执行栈**](javascript/advanced/js-implementation?id=javascript-的执行过程)
