@@ -33,6 +33,7 @@
 
 <!-- - [**Arguments 对象深入了解**](javascript/advanced/arguments?id=arguments) -->
 
+- [**http状态码相关**](javascript/http/http状态码相关?id=http状态码相关)
 - [**一些对ES6的吐槽**](javascript/es6/es6吐槽?id=es6-吐槽)
 - [**JSON 详解**](javascript/basic/json?id=json)
 - [**聊一聊常见的浏览器端数据存储方案**](javascript/basic/storage?id=浏览器存储方案)
