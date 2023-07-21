@@ -52,7 +52,13 @@
       topMargin: 60,//调整top
       onlyCover: true,
       auto2top: true,  //当路线改变时,滚动到屏幕的顶部
-
+      search: {
+        paths: 'auto',
+        placeholder: '请输入要搜索的关键字',
+        noData: '没有结果',
+        depth: 6,
+        hideOtherSidebarContent: true,
+      },
       footer: {
         copy: '<span id="sitetime"></span><br/><br/>',
         auth: ' <span> 一个人可以走的很快，但一群人才能走的更远！</span>',
@@ -92,6 +98,7 @@
       // },
     }
   </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
