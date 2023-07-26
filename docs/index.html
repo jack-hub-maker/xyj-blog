@@ -32,6 +32,7 @@
 
 <body background="" style=" background-repeat:no-repeat ;background-size:100% 100%;background-attachment: fixed;">
   <div id="app">🏃‍🏃‍🏃‍💨 加载中...</div>
+
   <script>
     window.$docsify = {
       el: '#app',
@@ -52,13 +53,14 @@
       topMargin: 60,//调整top
       onlyCover: true,
       auto2top: true,  //当路线改变时,滚动到屏幕的顶部
-      // search: {
-      //   paths: 'auto',
-      //   placeholder: '请输入要搜索的关键字',
-      //   noData: '没有结果',
-      //   depth: 6,
-      //   hideOtherSidebarContent: true,
-      // },
+      search: {
+        paths: 'auto',
+        placeholder: '🔍 搜索',
+        noData: '😒 找不到结果',
+        // Headline depth, 1 - 6
+        depth: 6,
+        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+      },//添加搜索框
       footer: {
         copy: '<span id="sitetime"></span><br/><br/>',
         auth: ' <span> 一个人可以走的很快，但一群人才能走的更远！</span>',
@@ -75,32 +77,24 @@
       'flexible-alerts': {
         style: 'flat'
       },
-      // pagination: {
-      //   previousText: '上一章节',
-      //   nextText: '下一章节',
-      //   crossChapter: true,
-      //   crossChapterText: true,
-      // },
+      pagination: {
+        previousText: '上一章节',
+        nextText: '下一章节',
+        crossChapter: true,
+        crossChapterText: true,
+      },
       onlyCover: true,
       progress: {
         position: "top",
         color: "var(--theme-color,#42b983)",
         height: "3px",
       },
-      // repo: 'true', // set the docsify show the corner
-      // corner: {
-      //   url: "https://gitee.com/itsandy/sandy.gitee.io",
-      //   icon: "github",
-      // },
-      // Valine: {
-      //   appId: 'V7IcvfIgX64qQVyofOCo6g2K-gzGzoHsz',
-      //   appKey: 'KbC7chg8nTHa3fTF9lV9DNA0',
-      // },
     }
   </script>
-  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
-
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
+  <script src="https://notebook.js.org/plugin/search.min.js"></script>
+
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
 
   <!-- 复制代码-->
@@ -171,9 +165,6 @@
       navigator.serviceWorker.register('sw.js')
     }
   </script>
-
-  <!-- GitHub -->
-  <!-- <script src="//cdn.jsdelivr.net/npm/docsify-corner/dist/docsify-corner.min.js"></script> -->
 
   <!-- 代码字体 -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>

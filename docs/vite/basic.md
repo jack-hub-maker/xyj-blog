@@ -35,10 +35,11 @@
 
 ## 三、vite 脚手架工具
 
-本节并不是0基础学习Vite，使用过Vue CLI算起起步门槛，所以这里就直接使用vite的脚手架工具来进行演示
+本节并不是 0 基础学习 Vite，使用过 Vue CLI 算起起步门槛，所以这里就直接使用 vite 的脚手架工具来进行演示
 
 在开发中，我们不可能所有的项目都使用 vite 从零去搭建，比如一个 react 项目、Vue 项目；
-  - 这个时候 vite 还给我们提供了对应的脚手架工具；
+
+- 这个时候 vite 还给我们提供了对应的脚手架工具；
 - 所以 Vite 实际上是有两个工具的：
   - vite：相当于是一个构建工具，类似于 webpack、rollup；
   - @vitejs/create-app：类似 vue-cli、create-react-app；
@@ -56,27 +57,26 @@ npm init @vitejs/app <project-name>
 npm install @vitejs/create-app -g create-app
 ```
 
-
 ![12.png](https://img11.360buyimg.com/ddimg/jfs/t1/178292/33/18532/45265/61122c4eE44152a5c/7a4ab4b21616c9ff.png)
 ![13.png](https://img12.360buyimg.com/ddimg/jfs/t1/193245/39/17759/87443/61122c4eEaaab326a/46b724d8830e59c2.png)
 ![14.png](https://img11.360buyimg.com/ddimg/jfs/t1/182334/32/18487/48025/61122c4fE7a25fa3c/03648a1429ce213c.png)
 
-## 四、CSS的支持
+## 四、CSS 的支持
 
-vite天然支持css，可以直接编写css，无需配置
+vite 天然支持 css，可以直接编写 css，无需配置
 
 详情：https://cn.vitejs.dev/guide/features.html#css
 
-## 五、TypeScript的支持
+## 五、TypeScript 的支持
 
-vite天然支持TypeScript，可以直接编写TypeScript，无需配置
+vite 天然支持 TypeScript，可以直接编写 TypeScript，无需配置
 
 你会觉得很神奇，居然默认支持，这是为什么？
 
 如果我们查看浏览器中的请求，会发现请求的依然是 ts 的代码:
-  - 这是因为 vite 中的服务器 Connect 会对我们的请求进行转发;
-  - 获取 ts 编译后的代码，给浏览器返回，浏览器可以直接进行解析；
-  
+
+- 这是因为 vite 中的服务器 Connect 会对我们的请求进行转发;
+- 获取 ts 编译后的代码，给浏览器返回，浏览器可以直接进行解析；
 
 !>注意：在 vite2 中，已经不再使用 Koa 了，而是使用 Connect 来搭建的服务器
 
@@ -86,18 +86,17 @@ vite天然支持TypeScript，可以直接编写TypeScript，无需配置
 
 Vite 会在本地建立一个 Connect 服务器,Vite 中的 Connect 服务器会对我们的请求进行转发比如这里我请求的是 foo.ts 文件,Connect 会将它转发成 foo.ts,虽然两个的名字还是一样的,但是里面的代码被转发成了 es6 的 js 代码,不是因为 ts 才会转为 js 代码,比如你请求的 less 文件,最后也会转发成 es6 的 js 代码,然后将 js 代码返回给浏览器让浏览器解析.第一次我们安装了新的依赖运行的时候,Vite 会帮我们把这个包给存储起来(预打包),下次我们再运行的时候,就会把上次打包过的包直接拿来用,就不需要重新打包
 
-
-## 六、Vue的支持
+## 六、Vue 的支持
 
 vite 对 vue 提供第一优先级支持：
-  - Vue 3 单文件组件支持：[@vitejs/plugin-vue](https://github.com/vitejs/vite/tree/main/packages/plugin-vue)
-  - Vue 3 JSX 支持：[@vitejs/plugin-vue-jsx](https://github.com/vitejs/vite/tree/main/packages/plugin-vue-jsx)
-  - Vue 2 支持：[underfin/vite-plugin-vue2](https://github.com/underfin/vite-plugin-vue2)
 
+- Vue 3 单文件组件支持：[@vitejs/plugin-vue](https://github.com/vitejs/vite/tree/main/packages/plugin-vue)
+- Vue 3 JSX 支持：[@vitejs/plugin-vue-jsx](https://github.com/vitejs/vite/tree/main/packages/plugin-vue-jsx)
+- Vue 2 支持：[underfin/vite-plugin-vue2](https://github.com/underfin/vite-plugin-vue2)
 
 ## 七、ESBuild
 
-使用了vite，你会发现vite构建项目是真的快，这是因为vite使用ESBuild进行预构建
+使用了 vite，你会发现 vite 构建项目是真的快，这是因为 vite 使用 ESBuild 进行预构建
 
 ESBuild 的构建速度和其他构建工具速度对比：
 
@@ -106,6 +105,7 @@ ESBuild 的构建速度和其他构建工具速度对比：
 详情：https://esbuild.github.io/
 
 ESBuild 为什么这么快呢？
-  - 使用 Go 语言编写的，可以直接转换成机器代码，而无需经过字节码；
-  - ESBuild 可以充分利用 CPU 的多内核，尽可能让它们饱和运行；
-  - ESBuild 的所有内容都是从零开始编写的，而不是使用第三方，所以从一开始就可以考虑各种性能问题；
+
+- 使用 Go 语言编写的，可以直接转换成机器代码，而无需经过字节码；
+- ESBuild 可以充分利用 CPU 的多内核，尽可能让它们饱和运行；
+- ESBuild 的所有内容都是从零开始编写的，而不是使用第三方，所以从一开始就可以考虑各种性能问题；
