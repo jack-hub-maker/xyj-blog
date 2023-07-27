@@ -12,7 +12,9 @@
 
 ## **xyj**
 
-- 本文档是作者`xyj`学习前端的笔记<br>旨在为大家提供一个较完整的 前端学习笔记<br>如果本文能为您提供帮助，请给予支持！
+- 流水不争先，争的是滔滔不绝！<br>
+旨在记录一下前端路上的点点滴滴.<br>
+如果本文能为您提供帮助，请给予支持！
 
 <!-- <span id="busuanzi_container_site_pv" style='display:none'>
     👀 本站总访问量：<span id="busuanzi_value_site_pv"></span> 次
