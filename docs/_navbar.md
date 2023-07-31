@@ -5,10 +5,14 @@
  * @Date: 2022-02-15 10:14:30
  * @LastEditors: YingJie Xing
  * @LastEditTime: 2022-02-15 13:41:10
- * @FilePath: /sandy.gitee.io/docs/_navbar.md
+ * @FilePath: /xyj.gitee.io/docs/_navbar.md
  * Copyright 2022 YingJie Xing, All Rights Reserved. 
 -->
-- [<span class="iconfont icon-icon_fabu"></span> 首页](/readme?id=🎨-前言)
+- [<span class="iconfont icon-wodeguanzhu"></span> 首页](/readme?id=🎨-前言)
+
+- [<span class="iconfont icon-icon_fabu"></span> 基础](/readme?id=🎨-前言)
+  - [🎉HTTP](/readme?id=🎉HTTP)
+  - [🎉Chorme](/readme?id=🎉Chorme)
   - [🎨CSS](/readme?id=🎨css)
   - [🏆JavaScript](/readme?id=🏆javascript)
   - [🌈Vue](/readme?id=🌈vue)

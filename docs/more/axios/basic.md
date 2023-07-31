@@ -254,7 +254,7 @@ export const BASE_URL = "http://gt.com";
 // 生产阶段
 // export const BASE_URL = 'http://tao.com'
 // 测试阶段
-// export const BASE_URL = 'http://sandy.com'
+// export const BASE_URL = 'http://xyj.com'
 ```
 
 可见手动修改的方式是很蠢的,所以不推荐使用这种方法
@@ -272,7 +272,7 @@ if (process.env.NODE_ENV === "development") {
 } else if (process.env.NODE_ENV === "production") {
   BASE_URL = "http://tao.com";
 } else {
-  BASE_URL = "http://sandy.com";
+  BASE_URL = "http://xyj.com";
 }
 export { BASE_URL };
 ```

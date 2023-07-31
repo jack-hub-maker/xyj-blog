@@ -32,7 +32,6 @@
 
 其实这种公式在 GitHub 的 issuse 中也是非常多
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/其它/提问公式.png)
 
 另外如果你遇到了 bug，搜索也无果的话，这里有几个地方推荐你去问答
 

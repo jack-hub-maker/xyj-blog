@@ -4,30 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <title>xyj</title>
-
-  <!-- 百度统计 -->
-  <!-- <script>
-    var _hmt = _hmt || [];
-    (function () {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?e50b9a48d27d909e5b9cd075acb7215d";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script> -->
-  <!-- 解除其他平台的防盗链 -->
   <meta name="referrer" content="never">
-
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
   <link rel="icon" href="./style/xyj.jpg" />
-
-  <!-- alert -->
-  <link rel="stylesheet" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" type='text/css' media='all' />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/css/style.css">
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body background="" style=" background-repeat:no-repeat ;background-size:100% 100%;background-attachment: fixed;">
@@ -77,12 +61,18 @@
       'flexible-alerts': {
         style: 'flat'
       },
-      pagination: {
-        previousText: '上一章节',
-        nextText: '下一章节',
-        crossChapter: true,
-        crossChapterText: true,
-      },
+      // pagination: {
+      //   previousText: '上一章节',
+      //   nextText: '下一章节',
+      //   crossChapter: true,
+      //   crossChapterText: true,
+      // },
+      footer: {
+        copy: '<span>Copyright &copy; 2021 - 至今</span><br>',
+        auth: '<span> 一个人可以走的很快，但一群人才能走的更远！</span>',
+        pre: '<hr/>',
+        style: 'text-align: left;',
+      },//添加页脚
       onlyCover: true,
       progress: {
         position: "top",
@@ -92,17 +82,15 @@
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
-  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
   <script src="https://notebook.js.org/plugin/search.min.js"></script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
 
   <!-- 复制代码-->
-  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/docsify-copy-code.js"></script>
-
+  <script src="https://notebook.js.org/plugin/docsify-copy-code.min.js"></script>
   <!-- 回到顶部功能 -->
-  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/jquery.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/jquery-goup.js"></script>
+  <script src="https://notebook.js.org/plugin/jquery.js"></script>
+  <script src="https://notebook.js.org/plugin/jquery.goup.js"></script>
   <script type="text/javascript">
     $(document).ready(function () {
       $.goup({
@@ -114,19 +102,9 @@
       });
     });
   </script>
-
-  <!--使用 Gitter 实现一个 IM 即时通讯聊天室功能-->
-  <!-- <script>
-    ((window.gitter = {}).chat = {}).options = {
-      room: 'codertao-blog/community'
-    };
-  </script> -->
-  <!-- <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script> -->
   </script>
-
-  <!-- 添加页脚 -->
-  <script src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/docsify-footer-enh.js"></script>
-
+   <!-- 添加页脚 -->
+  <script src="https://notebook.js.org/plugin/docsify-footer-enh.min.js"></script>
   <!-- 添加网站运行时间统计 -->
   <script language=javascript>
     function siteTime() {
@@ -157,15 +135,7 @@
   </script>
 
   <!-- 访问量统计 -->
-  <script async src="https://cdn.jsdelivr.net/gh/likesandy/blog-cdn/js/busuanzi.js"></script>
-
-  <!-- 实现离线化 -->
-  <script>
-    if (typeof navigator.serviceWorker !== 'undefined') {
-      navigator.serviceWorker.register('sw.js')
-    }
-  </script>
-
+  <script async src="https://notebook.js.org/plugin/js/busuanzi.pure.mini.js"></script>
   <!-- 代码字体 -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-jsx.min.js"></script>

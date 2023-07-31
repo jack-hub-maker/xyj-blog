@@ -61,7 +61,6 @@ setTimeout2
 
 我们还是通过画图的方式(更加直观)
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/Promise面试题流程一.png)
 
 执行 main script
 
@@ -174,7 +173,6 @@ setTimeout
  */
 ```
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/async面试题流程一.png)
 
 执行 main script
 
@@ -411,7 +409,6 @@ setTimeout2
  */
 ```
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/JavaScript/node执行面试题.png)
 
 执行 main script
 

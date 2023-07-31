@@ -8,7 +8,6 @@
 
 设想一下，下面的这段代码有一个团队进行开发，因为没有具备统一的代码标准，所以生成了下面的代码：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/没有规范的代码.png)
 
 这段代码可以正常运行没有问题，但是整体的代码结构却非常的难看。
 
@@ -18,7 +17,6 @@
 
 我们把上面的代码进行一下修正，做一个对比：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/有规范的代码.png)
 
 修改之后的代码具备了统一的规范之后，是不是看起来就舒服多了！
 
@@ -59,7 +57,6 @@
 
 如果你使用的是 vscode 的话，这里我推荐一个插件`EditorConfig for VS Code`
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/EditorConfig%20for%20VS%20Code.png)
 
 ## 三、编码规范
 
@@ -79,7 +76,6 @@
 
 我们在创建项目时，就进行过这样的选择：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/eslint.png)
 
 我们先选择 **标准的 ESLint 规则** ，那么接下来我们就在该规则之下，看一看 `ESLint` 它的一些配置都有什么？
 
@@ -124,7 +120,6 @@ module.exports = {
 
 此时，只要我们一保存代码，那么就会得到一个对应的错误
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/eslint错误.png)
 
 这个错误表示：
 
@@ -182,7 +177,6 @@ Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScrip
 
 1.  在 VSCode 中安装 prettier 插件，这个插件可以帮助我们在配置 prettier 的时候获得提示
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/Prettier插件.png)
 
 2.  在项目中新建 `.prettierrc` 文件，该文件为 perttier 默认配置文件
 3.  在该文件中写入如下配置：
@@ -200,11 +194,9 @@ Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScrip
 
 4.  打开 VSCode 《设置面板》
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/vscode设置面板.png)
 
 5.  在设置中，搜索 `save` ，勾选 `Format On Save`
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/自动保存代码配置.png)
 
 6.  至此，你即可在 **VSCode 保存时，自动格式化代码！**
 
@@ -212,11 +204,9 @@ Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScrip
 
 右键你想要配置格式化项目的文件
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/配置格式化选项.png)
 
 然后选择 Prettier
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/Prettier格式化选项.png)
 
 **但是！** 你只做到这样还不够！
 
@@ -226,7 +216,6 @@ Prettier 是一款强大的代码格式化工具，支持 JavaScript、TypeScrip
 
 比如:我们尝试在 Home.vue 中写入一个 created 方法，写入完成之后，打开我们的控制台我们会发现，此时代码抛出了一个 ESLint 的错误
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/eslint和prettier冲突.png)
 
 这个错误的意思是说：**created 这个方法名和后面的小括号之间，应该有一个空格！**
 
@@ -260,7 +249,6 @@ pnpm i eslint-plugin-prettier eslint-config-prettier -D
 
 比如说，我们来看这几条提交记录：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/未规范的git.png)
 
 你能够想象得到它们经历了什么吗？
 
@@ -321,7 +309,6 @@ pnpm i -g commitizen
 
 !>注意使用 pnpm 安装都需要设置 npm 的镜像一定要为 taobao 才可以(如下都是),否则会报这样的错误
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/请配置taobao镜像.png)
 
 2.  安装并配置 [`cz-customizable`](https://github.com/leoforfree/cz-customizable) 插件
     - 使用 npm 下载 cz-customizable
@@ -528,7 +515,6 @@ module.exports = {
 
 !> 注意：确保保存为 `UTF-8` 的编码格式，否则可能会出现以下错误：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/编码格式报错.png)
 
 接下来我们来安装 husky
 
@@ -544,7 +530,6 @@ pnpm i husky -D
 npx husky install
 ```
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/husky.png)
 
 3.  在 package.json 中生成 `prepare` 指令
 
@@ -560,7 +545,6 @@ pnpm run prepare
 
 5.  执行成功，提示
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/prepare执行成功.png)
 
 6.  添加 commitlint 的 hook 到 husky 中，并指令在 commit-msg 的 hooks 下执行 `npx --no-install commitlint --edit "$1"` 指令
 
@@ -570,7 +554,6 @@ npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 
 7.  此时的 `.husky` 的文件结构
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/husky文件结构.png)
 
 至此， 不符合规范的 commit 将不再可提交：
 
@@ -602,7 +585,6 @@ npx husky add .husky/pre-commit "npx eslint --ext .js,.vue src"
 
 2.  该操作会生成对应文件 `pre-commit`：
 
-![](https://gitee.com/itsandy/picgo-img/raw/master/企业开发编程规范/pre-commit.png)
 
 3.  修改一处代码，使其不符合 ESLint 校验规则
 
