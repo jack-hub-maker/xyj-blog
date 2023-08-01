@@ -16,7 +16,7 @@
 # 🎉 基础
 
 ## 🎉HTTP
-- [**http状态码相关**](javascript/http/http状态码相关?id=http状态码相关)
+- [**http状态码相关**](Basics/javascript/http/http状态码相关?id=http状态码相关)
 - [**http发展史**](Basics/HTTP/HTTP_history?id=HTTP_history)
 - [**http报文**](Basics/HTTP/HTTP_message?id=HTTP_message)
 - [**http缓存**](Basics/HTTP/HTTP_cache?id=HTTP_cache)
