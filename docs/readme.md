@@ -35,7 +35,7 @@
 
 ## 🏆JavaScript
 <!-- - [**Arguments 对象深入了解**](Basics/javascript/advanced/arguments?id=arguments) -->
-
+- [**一些基本的数组方法记录**](Basics/javascript/basicArray?id=基本的数组方法记录)
 - [**一些对ES6的吐槽**](Basics/javascript/es6/es6吐槽?id=es6-吐槽)
 - [**JSON 详解**](Basics/javascript/basic/json?id=json)
 - [**聊一聊常见的浏览器端数据存储方案**](Basics/javascript/basic/storage?id=浏览器存储方案)
