@@ -8,7 +8,7 @@
 ## 🧡 特别说明
 
 
-- 本站内容仅供学习交流，请勿用于任何形式商业行为
+- 本站内容仅供学习交流，请勿用于任何形式商业行为2
 
 - 本站如无意中侵犯了某些组织或个人的知识产权，请速告之，本站定及时处理
 
@@ -35,7 +35,7 @@
 
 ## 🏆JavaScript
 <!-- - [**Arguments 对象深入了解**](Basics/javascript/advanced/arguments?id=arguments) -->
-- [**一些基本的数组方法记录**](Basics/javascript/basicArray?id=基本的数组方法记录)
+- [**数组和对象**](Basics/javascript/basicArray?id=数组和对象)
 - [**一些对ES6的吐槽**](Basics/javascript/es6/es6吐槽?id=es6-吐槽)
 - [**JSON 详解**](Basics/javascript/basic/json?id=json)
 - [**聊一聊常见的浏览器端数据存储方案**](Basics/javascript/basic/storage?id=浏览器存储方案)
