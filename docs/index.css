@@ -330,7 +330,7 @@
   z-index: 9999;
 }
 
-/* 骨架屏头部 - 完全匹配 .app-nav */
+/* 骨架屏头部也需要响应式 */
 .skeleton-app-nav {
   position: fixed;
   top: 0;
@@ -340,6 +340,7 @@
   background-color: #fff;
   border-bottom: 1px solid #eee;
   z-index: 10000;
+  transition: all 0.3s ease;
 }
 
 .skeleton-nav-content {
@@ -348,7 +349,15 @@
   align-items: center;
   padding: 10px 20px;
   height: 100%;
-  max-width: calc(100% - 325px);
+  /* 默认全宽 */
+  max-width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* 如果需要匹配侧边栏状态 */
+body:not(.close) .skeleton-nav-content {
+  max-width: calc(100% - 300px);
+  margin-left: 300px;
 }
 
 .skeleton-logo-area {
@@ -460,13 +469,28 @@
   position: fixed;
   margin: 0;
   padding: 10px 20px 10px 0;
-  width: 100%; /* 改为全宽 */
-  /* background-color: rgba(255, 255, 255, 0.95); */
   height: 55px;
-  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.95);
   border-bottom: 1px solid rgba(238, 238, 238, 0.3);
   backdrop-filter: blur(5px);
   box-sizing: border-box;
+  /* 默认状态：侧边栏收起或封面页 */
+  left: 0;
+  right: 0;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 侧边栏展开时 */
+body:not(.close) .app-nav {
+  left: 300px; /* 侧边栏宽度 */
+  width: calc(100% - 300px);
+}
+
+/* 侧边栏收起时 */
+body.close .app-nav {
+  left: 0;
+  width: 100%;
 }
 
 /* 导航栏内容区域限制宽度 */
