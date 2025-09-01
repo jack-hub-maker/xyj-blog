@@ -1,13 +1,17 @@
 <!--
- * @Descripttion: 
+ * @Descripttion:
  * @version: 1.0
- * @Author: 
+ * @Author:
  * @Date: 2022-02-15 10:14:30
  * @LastEditors: YingJie Xing
  * @LastEditTime: 2022-02-16 10:54:45
  * @FilePath: /xyj.gitee.io/README.md
- * Copyright 2022 YingJie Xing, All Rights Reserved. 
+ * Copyright 2022 YingJie Xing, All Rights Reserved.
+ * how to start?
+ * 1:cd docs
+ * 2:docsify serve
 -->
+
 # 🎨 前言
 
 博客访问地址：https://jack-hub-maker.github.io/xyj-blog/#/
@@ -20,6 +24,4 @@
 
 博客模板借用了https://github.com/wugenqiang/NoteBook
 
-感谢大佬，为大佬点个Star🌟
-
-
+感谢大佬，为大佬点个 Star🌟
