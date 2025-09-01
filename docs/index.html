@@ -12,11 +12,100 @@
   <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">-->
    <link rel="stylesheet" href="https://notebook.js.org/plugin/css/vue-1.css">
   <link rel="icon" href="./style/xyj.jpg" />
+  <!-- 预加载关键资源，确保同步加载 -->
+  <link rel="preload" href="https://notebook.js.org/plugin/js/docsify.min.js" as="script">
+  <link rel="preload" href="https://notebook.js.org/plugin/css/vue-1.css" as="style">
+  <link rel="preload" href="./index.css" as="style">
+  <link rel="preload" href="./style/xyj.jpg" as="image">
+  
+  <!-- 立即加载样式避免FOUC -->
+  <link rel="stylesheet" href="https://notebook.js.org/plugin/css/vue-1.css">
   <link rel="stylesheet" href="./index.css">
 </head>
 
 <body background="" style=" background-repeat:no-repeat ;background-size:100% 100%;background-attachment: fixed;">
-  <div id="app">🏃‍🏃‍🏃‍💨 加载中...</div>
+  <div id="app">
+    <div class="loading-skeleton">
+      <!-- 完全模拟真实头部的骨架屏 -->
+      <div class="skeleton-app-nav">
+        <div class="skeleton-nav-content">
+          <div class="skeleton-logo-area"></div>
+          <div class="skeleton-nav-items">
+            <div class="skeleton-nav-item"></div>
+            <div class="skeleton-nav-item"></div>
+            <div class="skeleton-nav-item"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 主要内容区域 -->
+      <div class="skeleton-main-content">
+        <div class="skeleton-cover">
+          <div class="skeleton-avatar"></div>
+          <div class="skeleton-title"></div>
+          <div class="skeleton-subtitle"></div>
+          <div class="skeleton-buttons">
+            <div class="skeleton-button"></div>
+            <div class="skeleton-button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  :root {
+    --cover-bg: #fff; /* 默认白色，会被 JS 动态更新 */
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--cover-bg);
+  }
+  
+  .loading-skeleton {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--cover-bg);
+    z-index: 9999;
+  }
+  
+  /* 导航栏适配 */
+  .app-nav {
+    position: fixed;
+    margin: 0;
+    padding: 10px 0 10px 0;
+    width: calc(100% - 325px);
+    height: 55px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(238, 238, 238, 0.5);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  body.loaded .app-nav {
+    opacity: 1;
+  }
+  </style>
+  
+  <script>
+  // 动态读取封面背景色并设置 CSS 变量
+  fetch('./_coverpage.md')
+    .then(response => response.text())
+    .then(content => {
+      const colorMatch = content.match(/!\[color\]\(([^)]+)\)/);
+      const bgColor = colorMatch ? colorMatch[1] : '#fff';
+      document.documentElement.style.setProperty('--cover-bg', bgColor);
+    })
+    .catch(() => {
+      document.documentElement.style.setProperty('--cover-bg', '#fff');
+    });
+  </script>
 
   <script>
     window.$docsify = {
@@ -80,6 +169,40 @@
         color: "var(--theme-color,#42b983)",
         height: "3px",
       },
+      plugins: [
+        function(hook, vm) {
+          let isReady = false;
+          
+          hook.init(function() {
+            // 确保骨架屏立即显示
+            const skeleton = document.querySelector('.loading-skeleton');
+            if (skeleton) {
+              skeleton.style.display = 'block';
+            }
+          });
+          
+          hook.ready(function() {
+            // 等待所有关键元素都准备好
+            setTimeout(() => {
+              const appNav = document.querySelector('.app-nav');
+              const content = document.querySelector('.content');
+              const skeleton = document.querySelector('.loading-skeleton');
+              
+              // 确保所有元素都存在后再隐藏骨架屏
+              if (appNav && content && skeleton) {
+                // 同步显示所有元素
+                skeleton.style.transition = 'opacity 0.3s ease-out';
+                skeleton.style.opacity = '0';
+                
+                setTimeout(() => {
+                  skeleton.remove();
+                  isReady = true;
+                }, 300);
+              }
+            }, 200); // 稍微延迟确保DOM完全准备好
+          });
+        }
+      ]
     }
   </script>
   <!--<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>-->
